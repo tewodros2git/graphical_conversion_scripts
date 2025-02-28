@@ -1415,10 +1415,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             props += ('\n<v:cp v:nameU="Designator" v:lbl="Designator" v:type="0" v:langID="1033" v:val="VT4()" />');
         }
     }
-        // else if (classname.includes('TCR-XMTR')) {
-        //     props = ('\n<v:cp v:nameU="Link" v:lbl="Link" v:type="0" v:langID="1033" v:val="VT4(' + line_arr[line_arr.length - 1].split(": ")[1].replace(';', '').toUpperCase().replaceAll('-','_').replace(scid, 'G'+scid.slice(-2)) + ')" />');
-        //     props += ('\n<v:cp v:nameU="Trace" v:lbl="Trace" v:type="0" v:langID="1033" v:val="VT4()" />');
-    // }
+
     else if (classname.includes('HOT-ARROW')) {
         props += ('\n<v:cp v:nameU="Link" v:lbl="Link" v:type="0" v:langID="1033" v:val="VT4(' + line_arr[line_arr.length - 1].split(":")[1].replace(';', '').toUpperCase().replaceAll('-','_').trim() + ')" />');
         //props += ('\n<v:cp v:nameU="Trace" v:lbl="Trace" v:type="0" v:langID="1033" v:val="VT4()" />');
