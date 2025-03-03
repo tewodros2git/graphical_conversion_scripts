@@ -338,7 +338,7 @@ Sub AddConnectionPoints()
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 15) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
-            ElseIf (strName Like "*camp*") Or (strName Like "*lchamp*") Or (strName Like "*twta*") Or (strName Like "*down_converter*") Or (strName Like "*lna*") Then
+            ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*down_converter*") Or (strName Like "*lna*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -353,7 +353,7 @@ Sub AddConnectionPoints()
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
-           ElseIf (strName Like "*camp*") Or (strName Like "*lchamp*") Or (strName Like "*twta*") Then
+           ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -869,7 +869,7 @@ Function ConvertPort(prt, shpType)
             cnvPrt = "3"
         End If
 
-    ElseIf shpType Like "*TWTA*" Or shpType Like "*LCHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
+    ElseIf shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
     Or shpType Like "*receiver*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*T_RECEIVER*" Or shpType Like "*LNA*" Then
         
         If prt = "IN1" Then
@@ -1352,7 +1352,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         End If
 
     'EPC has 1 on left 1 on right
-   ElseIf shpType Like "*TWTA*" Or shpType Like "*LCHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*SPLITTER*" _
+   ElseIf shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*SPLITTER*" _
     Or shpType Like "*T_RECEIVER*" Or shpType Like "*spli*" Or shpType Like "*JUNCTION_BLOCK_SPLI*" Then
         
     If prt = "IN1" Then

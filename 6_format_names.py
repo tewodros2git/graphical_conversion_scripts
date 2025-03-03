@@ -15,7 +15,6 @@ if len(sys.argv) > 1:
     # file_name = path_parts[3]
 
 file_name = path_parts[3]
-
 scid = file_name.split(".")[1]
 display_type = file_name.split(".")[0]
 svg_name = "./output/" + config + ".svg"

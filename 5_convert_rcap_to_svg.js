@@ -515,7 +515,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
     }
-    else if(classname.includes('T-CB-LCHAMP')|| classname.includes('T8-CB-TWTA')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
+    else if(classname.includes('CHAMP')|| classname.includes('T8-CB-TWTA')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname+ '_' + label_id; //console.log(group_name)
     }
     else {
@@ -795,7 +795,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         // extra += `<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         // extra += `<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
     }
-    else if (classname.includes('DOWN-CONVERTER')|| classname.includes('LNA')|| classname.includes('T8-KA-DC-CONVERTER')) {
+    else if (classname.includes('DOWN-CONVERTER')|| classname.includes('LNA')|| classname.includes('T8-KA-DC-CONVERTER')||classname.includes('DOWNCONVERTER')) {
         populateProps(line_arr,"DC",group_name)
         style = 'fill="none" stroke="green" stroke-width="2"';
     }
@@ -1577,7 +1577,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = pn[pn.length -1]; //console.log('pn: '+pin)
             tId = pn[pn.length -2];//line_arr[6].split('-')[3]
         }
-        else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("LCHAMP")|| line_arr[6].includes("LCH"))){
+        else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH"))){
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
                 tId = line_arr[6].split('-')[line_arr[6].split('-').length - 2]; //console.log(tId)
