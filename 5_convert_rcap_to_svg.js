@@ -752,7 +752,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             channels = 2;
             left_multi = true;
         }
-        else if (classname.includes('HYBRID-MUX')) {
+        else if (classname.includes('HYBRID-MUX') || classname.includes('HYBRID-TYPE-2')) {
             channels = 2;
             left_multi = true;
             right_multi = true;
@@ -871,7 +871,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname.includes("IS30-XMITRS")) {
+    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname.includes("XMITRS")) {
         populateProps(line_arr,"BEACONS",group_name)
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }

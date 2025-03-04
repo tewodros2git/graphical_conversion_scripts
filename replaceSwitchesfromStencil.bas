@@ -156,6 +156,9 @@ Function GetReplacementMasterNames(shapeName As String) As String
         ElseIf InStr(shapeName, "3241") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts3241"
+         ElseIf InStr(shapeName, "4321") > 0 Then
+             replacementMaster = "TSwitchPos2"
+             additionalMaster = "JPorts4321"
          ElseIf InStr(shapeName, "1324") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts1324"

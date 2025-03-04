@@ -25,7 +25,7 @@ Sub RearrangeShapes()
 
     ' Define patterns for each group
     patterns1 = Array() '"_TWTA_", "_EPC_", "_LCAMP_", "_CAMP_")
-    patterns2 = Array("_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
+    patterns2 = Array("_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
 
     ' Loop through each shape to identify parents for both pattern groups
     For Each shape In ActivePage.Shapes

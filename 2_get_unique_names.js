@@ -698,11 +698,11 @@ function process_object(line_arr) { //console.log(line_arr)
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname ==="IS30-XMITRS") {
+    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname ==="XMITRS") {
         populateProps(line_arr,"BEACONS")
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
-    else if (classname.includes("BEACONS-HYBRID-MUX")) {
+    else if (classname.includes("BEACONS-HYBRID-MUX") ||classname.includes('HYBRID-TYPE-2')) {
         channels = 2;
         left_multi = true;
         right_multi = true;
