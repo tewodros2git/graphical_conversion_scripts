@@ -11,14 +11,14 @@ def parse_line(i, line_list, idx):
     props = i.split(",")
     if len(props) == 9:
         c = props[0]
-        if len(c) > 25:
-            if "OMUX" in c:
-                c = c[:15] + "_OMUX"
-            elif "CMUX" in c:
-                c = c[:15] + "_CMUX"
-            elif "IMUX" in c:
-                c = c[:15] + "_IMUX"
-                #print(c)
+#         if len(c) > 25:
+#             if "OMUX" in c:
+#                 c = c[:15] + "_OMUX"
+#             elif "CMUX" in c:
+#                 c = c[:15] + "_CMUX"
+#             elif "IMUX" in c:
+#                 c = c[:15] + "_IMUX"
+#                 #print(c)
         att = int(props[7].replace(" ", "").replace("att:", ""))
         ch = int(props[8].replace(" ", "").replace(';\n', '').replace("ch:", ""))
         last_line = idx + att + ch + 1

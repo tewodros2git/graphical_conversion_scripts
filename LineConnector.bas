@@ -86,7 +86,7 @@ Sub AddConnectionPoints()
 
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
-         ElseIf (strName Like "*beacon*") Or (strName Like "*xmitrs*") Then
+         ElseIf (strName Like "*beacon*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -293,7 +293,7 @@ Sub AddConnectionPoints()
                         
             shpsAddded = shpsAddded + vbCrLf + strName + vbCrLf
 
-         ElseIf (strName Like "*receiver*") Then
+         ElseIf (strName Like "*receiver*") Or (strName Like "*xmitrs*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -869,7 +869,7 @@ Function ConvertPort(prt, shpType)
             cnvPrt = "3"
         End If
 
-    ElseIf shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
+    ElseIf shpType Like "*TWTA*" Or shpType Like "*XMITRS*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
     Or shpType Like "*receiver*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*T_RECEIVER*" Or shpType Like "*LNA*" Then
         
         If prt = "IN1" Then
@@ -879,26 +879,7 @@ Function ConvertPort(prt, shpType)
         ElseIf prt = "OUT2" Then
             cnvPrt = "3"
         End If
-'    ElseIf shpType Like "*DUAL_BFN_SPLITTER*" Or shpType Like "*spli*" Or shpType Like "*JUNCTION_BLOCK_SPLI*" Then
-'
-'        If prt = "IN1" Then
-'            cnvPrt = "2"
-'        ElseIf prt = "OUT1" Then
-'            cnvPrt = "3"
-'        ElseIf prt = "OUT2" Then
-'            cnvPrt = "1"
-'        End If
-'     ElseIf shpType Like "*TRIPLE_BFN_SPLITTER*" Then
-'
-'        If prt = "IN1" Then
-'            cnvPrt = "2"
-'        ElseIf prt = "P1" Then
-'            cnvPrt = "3"
-'        ElseIf prt = "P2" Then
-'            cnvPrt = "1"
-'         ElseIf prt = "P3" Then
-'            cnvPrt = "4"
-'        End If
+
 
     ElseIf shpType Like "*COMM_DUAL*" Or shpType Like "*COMM_DUAL_IN_POL*" Or shpType Like "*DUAL_IN*" Then
         
@@ -926,28 +907,33 @@ Function ConvertPort(prt, shpType)
         End If
         
       'splitter/6 ports on input side
-       ElseIf shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Then
-        If prt = "IN1" Then
-            cnvPrt = 1 ' Directly assign the numeric value
-        ElseIf InStr(1, prt, "OUT") > 0 Then
-            ' Extract the numeric part of the OUT port
-            parsePrt = Mid(prt, 4)
-        ElseIf InStr(1, prt, "P") Then
-            ' Extract the numeric part of the P port
-            parsePrt = Mid(prt, 2)
-            
-            ' Ensure parsePrt is a valid numeric value
-            If IsNumeric(parsePrt) Then
-                cnvPrt = CInt(parsePrt) + 1
-            Else
-                cnvPrt = -1 ' Use a default error value or handle appropriately
-            End If
-        Else
-            cnvPrt = -1 ' Handle unexpected port names
-        End If
+   ElseIf shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Then
+       Dim pCounter As Integer
+        pCounter = 1 ' Start numbering from 1
     
-        ' Convert to string after calculation
-        cnvPrt = CStr(cnvPrt)
+        If prt = "IN1" Then
+            cnvPrt = "1" ' Reserve port 2 for special case
+        ElseIf InStr(1, prt, "OUT") > 0 Or InStr(1, prt, "P") > 0 Then
+             If prt = "P1" Or prt = "OUT1" Then
+                cnvPrt = "2" ' Assign the current port number
+            ElseIf prt = "P2" Or prt = "OUT2" Then
+                cnvPrt = "3"
+            ElseIf prt = "P3" Or prt = "OUT3" Then
+                cnvPrt = "4"
+            ElseIf prt = "P4" Or prt = "OUT4" Then
+                cnvPrt = "5"
+            ElseIf prt = "P5" Or prt = "OUT5" Then
+                cnvPrt = "6"
+            ElseIf prt = "P6" Or prt = "OUT6" Then
+                cnvPrt = "7"
+            ElseIf prt = "P7" Or prt = "OUT7" Then
+                cnvPrt = "8"
+            ElseIf prt = "P8" Or prt = "OUT8" Then
+                cnvPrt = "9"
+            ElseIf prt = "P9" Or prt = "OUT9" Then
+                cnvPrt = "10"
+            End If
+           End If
 
     'imux/12 ports on input side
    ElseIf shpType Like "*IMUX*" Then
@@ -955,7 +941,7 @@ Function ConvertPort(prt, shpType)
         ' Special case for "MINI" IMUX shapes
         If prt = "IN1" Then
             cnvPrt = 2
-        ElseIf prt = "OUT1" Then
+        ElseIf prt = "OUT1" Or prt Like "P*" Then
             cnvPrt = 1
         End If
     Else
@@ -1027,7 +1013,7 @@ Function ConvertPort(prt, shpType)
         'cnvPrt = CStr(parsePrt)
     'End If
 
-    ElseIf shpType Like "*ARROW*" Or shpType Like "*GND_*" Or shpType Like "*channel_post*" Then
+    ElseIf shpType Like "*ARROW*" Or shpType Like "*GND_*" Or shpType Like "*channel_post*" Or shpType Like "*CHANNEL_POST*" Then
         cnvPrt = "1"
     ElseIf shpType Like "*COUPLER*" Or shpType Like "*block_splitter*" Or shpType Like "*COUP*" Or shpType Like "* JUNCTION_BLOCK_COUP*" Or shpType Like "*dc_converter*" Or shpType Like "*DC_CONVERTER*" Then
         
@@ -1350,6 +1336,32 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         ElseIf prt = "OUT2" Then
             row = 2
         End If
+        
+      ElseIf shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Then
+       Dim pCounter As Integer
+        pCounter = 1 ' Start numbering from 1
+    
+            If prt = "IN1" Then
+                row = 0
+            ElseIf prt = "P1" Or prt = "OUT1" Then
+                row = 1
+            ElseIf prt = "P2" Or prt = "OUT2" Then
+                row = 2
+            ElseIf prt = "P3" Or prt = "OUT3" Then
+                row = 3
+            ElseIf prt = "P4" Or prt = "OUT4" Then
+                row = 4
+            ElseIf prt = "P5" Or prt = "OUT5" Then
+                row = 5
+            ElseIf prt = "P6" Or prt = "OUT6" Then
+                row = 6
+            ElseIf prt = "P7" Or prt = "OUT7" Then
+                row = 7
+            ElseIf prt = "P8" Or prt = "OUT8" Then
+                row = 8
+            ElseIf prt = "P9" Or prt = "OUT9" Then
+                row = 9
+            End If
 
     'EPC has 1 on left 1 on right
    ElseIf shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*SPLITTER*" _
@@ -1405,6 +1417,12 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             row = 3
         
         End If
+    ElseIf shpType Like "*CHANNEL_POST*" Then
+     If prt = "NONE" Then
+        row = 0
+     Else
+         row = -1
+         End If
     ElseIf shpType Like "*ANTENNA*" Then
         
         If prt = "NONE" Then

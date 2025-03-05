@@ -164,7 +164,8 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                      InStr(1, title, "ALC-IP-ATTR-VOLT", vbTextCompare) > 0
                     newName = "Readout.InputPwr"
                 Case InStr(1, title, "ATT-", vbTextCompare) > 0 Or _
-                     InStr(1, title, "ALC-SETTING", vbTextCompare) > 0 Or InStr(1, title, "ATTEN", vbTextCompare) > 0
+                     InStr(1, title, "ALC-SETTING", vbTextCompare) > 0 Or InStr(1, title, "ATTEN", vbTextCompare) > 0 _
+                     And Not InStr(1, title, "OPA-ATTEN", vbTextCompare) > 0
                     newName = "Readout.Attenuation"
                 Case InStr(1, title, "BAND", vbTextCompare) > 0 Or _
                      InStr(1, title, "MODE", vbTextCompare) > 0

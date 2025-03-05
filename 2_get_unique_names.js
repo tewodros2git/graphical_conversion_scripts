@@ -373,7 +373,7 @@ function process_object(line_arr) { //console.log(line_arr)
     // else {
     //     group_name = classname + '_' + label_id;
     // }
-    if (classname === 'WIN-GROW-BTN' || classname === 'WIN-DISPLAY-HIDE-BTN'||   classname ==='WIN-SHRINK-BTN') {
+    if (classname.includes ('WIN-GROW-BTN') || classname.includes ('WIN-DISPLAY-HIDE-BTN')||   classname.includes('WIN-SHRINK-BTN')) {
         return '';
     }
     let objname = line[1];
@@ -422,23 +422,23 @@ function process_object(line_arr) { //console.log(line_arr)
     else if (classname.includes('HOT-ARROW')) {
         //style = 'fill="grey"';
     }
-    else if ( classname === 'CHANNEL-STUB') {
+    else if ( classname.includes ('CHANNEL-STUB')) {
         style = 'fill="grey"';
     }
-    else if (classname === 'CONFIG-CHANNEL-OBJECT') {
+    else if (classname.includes ('CONFIG-CHANNEL-OBJECT')) {
         style = 'fill="none" stroke="black"';
         svg_elm = '\n<path d="M ' + x_loc + ' ' + (y_loc + h_height) + ' L ' + (x_loc + h_width) + ' ' + y_loc + ' L ' + x_loc + ' ' + (y_loc - h_height) + ' L ' + x_loc + ' ' + (y_loc + h_height) + '" fill="Balck" stroke="red"/>';
         svg_elm += '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc + '" x2="' + (x_loc + h_width) + '" y2="' + y_loc + '" stroke="Black" stroke-width="0.75"/>';
     }
-    else if (classname === 'CHANNEL-POST') {
+    else if (classname.includes ('CHANNEL-POST')) {
         style = 'fill="none" ';
         extra += '\n<path d="M ' + x_loc + ' ' + (y_loc + h_height) + ' L ' + (x_loc + h_width) + ' ' + y_loc + ' L ' + x_loc + ' ' + (y_loc - h_height) + ' L ' + x_loc + ' ' + (y_loc + h_height) + '" fill="black" stroke="black"/>';
         extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
     }
-    else if (classname === 'VERTICAL-BORDER-LINE') {
+    else if (classname.includes ('VERTICAL-BORDER-LINE')) {
         style = 'fill="none" stroke="Black"';
     }
-    else if (classname === 'HORIZONTAL-BORDER-LINE') {
+    else if (classname.includes ('HORIZONTAL-BORDER-LINE')) {
         style = 'fill="none" stroke="Black"';
     }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
@@ -468,33 +468,6 @@ function process_object(line_arr) { //console.log(line_arr)
         left_multi = true; //console.log(twtaName);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + twtaName.slice(-2) + '_TWTA'+'_' +twtaName + '</title>';
-        //extra +='</g>\n';
-        // for(let i =1; i<line_arr.length; i++){ console.log(line_arr[i])
-        //     if(line_arr[i].split(',')[0] !== "IN1" && line_arr[i].split(',')[0] !== "OUT1") {
-        //         rout = line_arr[i].split(',')[0];console.log(rout)
-        //         itn = line_arr[i].split(",")[1]; //console.log(Mnemonic)//
-        //         fm = line_arr[i].split(",")[1];
-        //         let x_loc = parseInt(line[3]);
-        //         let y_loc = -1 * parseInt(line[4]);
-        //         let width = parseInt(line[5]);
-        //         let height = parseInt(line[6]);
-        //         let h_width = width / 2;
-        //         let h_height = height / 2;
-        //         extra += '<g id="Readout.' + rout +"-" + readout_id + '" v:mID="' + id + '" v:groupContext="shape">\n';
-        //         extra += '<rect x="' + x_loc + '" y="' + y_loc + '" width="' + width / 2 + '" height="' + height / 2 + '" fill="'+'#fff2cc'+'"/>\n';
-        //         extra += '<title>'+'Readout.' + rout +"-" + readout_id + '</title>';
-        //         extra +='\n<v:custProps>'
-        //         extra += '\n<v:cp v:nameU="mnemonic" v:lbl="mnemonic" v:type="0" v:langID="1033" v:val="VT4( )" />';
-        //         extra += '\n<v:cp v:nameU="Formula" v:lbl="Formula" v:type="0" v:langID="1033" v:val="VT4(  )" />\n';
-        //         extra +='</v:custProps>\n';
-        //         //extra +='</g>\n';
-        //     }
-        //     //label_id +=1;
-        //
-        //     id +=1;
-        // }
-        // readout_id += 1;
-        //svg_elm += extra;
     }
     else if (classname.includes('TCR-XMTR')) {
         populateProps(line_arr,"TCR-XMTR");
@@ -532,12 +505,12 @@ function process_object(line_arr) { //console.log(line_arr)
         channels = 2;
         extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname === "EPIC-ANTENNA") {
+    else if (classname.includes( "EPIC-ANTENNA")) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra += `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width}" height="${height}" ${style} />`;
         extra += `<circle cx="${x_loc}" cy="${y_loc - h_height}" r="${width / 4}" ${style} />`;
     }
-    else if (classname === "EPIC-ROUTER") {
+    else if (classname.includes ("EPIC-ROUTER")) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra += `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width}" height="${height}" ${style} />`;
         extra += `<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}"  stroke="black" stroke-width="0.75" />`;
@@ -600,7 +573,7 @@ function process_object(line_arr) { //console.log(line_arr)
             right_multi = true;
         }
     }
-    else if (classname === 'EPIC-CHANNELIZER-BLOCK') {
+    else if (classname.includes ('EPIC-CHANNELIZER-BLOCK')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         channels = 5;
         right_multi = true;
@@ -618,10 +591,10 @@ function process_object(line_arr) { //console.log(line_arr)
             extra += '\n</g>';
         }
     }
-    else if (classname.includes('JUNCTION') || classname === 'EPIC-CHANNELIZER-PORT') {
+    else if (classname.includes('JUNCTION') || classname.includes ('EPIC-CHANNELIZER-PORT')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
-    else if (classname === 'TCR-UNIT') {
+    else if (classname.includes ('TCR-UNIT')) {
         style = 'fill="none" stroke="green" stroke-width="0.75"';
         channels = 2;
         right_multi = true;
@@ -690,7 +663,7 @@ function process_object(line_arr) { //console.log(line_arr)
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +
             '" x2="' + (x_loc + h_width) + '" y2="' + y_loc + '" stroke="black" stroke-width="0.75"/>';
     }
-    else if (classname === "GND" ||classname ==="REPEATER-LOAD") {
+    else if (classname.includes ("GND") ||classname.includes("REPEATER-LOAD")) {
         style = 'fill="none"';
         if (height > width) {
             extra = `\n<path d="M ${x_loc + h_width} ${y_loc + h_height} L ${x_loc - h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (2 * (height / 4))} L ${x_loc - h_width} ${y_loc + h_height - (3 * (height / 4))} L ${x_loc + h_width} ${y_loc - h_height}" fill="none" stroke="black"/>`;
@@ -698,7 +671,7 @@ function process_object(line_arr) { //console.log(line_arr)
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname ==="XMITRS") {
+    else if (classname.includes ("BEACONS")|| classname.includes ("BEACONS-TYPE-2") ||  classname.includes("XMITRS")) {
         populateProps(line_arr,"BEACONS")
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
@@ -708,22 +681,22 @@ function process_object(line_arr) { //console.log(line_arr)
         right_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
-    else if (classname === "BOEING-EPIC-FWD-FILTER-HIDDEN" || classname === "SHOW-ADCS-INFO-BUTTON") {
+    else if (classname.includes ("BOEING-EPIC-FWD-FILTER-HIDDEN") || classname.includes ("SHOW-ADCS-INFO-BUTTON")) {
         style = 'fill="none"';
     }
-    else if (classname.includes('BOEING-EPIC-FWD-FILTER-36MHZ') || classname === 'BOEING-EPIC-DL-FILTER-IS33-36MHZ') {
+    else if (classname.includes('BOEING-EPIC-FWD-FILTER-36MHZ') || classname.includes ('BOEING-EPIC-DL-FILTER-IS33-36MHZ')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="lightblue"/>`;
     }
-    else if (classname.includes('BOEING-EPIC-FWD-FILTER-184MHZ') || classname === 'BOEING-EPIC-DL-FILTER-187MHZ') {
+    else if (classname.includes('BOEING-EPIC-FWD-FILTER-184MHZ') || classname.includes ('BOEING-EPIC-DL-FILTER-187MHZ')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="mediumslateblue"/>`;
     }
-    else if (classname.includes('BOEING-EPIC-FWD-FILTER-125MHZ') || classname === 'BOEING-EPIC-DL-FILTER-36MHZ-ULPC1') {
+    else if (classname.includes('BOEING-EPIC-FWD-FILTER-125MHZ') || classname.includes ('BOEING-EPIC-DL-FILTER-36MHZ-ULPC1')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="wheat"/>`;
     }
-    else if (classname.includes('BOEING-EPIC-FWD-FILTER-62MHZ') || classname === 'BOEING-EPIC-DL-FILTER-62MHZ') {
+    else if (classname.includes('BOEING-EPIC-FWD-FILTER-62MHZ') || classname.includes ('BOEING-EPIC-DL-FILTER-62MHZ')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="darkred"/>`;
     }
@@ -731,11 +704,11 @@ function process_object(line_arr) { //console.log(line_arr)
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         //extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="wheat"/>`;
     }
-    else if (classname === 'RECEIVER-TYPE-3') {
+    else if (classname.includes ('RECEIVER-TYPE-3')) {
         style = 'fill="none" stroke="blue" stroke-width="0.75"';
         extra = `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
     }
-    else if (classname === 'OMNI-ANTENNA') {
+    else if (classname.includes ('OMNI-ANTENNA')) {
         style = 'fill="none"';
         extra = `\n<path d="M ${x_loc - h_width} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height} L ${x_loc + h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width} ${y_loc - h_height}" fill="none" stroke="black"/>`;
     }
@@ -920,7 +893,7 @@ function process_object(line_arr) { //console.log(line_arr)
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes ('HOT-ARROW')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
             }
@@ -996,7 +969,7 @@ function process_object(line_arr) { //console.log(line_arr)
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes ('HOT-ARROW')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + parseInt(height)} L ${parseInt(x_loc) + parseInt(width)} ${y_loc} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + 5} L ${x_loc} ${y_loc} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + parseInt(height)}" fill="blue"/>`;
             }
@@ -1069,7 +1042,7 @@ function process_object(line_arr) { //console.log(line_arr)
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes ('HOT-ARROW')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc) + parseInt(width)} ${parseInt(y_loc) + (parseInt(height) / 2)} L ${x_loc} ${y_loc} L ${parseInt(x_loc) + 5} ${parseInt(y_loc) + (parseInt(height) / 2)} L ${x_loc} ${parseInt(y_loc) + parseInt(height)} L ${parseInt(x_loc) + parseInt(width)} ${parseInt(y_loc) + (parseInt(height) / 2)}" fill="blue"/>`;
             }
@@ -1114,9 +1087,6 @@ function process_object(line_arr) { //console.log(line_arr)
             conn_x_loc_1 = right_axis;
             conn_x_loc_2 = right_axis;
             conn_y_loc_1 = conn_y_loc_2 = parseInt(y_loc + right_line[i][2]);  //console.log("loc2: " +conn_x_loc_2)
-            //if ('HYBRID-MUX-_86' === group_name) {
-            //console.log(right_line[i]);
-            //}
             let axis = 'x';
             let cRight = right[i].filter(el=> !isNaN(parseInt(el)));  //console.log(cRight)
             for (let dist of cRight) { //console.log("dist: " +dist)
@@ -1148,7 +1118,7 @@ function process_object(line_arr) { //console.log(line_arr)
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes ('HOT-ARROW')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + parseInt(height)} L ${parseInt(x_loc) + parseInt(width)} ${y_loc} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + 5} L ${x_loc} ${y_loc} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + parseInt(height)}" fill="blue"/>`;
             }
