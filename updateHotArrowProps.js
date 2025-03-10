@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { parseString, Builder } = require('xml2js');
 const path = require('path');
-
+const dir = process.argv[2];
 // Function read  directory
 function processSVGFilesInDirectory(directory) {
     fs.readdir(directory, (err, files) => {
@@ -92,8 +92,9 @@ function processSVGFile(filePath) {
     });
 }
 
+
 // Specify the directory containing SVG files
-const directory = 'C:\\Users\\SHUTEW\\Desktop\\VToR\\untitled\\3431\\svg';
+const directory = 'C:\\Users\\SHUTEW\\Desktop\\VToR\\untitled\\'+ dir+'\\svg';
 
 // Process SVG files in the directory
 processSVGFilesInDirectory(directory);

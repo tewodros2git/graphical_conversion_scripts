@@ -69,6 +69,6 @@
 ### G. Export SVG from Visio
 
 ### H. Run Hot Arrow Property Update
-- **Script:** `updateHotArrowProps`
+- **Script:** `updateHotArrowProps <dirName>`
 - **Summary:** Updates hot arrow property hierarchy.
 

@@ -1,6 +1,7 @@
 Attribute VB_Name = "NestReadoutsAndExport"
 Public Sub NestReadoutsAndExport()
     RearrangeShapes
+    AddRevisionTimeStamp
     ExportVisioToSVGAndVisio
 End Sub
 
@@ -202,6 +203,114 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
         Next i
     End If
 End Sub
+Function GetDateStr(lbl As String)
+    Dim ix As Integer
+    Dim revstr As String
+    Dim nRevision As Integer
+    Dim dstring As String
+    Dim tdstring As String
+    Dim finalStr As String
+    Dim cr As String
+    Dim userName As String
+
+    cr = Chr(13) + Chr(10)
+
+    ' Allow for user to create a custom name that is not his/her Windows username. Edit local environment variables (for non-
+    ' admin users) using the command: rundll32 sysdm.cpl,,EditEnvironmentVariables.
+    ' Default to the Windows user if not found.
+    userName = Environ("CustomUserName")
+    If userName = "" Then
+        userName = Environ("username")
+    End If
+
+    ' Get revision.
+    ix = InStr(lbl, "Revision")
+    If ix > 0 Then
+        ix = ix + 10
+        revstr = Trim(Mid(lbl, ix))
+        nRevision = CInt(revstr)
+    End If
+
+    ' Get previous date modified.
+    ix = InStr(lbl, "Date Modified")
+    If ix > 0 Then
+        dstring = Mid(lbl, ix + 15, 11)
+    End If
+
+    ' Get today's date. If different, increment version number. If same, set version to 0.
+    tdstring = Format(Date, "dd.mmm.yyyy")
+    If dstring = tdstring Then
+        nRevision = nRevision + 1
+    Else
+        nRevision = 0
+    End If
+
+    ' Format the new version/date string.
+    finalStr = "GDN_2.0" + cr + "Date Modified: " + tdstring + cr + "Modified By: " + userName + cr + "Revision: " + Str(nRevision)
+    GetDateStr = finalStr
+End Function
+
+' ---------------------------------------------------------------------
+'   Change date label on the currently open display.
+'
+Public Sub AddRevisionTimeStamp()
+    ' Search for the date-stamp string.
+    Dim shp As shape
+    Dim shpF As shape
+    Dim found As Boolean
+    found = False
+    
+    ' Get the page height
+    Dim pageHeight As Double
+    pageHeight = ActivePage.PageSheet.Cells("PageHeight").Result(visUnitInches)
+    PageWidth = ActivePage.PageSheet.Cells("PageWidth").Result(visUnitInches)
+
+    ' Loop through all shapes to find the shape with the "date modified" text
+    For Each shp In ActivePage.Shapes
+        If InStr(LCase(shp.Text), "date modified") > 0 Then
+            Set shpF = shp
+            found = True
+            Exit For
+        End If
+    Next
+
+    ' If not found, create the shape
+    If Not found Then
+        Set shpF = ActivePage.DrawRectangle(PageWidth, pageHeight - 0.5833, PageWidth - 1.7275, pageHeight)  ' Example dimensions, adjust as needed
+        shpF.Text = "Date Modified: "
+    End If
+
+    ' Ensure that the shape is valid before applying color and updating text
+    If Not shpF Is Nothing Then
+        On Error Resume Next ' Suppress errors temporarily
+        
+        ' Apply the fill color using THEMEGUARD, same as in your manual code
+        shpF.CellsSRC(visSectionCharacter, 0, visCharacterSize).FormulaU = "9 pt"
+        shpF.CellsSRC(visSectionCharacter, 0, visCharacterOverline).FormulaU = "FALSE"
+        shpF.CellsSRC(visSectionObject, visRowLine, visLinePattern).FormulaU = "0"
+        shpF.CellsSRC(visSectionObject, visRowGradientProperties, visLineGradientEnabled).FormulaU = "FALSE"
+        shpF.CellsSRC(visSectionCharacter, 0, visCharacterColor).FormulaU = "THEMEGUARD(RGB(29,17,174))"
+        shpF.CellsSRC(visSectionCharacter, 0, visCharacterDblUnderline).FormulaU = "FALSE"
+        shpF.CellsSRC(visSectionObject, visRowFill, visFillForegnd).FormulaU = "THEMEGUARD(RGB(245,222,179))"
+        shpF.CellsSRC(visSectionObject, visRowFill, visFillBkgnd).FormulaU = "THEMEGUARD(SHADE(FillForegnd,LUMDIFF(THEMEVAL(""FillColor""),THEMEVAL(""FillColor2""))))"
+        shpF.CellsSRC(visSectionObject, visRowGradientProperties, visFillGradientEnabled).FormulaU = "FALSE"
+
+        ' Handle any errors in case the Fill property is not accessible
+        If Err.Number <> 0 Then
+            MsgBox "Error setting fill color: " & Err.Description
+            Err.Clear
+        End If
+        
+        ' Update the text of the shape
+        Dim lbstr As String
+        lbstr = GetDateStr(shpF.Text)
+        shpF.Text = lbstr
+        shpF.name = "TimeStamp"
+                
+        On Error GoTo 0 ' Reset error handling
+    End If
+End Sub
+
 
 Sub ExportVisioToSVGAndVisio()
     Dim svgFileName As String

@@ -149,6 +149,9 @@ Function GetReplacementMasterNames(shapeName As String) As String
     ElseIf shapeName Like "*TCR_TOGGLE*" Or shapeName Like "*S_SWITCH*" Then
         replacementMaster = "ZSwitch1"
         additionalMaster = "JPortsZ1"
+    ElseIf shapeName Like "*S_SWITCH*" Then
+        replacementMaster = "ZSwitch1"
+        additionalMaster = "JPortsS"
     ElseIf shapeName Like "*T_SWITCH*" Then
         If InStr(shapeName, "KU") > 0 And InStr(shapeName, "24") > 0 And InStr(shapeName, "2431") > 0 Then
             replacementMaster = "TSwitchPos2"
@@ -156,9 +159,6 @@ Function GetReplacementMasterNames(shapeName As String) As String
         ElseIf InStr(shapeName, "3241") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts3241"
-         ElseIf InStr(shapeName, "4321") > 0 Then
-             replacementMaster = "TSwitchPos2"
-             additionalMaster = "JPorts4321"
          ElseIf InStr(shapeName, "1324") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts1324"
