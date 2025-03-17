@@ -121,6 +121,13 @@ class Connection {
     }
 }
 
+function splitPreservingBrackets(input) { //onsole.log( input)
+    if (Array.isArray(input)) {
+        input = input.join(', '); // Convert array to a comma-separated string
+    }
+    return input.match(/"[^"]*"|\[[^\]]*\]|[^,\[\]]+/g).map(s => s.trim());
+}
+
 function getDirections(data) {
     const directionMap = {
         'TOP': 90,
@@ -221,7 +228,7 @@ const switchPropsCalc = (name, jports) => {
 
 const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr)
     let twtaNum,readout,Mnemonic,formula;
-    let arr =[];
+    let arr =[]; //console.log(collection);
     arr.push(collection)
     arr.forEach(el => {
         if(groupsec === "LCAMP"){
@@ -384,17 +391,32 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
                 })
             }
         }
-        else  if (collection.includes("SMALL-G22X-READOUTS")) {
-            let parent = classname
-            readOutLcamp.push({
-                "group": "G22X-READOUTS",
-                "twtaNum": "G22X-READOUTS",
-                "readout": "G22X-READOUTS",
-                "Mnemonic": line_arr[6] + "edge",
-                "formula": line_arr[6],
-                "parent":parent
-            })
-        }
+        // else  if (collection.includes("SMALL-G22X-READOUTS")) { //console.log(collection);
+        //     let parent = classname
+        //     let nemonic='';
+        //     let result,f;
+        //     let g = line_arr[6].replaceAll(/[^\w\s.-]/g, "").toString().trim();//console.log(line_arr[6])
+        //         if(line_arr[6].includes("tcr-mode-xmtr")){ //console.log(line_arr[6])
+        //             g=g.split(' ')[0];
+        //             f= splitPreservingBrackets(line_arr)[7];
+        //             result=splitPreservingBrackets(line_arr)[7].match(/\(([^)]+)\)/)[1].split(',').map(item => item.trim());
+        //             result.forEach(el =>{
+        //                 nemonic+= el.replace(scid.toString()+'-','')+",";
+        //             }); nemonic=nemonic+"edge"; //console.log(nemonic);
+        //         }
+        //         else {
+        //             nemonic = line_arr[6] + "edge"
+        //         } //console.log(nemonic)
+        //
+        //     readOutLcamp.push({
+        //         "group": g,
+        //         "twtaNum": "G22X-READOUTS",
+        //         "readout": "G22X-READOUTS",
+        //         "Mnemonic": nemonic,
+        //         "formula": f,
+        //         "parent":parent
+        //     });
+        // }
     })
 }
 
@@ -1009,9 +1031,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     let bottom_axis = parseInt(y_loc + height);
     let left_axis = parseInt(x_loc);
     let right_axis = parseInt(x_loc + width);
-    if (classname.includes('OMUX') || classname.includes('CMUX') || classname.includes('IMUX')|| classname.includes('LORAL')&&!classname.includes('SWITCH')) {
+    if (classname.includes('OMUX') || classname.includes('CMUX') ||classname.includes('IMUX')|| classname.includes('LORAL')&&!classname.includes('SWITCH')) {
         let index = 0;
-        ct=0;
+        ct=1;
         for (let n = all_port.length - 1; n >= 0; n--) {
             let chName,pN; //console.log(all_port[n][1])
             if (all_port[n][0][0] === 'P') {
@@ -1454,18 +1476,29 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         props += ('\n<v:cp v:nameU="bottomAux" v:lbl="bottomAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux2+')" />');
     }
     else if (classname.includes('MUX')||classname.includes('LORAL')&&!classname.includes('SWITCH')) {
-        //console.log(line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1])
-        // let portN;
-        // console.log(chn[0])
-        // if(parseInt(chn[0]) ===1){
-        //     portN = (parseInt(chn[0])+1)+";"; console.log(portN)
-        // }else{
-        //     portN=chn
-        // }
-        //console.log(chn)
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
-        props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+chn+')" />');
+        props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
            }
+    else if (classname.includes('SPLITTER')||classname.includes('COUPLER') && !classname.includes('SWITCH')) {
+        let ch = ''; // Initialize chn to avoid undefined values
+
+        if (classname.includes("DUAL")) {
+            ch = '1;2;3;';
+        } else if (classname.includes("TRIPLE")) {
+            ch = '1;2;3;4;';
+        } else if (classname.includes("QUAD")) {
+            ch = '1;2;3;4;5;';
+        }else if (classname.includes("FIVE")) {
+            ch = '1;2;3;4;5;6;';
+        }else if (classname.includes("SIX")) {
+            ch = '1;2;3;4;5;6;7;';
+        }else if (classname.includes("EIGHT")) {
+            ch = '1;2;3;4;5;6;7;8;9;';
+        }
+        props += '\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4(IMUX)" />';
+        props += '\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4(' + ch + ')" />';
+    }
+
     svg_elm += ('\n<v:custProps>');
     svg_elm += props;
     svg_elm += ('\n</v:custProps>');
@@ -1475,38 +1508,55 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     return svg_elm;
 }
 
-function processG22xreadouts (line_arr, offset) { //console.log(line_arr.split(",")[1])
+
+function processG22xreadouts (line_arr, offset) { //console.log(line_arr) //.split(",")[1])
     let c=0;
+    let g = line_arr[6].replaceAll(/[^\w\s.-]/g, "").toString().trim();
+    let f ;
     if (["SMALL-G22X-READOUTS", "LARGE-G22X-READOUTS"].includes(line_arr[1].trim())) {
+        let nemonic = '', result;
+        if (line_arr[6].includes("tcr-mode-xmtr")) {
+            g = g.split(' ')[0];
+            f = splitPreservingBrackets(line_arr)[7];
+            result = splitPreservingBrackets(line_arr)[7].match(/\(([^)]+)\)/)[1].split(',').map(item => item.trim());
+            result.forEach(el => {
+                nemonic += el.replace(scid.toString() + '-', '') + ",";
+            });
+            nemonic = nemonic + "multi";
+        } else {
+            nemonic = line_arr[6] + "edge"
+            f = line_arr[6]
+        }
         readOutLcamp.push({
-            "group":  line_arr[6].replaceAll(/[^\w\s.-]/g,"").toString().trim(),
+            "group": g,
             "twtaNum": "G22X",
-            "readout":  "G22X-READOUTS",
-            "Mnemonic": line_arr[6] + "edge",
-            "formula": line_arr[6]
+            "readout": "G22X-READOUTS",
+            "Mnemonic": nemonic,
+            "formula": f
         })
         c++;
     }
-    else if(line_arr[1].trim() === ("ATTRIBUTE-READOUT")){
+    if(line_arr[1].trim() === ("ATTRIBUTE-READOUT")){
+        f=line_arr[6]
         readOutLcamp.push({
-            "group":  line_arr[6].replaceAll(/[^\w\s.-]/g,"").toString().trim(),
+            "group":  g,
             "twtaNum": "G22X",
             "readout":  "ATTRIBUTE-READOUT",
             "Mnemonic": line_arr[6] + "edge",
-            "formula": line_arr[6]
+            "formula": f
         })
         c++;
     }
 }
 
 function process_readout(line_arr, offset) { //console.log(line_arr)
-    let pin, mnemonic, group,readOut;
-    let twtaNum, readout, Mnemonic, formula,tId;
+    let pin, mnemonic, group, readOut;
+    let twtaNum, readout, Mnemonic, formula, tId;
     let prop = '';
-    let i ;
+    let i;
     line_arr = line_arr.split(","); //console.log(line_arr);
     processG22xreadouts(line_arr, offset)
-    for ( i = 0; i < line_arr.length; i++) {
+    for (i = 0; i < line_arr.length; i++) {
         line_arr[i] = line_arr[i].trim();
     }
     if (line_arr[1] === "UTC-CLOCK" || line_arr[1] === "DISPLAY-HEADERS") {
@@ -1520,20 +1570,27 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
     let h_height = height / 2;
     x_loc -= h_width;
     y_loc -= h_height;
-     //console.log("arr6:  "+line_arr[6]);
-    if (line_arr[6].includes("[")) {
-        group=  line_arr[6].replaceAll(/[^\w\s.-]/g,"").toString().trim(); //console.log(group)
-        if(line_arr[1] === ("ATTRIBUTE-READOUT")){
+    //console.log("arr6:  "+line_arr[6]);
+    group = line_arr[6].replaceAll(/[^\w\s.-]/g, "").toString().trim();
+    if (line_arr[6].includes("tcr-mode-xmtr")) {
+        readOut = line_arr[1].split('SMALL-')[1];
+        tId = "G22X_" + id;
+        group = group.split(' ')[0];
+        pin = "G22X"; //console.log("rpin:"+pin)
+        tId = "G22X_" + id;
+    }
+    else if (!line_arr[6].includes("tcr-mode-xmtr") && line_arr[6].includes("[")) {
+        group = line_arr[6].replaceAll(/[^\w\s.-]/g, "").toString().trim(); //console.log("g: "+group.split(' ')[0])
+        if (line_arr[1] === ("ATTRIBUTE-READOUT")) {
             readOut = "ATTRIBUTE-READOUT";
-            tId= id;
-        }else {
-            readOut = line_arr[1].split('SMALL-')[1]; //console.log(readOut)
-            tId= "G22X_"+id;
+            tId = id;
+        } else {
+            readOut = line_arr[1].split('SMALL-')[1];             tId = "G22X_" + id;
         }
         pin = "G22X"; //console.log("rpin:"+pin)
-        tId= "G22X_"+id;
+        tId = "G22X_" + id;
     }
-    else{
+   else{
         group = line_arr[6]; //if (group.includes("LCTWTA")){console.log("LC: "+group)}
         readOut = line_arr[7]; //console.log(readOut)
         tId= line_arr[6].split('-')[2];//console.log(tId)
@@ -1563,9 +1620,9 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             tId = "RCVR-"+line_arr[6].split('-')[3]; //console.log(group)
         }
         else if (line_arr[6].includes("DC")) {
-            //group ="RCVR";
+            let parts= line_arr[6].split('-');
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "DC-"+line_arr[6].split('-')[3]; //console.log(group)
+            tId = "DC-"+parts.at(2)+parts.at(-2); //console.log("id: "+tId)
         }
         else if (line_arr[6].includes('UC')) {
             //group ="RCVR";
@@ -1614,9 +1671,11 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
         svg_elm += '<rect x="' + (x_loc - 5) + '" y="' + y_loc + '" width="' + width / 2 + '" height="' + height / 2 + '" fill="none"/>\n';
         svg_elm +='<title>Readout.' +readOut +"-" + tId +'</title>'; //console.log('G: '+group)
           // if(group ==="RCVR"){
+        //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
-        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
-            Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim(); //console.log(readOut +" : "+el.Mnemonic)
+        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
+            if(el.group.trim().includes("tcr-mode-xmtr")){ Mnemonic= "["+el.Mnemonic+"]"}
+            else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log(Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
                 mnemonic =Mnemonic.split(scid.toString())[1].replace("-","").replace("edge","").replace("the symbol","").trim(); //console.log(readOut +" : " +mnemonic)
             }
@@ -1654,13 +1713,16 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
                 else if(Mnemonic.includes("CMR")){ //console.log(Mnemonic)
                     mnemonic = Mnemonic.split( scid.toString()+"-")[1].split(" ")[0]; //console.log(mnemonic)
                 }
-                else if(Mnemonic.includes("edge")){ //console.log(Mnemonic)
-                    mnemonic = Mnemonic.split( scid.toString()+"-")[1].split(" ")[0]; //console.log(mnemonic)
+                else if(Mnemonic.includes("edge")){
+                    mnemonic = Mnemonic.split(scid.toString() + "-")[1].split(" ")[0]; //console.log(mnemonic)
                 }
                 else{
                     mnemonic = Mnemonic.split( scid.toString()+"-")[1].split(" ")[0]; //console.log(mnemonic);
                 }
             } //console.log(mnemonic);
+            else if(Mnemonic.includes("multi")) { //console.log(Mnemonic)
+                mnemonic =  Mnemonic.replace(",multi", '');  //console.log("Mnemonic: " + mnemonic)//console.log(edge)
+            }
             else if(Mnemonic === "NA"){
                 mnemonic = "["+Mnemonic+"]"
             }
@@ -2044,12 +2106,12 @@ console.log('opening ' + filename);
         }
 
         for (let i = 0; i < connInfo.length; i++) {
-            if (connInfo[i].shp1.includes("MUX")) {
+            if (connInfo[i].shp1.includes("MUX")||connInfo[i].shp1.includes('SPLITTER')||connInfo[i].shp1.includes('COUPLER')) {
                 connInfo[i].shp1_port = getPortNumber(connInfo[i].shp1, connInfo[i].shp1_port, connInfo[i].shp1_side);
                 //console.log(connInfo[i].shp1+': '+connInfo[i].shp1_port)
             }
 
-            if (connInfo[i].shp2.includes("MUX")) {
+            if (connInfo[i].shp2.includes("MUX")||connInfo[i].shp2.includes('SPLITTER')||connInfo[i].shp2.includes('COUPLER')) {
                 connInfo[i].shp2_port = getPortNumber(connInfo[i].shp2, connInfo[i].shp2_port, connInfo[i].shp2_side);
                 //console.log( connInfo[i].shp2+': '+connInfo[i].shp2_port)
             }
@@ -2058,52 +2120,11 @@ console.log('opening ' + filename);
         }
         background += '\n</v:custProps>';
 
-        // background += `\n<v:custProps>`;
-        // let connInfo =JSON.parse(fs.readFileSync('./output/cxn_file.json'))
-        // let n=2;
-        // for(let i =0; i< connInfo.length; i++) { //console.log(connInfo.length); //console.log(i+") "+connInfo[i].shp1 + " <=> " + connInfo[i].shp2)
-        //     if (connInfo[i].shp1.includes("MUX")) {
-        //         if(connInfo[i].shp1_port.includes("OUT1")||connInfo[i].shp1_port.includes("IN1")){ //console.log(connInfo[i].shp1)
-        //             connInfo[i].shp1_port="OUT1";
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //             //console.log(connInfo[i].shp1 +"-"+ connInfo[i].shp1_port+"-"+connInfo[i].shp2+"-"+connInfo[i].shp2_port)
-        //         }
-        //         else if (connInfo[i].shp1_port.includes("PTLM")){
-        //             connInfo[i].shp1_port="PTLM";
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //         }
-        //         else {
-        //             connInfo[i].shp1_port = "P" + n;
-        //             n++
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //         console.log(connInfo[i].shp1 +"-"+ connInfo[i].shp1_port+"-"+connInfo[i].shp2+"-"+connInfo[i].shp2_port)
-        //         }
-        //     }
-        //     else if (connInfo[i].shp2.includes("MUX")) {
-        //         if (connInfo[i].shp2_port.includes("OUT1") || connInfo[i].shp2_port.includes("IN1")) { //console.log(connInfo[i].shp2)
-        //             connInfo[i].shp2_port = "OUT1";
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //             //console.log(connInfo[i].shp1 +"-"+ connInfo[i].shp1_port+"-"+connInfo[i].shp2+"-"+connInfo[i].shp2_port)
-        //         }
-        //         else if (connInfo[i].shp2_port.includes("PTLM")){
-        //             connInfo[i].shp1_port="PTLM";
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //         }
-        //         else {
-        //             connInfo[i].shp2_port = "P" + n
-        //             n++
-        //             background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //             console.log(connInfo[i].shp1 +"-"+ connInfo[i].shp1_port+"-"+connInfo[i].shp2+"-"+connInfo[i].shp2_port)}
-        //     }
-        //     else {
-        //         background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //     }
-        // }
-        // background += '\n</v:custProps>';
+
         label_id += 1;
         id += 1;
         background += '\n</g>';
-        svg_elm +=`\n<text x="${width - 5}" y="10" w="${width}" text-anchor="end" font-family="Arial" font-size="14" dy="0.5em" fill="blue">Date Modified: ${dateString}</text>`;
+        //svg_elm +=`\n<text x="${width - 5}" y="10" w="${width}" text-anchor="end" font-family="Arial" font-size="14" dy="0.5em" fill="blue">Date Modified: ${dateString}</text>`;
         svg_elm = `<svg style="margin: 0 auto;" version="1.1" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions;">${background}${svg_elm}</svg>`; //console.log(svg_elm)
         fs.writeFileSync("./output/"+displayName+'.svg',svg_elm, 'utf8'); console.log('DONE!'); //console.log(readOutAttribute)
         reArrange.rearrangeSvg("./output/"+displayName+'.svg');
