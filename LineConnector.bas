@@ -909,9 +909,10 @@ Function ConvertPort(prt As String, shpType As String) As String
         
         Case shpType Like "*COMM_QUAD*"
             Select Case prt
-                Case "RHCP", "H-RX": cnvPrt = "1"
-                Case "LHCP", "V-TX": cnvPrt = "2"
-                Case "V-RX": cnvPrt = "3"
+                Case "RHCP", "V-TX": cnvPrt = "1"
+                Case "LHCP", "V-RX": cnvPrt = "3"
+                Case "H-TX": cnvPrt = "4"
+                Case "H-RX": cnvPrt = "2"
             End Select
         
         Case shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*COUPLER*" _
@@ -1225,7 +1226,6 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         Or shpType Like "*CAMP*" _
         Or shpType Like "*CHAMP*" _
         Or shpType Like "*DUAL_IN*" _
-        Or shpType Like "*COMM_QUAD*" _
         Or shpType Like "*GND_*" _
         Or shpType Like "*CHANNEL_POST*" _
         Or shpType Like "*diplexer_combiner*" _
@@ -1246,13 +1246,13 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
     ElseIf shpType Like "*EPC*" Then
         
         If prt = "INA" Or prt = "IN1" Then
-            row = 0
-        ElseIf prt = "INB" Or prt = "IN2" Then
             row = 1
+        ElseIf prt = "INB" Or prt = "IN2" Then
+            row = 0
         ElseIf prt = "OUTA" Or prt = "OUT1" Then
-            row = 2
-        ElseIf prt = "OUTB" Or prt = "OUT2" Then
             row = 3
+        ElseIf prt = "OUTB" Or prt = "OUT2" Then
+            row = 2
         End If
      'DOWN_CONVERTER has 1 on left 1 on right
     ElseIf shpType Like "*DOWN_CONVERTER*" Or shpType Like "*LNA*" Then
@@ -1322,16 +1322,14 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         End If
     ElseIf shpType Like "*COMM_QUAD*" Then
         
-        If prt = "RHCP" Then
-            row = 0
-        ElseIf prt = "LHCP" Then
-            row = 1
-        ElseIf prt = "V-RX" Then
-            row = 1
-        ElseIf prt = "H-RX" Then
-            row = 2
-        ElseIf prt = "V-TX" Then
+        If prt = "V-RX" Then
             row = 3
+        ElseIf prt = "LHCP" Or prt = "V-TX" Then
+            row = 1
+        ElseIf prt = "H-TX" Then
+            row = 2
+        ElseIf prt = "RHCP" Or prt = "H-RX" Then
+            row = 0
         
         End If
     ElseIf shpType Like "*CHANNEL_POST*" Then

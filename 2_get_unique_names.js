@@ -341,22 +341,22 @@ function process_object(line_arr) { //console.log(line_arr)
     // if(classname.includes('TWTA')&& !classname.includes('EPC')&&  !classname.includes('IS10')&&  !classname.includes('IS9')){
     //     group_name = line[1].split('-')[2]+"T1_TWTA"+ '_' + line[1].split('-')[2];
     // }
-    if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-')[2])
-        let name = line[1].split('-'); //console.log(name)
+    if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
+        let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
-            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 3]+name[name.length - 2]; //console.log(group_name)
         }
         else{
-            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' + name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' +name[name.length - 3]+ name[name.length - 2]; //console.log(group_name)
         }
     }
     else if(classname.includes('IS') && classname.match(/IS\d+.*EPC/)||classname.includes ("T8-EPC-DUAL")){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
+        group_name = "E1_EPC"+ '_' + name[name.length - 3]+name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = name.slice(-2)+"_LCAMP"+ '_' + name; //console.log(group_name)
+        group_name = name.slice(-2)+"_LCAMP"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)

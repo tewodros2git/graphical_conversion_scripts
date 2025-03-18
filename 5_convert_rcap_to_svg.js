@@ -479,17 +479,11 @@ function process_label(label_arr, offset) { //console.log(label_arr.split(','));
 function process_object(line_arr, offset, win_width, win_height) { //console.log(line_arr)
     readout_id += 1;
     label_id += 1;
-    //console.log("id:"+label_id)
     id += 1;
-    //if (id == 46)
-        //console.log(line_arr)
     let line = line_arr[0].split(', '); //console.log(line)
     let classname = line[0]; //console.log(classname)
     let degree= getDirections(line_arr);
     const{pos,ori}=switchPropsCalc(classname,degree)
-     //console.log(degree);
-    let tName = line[1].split('-')[2]; //console.log(line[1])
-    let twtaName = line[1].split('-')[line[1].split('-').length-2];
     objectNameList += classname +"\n";
     let group_name;
     if (classname.length > 25) {
@@ -520,19 +514,19 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
-            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 3]+name[name.length - 2]; //console.log(group_name)
         }
         else{
-            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' + name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' +name[name.length - 3]+ name[name.length - 2]; //console.log(group_name)
         }
     }
     else if(classname.includes('IS') && classname.match(/IS\d+.*EPC/)||classname.includes ("T8-EPC-DUAL")){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
+        group_name = "E1_EPC"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = name.slice(-2)+"_LCAMP"+ '_' + name; //console.log(group_name)
+        group_name = name.slice(-2)+"_LCAMP"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
@@ -626,7 +620,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
-        extra += '<title>' + twtaName.slice(-2) + '_LCAMP'+'_' +twtaName + '</title>\n';
+        extra += '<title>' + group_name + '</title>\n';
     }
     else if (classname.includes('LCHAMP')||classname.includes('CHAMP')) {
         populateProps(line_arr, "LCAMP",group_name);
@@ -643,7 +637,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         channels = 2;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + (height / 3)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + (height / 3)) +'" stroke="black" stroke-width="0.75"/>';
         extra += '\n\n\n\n\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" stroke="black" stroke-width="0.75"/>';
-        extra += '<title>' +  'E1_EPC'+'_' +twtaName + '</title>\n';
+        extra += '<title>' +  group_name + '</title>\n';
     }
     else if (classname.includes('T8-CB-TWTA')) {
         populateProps(line_arr,"TWTA",group_name);
@@ -656,9 +650,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
-        left_multi = true; //console.log(twtaName);
+        left_multi = true; console.log(group_name);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
-        extra += '<title>' + twtaName.slice(-2) + '_TWTA'+'_' +twtaName + '</title>';
+        extra += '<title>' + group_name + '</title>';
     }
     else if (classname.includes('TWTA')&& !classname.includes('EPC')&&!classname.includes('LCAMP-TWTA')) {
         populateProps(line_arr,"TWTA",group_name);
@@ -1389,12 +1383,6 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     }
     svg_elm += extra;
     if (classname.includes('SWITCH')|| classname.includes('TOGGLE') && !classname.includes('SWITCHABLE')) { //console.log(true)
-        //props+= ('\n<v:cp v:nameU="Orbital_PN" v:lbl="Orbital_PN" v:type="0" v:langID="1033" v:val="VT4()" />');
-        //props += ('\n<v:cp v:nameU="Vendor_PN" v:lbl="Vendor_PN" v:type="0" v:langID="1033" v:val="VT4()" />');
-        //props += ('\n<v:cp v:nameU="Vendor_ICD#" v:lbl="Vendor_ICD" v:type="0" v:langID="1033" v:val="VT4()" />');
-        //props += ('\n<v:cp v:nameU="Mass" v:lbl="Mass" v:type="0" v:langID="1033" v:val="VT4()" />');
-        //props += ('\n<v:cp v:nameU="DC_Power" v:lbl="DC_Power" v:type="0" v:langID="1033" v:val="VT4()" />');
-        //props += ('\n<v:cp v:nameU="Loss" v:lbl="Loss" v:type="0" v:langID="1033" v:val="VT4()" />');
         props += ('\n<v:cp v:nameU="Mnemonic" v:lbl="Mnemonic" v:type="0" v:langID="1033" v:val="VT4(' + itn.replaceAll(scid+'-',"") + ')" />');
         props += ('\n<v:cp v:nameU="Random_Access" v:lbl="Random_Access" v:type="0" v:langID="1033" v:val="VT4('+ "False" +')" />');
         props +=('\n<v:cp v:nameU="Orientation" v:lbl="Orientation" v:type="0" v:langID="1033" v:val="VT4('+ori+')" />');
@@ -1403,14 +1391,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         //props += ('\n<v:cp v:nameU="Number" v:lbl="Number" v:type="0" v:langID="1033" v:val="VT4()" />');
         props += ('\n<v:cp v:nameU="SwitchClass" v:lbl="SwitchClass" v:type="0" v:langID="1033" v:val="VT4(' + classname + ')" />');
         props += ('\n<v:cp v:nameU="Commandable" v:lbl="Commandable" v:type="0" v:langID="1033" v:val="VT4(' + "Yes" + ')" />');
-        //
-        // if (objname !== 'NONE') {
-        //     props += '\n<v:cp v:nameU="Designator" v:lbl="Designator" v:type="0" v:langID="1033" v:val="VT4(' + objname + ')" />';
-        // } else {
-        //     props += '\n<v:cp v:nameU="Designator" v:lbl="Designator" v:type="0" v:langID="1033" v:val="VT4()" />';
-        // }
-        //props += '\n<v:cp v:nameU="Default_Position" v:lbl="Default_Position" v:type="0" v:langID="1033" v:val="VT4('+ pos.replace('"','') + ')" />';
-        //props += '\n<v:cp v:nameU="Orientation" v:lbl="Orientation" v:type="0" v:langID="1033" v:val="VT4()" />';
+
     }
     else if (classname.includes('RECEIVER')) {
         props+= '\n<v:cp v:nameU="Orbital_PN" v:lbl="Orbital_PN" v:type="0" v:langID="1033" v:val="VT4()" />';
@@ -1635,9 +1616,10 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             tId = pn[pn.length -2];//line_arr[6].split('-')[3]
         }
         else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH"))){
+            let parts= line_arr[6].split('-');
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
-                tId = line_arr[6].split('-')[line_arr[6].split('-').length - 2]; //console.log(tId)
+                tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log(tId)
                 pin = line_arr[6];
         }
         else if (line_arr[6].includes("EPC")) {
@@ -1647,9 +1629,10 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = line_arr[6];
         }
         else if ((line_arr[6].includes("LCTWTA"))|| (line_arr[6].includes("TWT")) || (line_arr[6].includes("TWTA")) || (line_arr[6].includes("LCAMP-TWTA")) || ((line_arr[6].includes("KU-TWTA")) && (!line_arr[6].includes("EPC")))) {
+            let parts= line_arr[6].split('-');
             readOut = line_arr[7].trim();//console.log(readOut);
             group = "TWTA";
-            tId = line_arr[6].split('-')[line_arr[6].split('-').length - 2] + '_TWTA';  //console.log(tId);
+            tId = parts.at(-3)+parts.at(-2) + '_TWTA';  //console.log(tId);
             pin = line_arr[6]; //console.log("TWTA: "+pin);
         }
         else {
@@ -1673,7 +1656,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
           // if(group ==="RCVR"){
         //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
-        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
+        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode-xmtr")){ Mnemonic= "["+el.Mnemonic+"]"}
             else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log(Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
