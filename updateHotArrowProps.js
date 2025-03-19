@@ -46,15 +46,15 @@ function processSVGFile(filePath) {
                 if (g['v:custProps'] && Array.isArray(g['v:custProps'])) {
                     const custProps = g['v:custProps'][0]['v:cp'];
                     //console.log('Custom props:', custProps);
-                    const hasLinkProp = custProps.some(cp => cp.$ && cp.$.hasOwnProperty('v:nameU') && cp.$['v:nameU'] === 'Link');
-                    const hasTraceProp = custProps.some(cp => cp.$ && cp.$.hasOwnProperty('v:nameU') && cp.$['v:nameU'] === 'Trace');
+                    const hasLinkProp = custProps.some(cp => cp.$ && cp.$.hasOwnProperty('v:nameU') && cp.$['v:nameU'].toLowerCase() === 'link');
+                    const hasTraceProp = custProps.some(cp => cp.$ && cp.$.hasOwnProperty('v:nameU') && cp.$['v:nameU'].toLowerCase() === 'trace');
                     if (hasLinkProp && hasTraceProp) {
                         // Move custom properties from group to shape
                         //console.log(filePath)
                         //console.log(g.g)
                         if (Array.isArray(g.g)) {
                             const shape = g.g.find(shape => shape.$.id.startsWith('shape') && shape.hasOwnProperty('path'));
-                            if (shape) {
+                            if (shape) { //console.log(shape)
                                 if (!shape.hasOwnProperty('v:custProps')) {
                                     shape['v:custProps'] = [];
                                 }

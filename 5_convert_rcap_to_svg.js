@@ -537,15 +537,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     else {
             group_name = classname + '_' + label_id; //console.log(group_name)
         }
-     //console.log(group_name);
-    // let lineInfo = group_name +"|"+ line_arr[0]
-    // nameArray.push(lineInfo)
-    // if (classname.length > 20) {
-    //     group_name = classname.slice(0, 19) + '_' + label_id;
-    // }
-    // else {
-    //     group_name = classname + '_' + label_id;
-    // }
+
     if (classname === 'WIN-GROW-BTN' || classname === 'WIN-DISPLAY-HIDE-BTN'||   classname ==='WIN-SHRINK-BTN') {
         return '';
     }
@@ -1719,10 +1711,6 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             {
                 prop += '\n<v:cp v:nameU="Commandable" v:lbl="Commandable" v:type="0" v:langID="1033" v:val="VT4(' + "Yes" + ')" />';
             }
-            // if (keywords.some(keyword => readOut.includes("ON-OFF-STATUS")||readOut.includes("CMDRX")||readOut.includes("BBE")||readOut.includes("XMTR")))
-            // {
-            //     prop += '\n<v:cp v:nameU="parent" v:lbl="parent" v:type="0" v:langID="1033" v:val="VT4('+el.parent+')" />';
-            // }
         }
         //else{console.log("EDGE-CASE")}
         svg_elm += ('\n<v:custProps>');
