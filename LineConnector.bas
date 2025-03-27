@@ -100,7 +100,7 @@ Sub AddConnectionPoints()
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
    
-         ElseIf (strName Like "*dual_bfn_splitter*") Then
+         ElseIf (strName Like "*dual_bfn_splitter*") Or (strName Like "*epic_filter_splitter*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -231,7 +231,7 @@ Sub AddConnectionPoints()
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
             
-            ElseIf (strName Like "*dual_bfn_coupler*") Then
+            ElseIf (strName Like "*dual_bfn_coupler*") Or (strName Like "*epic_ul_filter_coupler*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -381,7 +381,7 @@ Sub AddConnectionPoints()
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
-           ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Then
+           ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*boeing_epic_rtn_fil*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -663,7 +663,7 @@ Sub AddConnectionPoints()
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
             ElseIf (strName Like "*hybrid*") Then
-            Debug.Print "HYBRID"
+            'Debug.Print "HYBRID"
                 '2 left, 2 right
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
@@ -689,6 +689,41 @@ Sub AddConnectionPoints()
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
         
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
+                
+                ElseIf (strName Like "*dual_epic_rtn*") Then
+            
+                ' Get shape dimensions
+                nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
+                nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
+                x = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinX).Result(visPoints)
+                y = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinY).Result(visPoints)
+            
+                ' Add mid-right connection point
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
+            
+                ' Add two equidistant points to the right
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.33)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.33)) + " pt."
+            
+                ' Add left connection points (unchanged)
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
+            
+                shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
+
+
                 
             ElseIf (strName Like "*tcr_cmdrx*") Then
             ' Get shape dimensions
@@ -752,6 +787,33 @@ Sub AddConnectionPoints()
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
+                shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
+                
+            ElseIf (strName Like "*epic_omt_quad_plexer*") Then
+            
+                nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
+                nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
+                x = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinX).Result(visPoints)
+                y = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinY).Result(visPoints)
+            
+                ' Add the new points to Right
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
+                
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
+
+                ' Add connections to top and bottom.
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
+    
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
+                
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
              ElseIf (strName Like "*bbe*") Then
@@ -890,7 +952,7 @@ Function ConvertPort(prt As String, shpType As String) As String
             End Select
         
         Case shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
-            Or shpType Like "*receiver*" Or shpType Like "*RECEIVER*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*T_RECEIVER*" Or shpType Like "*LNA*"
+            Or shpType Like "*receiver*" Or shpType Like "*BOEING_EPIC_RTN_FIL*" Or shpType Like "*RECEIVER*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*T_RECEIVER*" Or shpType Like "*LNA*"
             Select Case prt
                 Case "IN1": cnvPrt = "2"
                 Case "OUT1": cnvPrt = "1"
@@ -901,12 +963,25 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "IN1", "OUT1": cnvPrt = "1"
                 Case "IN2", "OUT2", "NONE": cnvPrt = "2"
             End Select
+        Case shpType Like "*DUAL_EPIC_RTN*"
+            Select Case prt
+                Case "IN1": cnvPrt = "2"
+                Case "OUT1": cnvPrt = "1"
+                Case "IN2": cnvPrt = "3"
+            End Select
         Case shpType Like "*COMM_DUAL*" Or shpType Like "*COMM_DUAL_IN_POL*" Or shpType Like "*DUAL_IN*"
             Select Case prt
                 Case "H-TX", "RHCP": cnvPrt = "1"
                 Case "V-TX", "LHCP": cnvPrt = "2"
             End Select
         
+        Case shpType Like "*EPIC_OMT_QUAD_PLEXER*"
+            Select Case prt
+                Case "TX-RHCP", "V-TX": cnvPrt = "1"
+                Case "TX-LHCP", "V-RX": cnvPrt = "3"
+                Case "RX-RHCP": cnvPrt = "4"
+                Case "RX-LHCP": cnvPrt = "2"
+            End Select
         Case shpType Like "*COMM_QUAD*"
             Select Case prt
                 Case "RHCP", "V-TX": cnvPrt = "1"
@@ -914,29 +989,25 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "H-TX": cnvPrt = "4"
                 Case "H-RX": cnvPrt = "2"
             End Select
-        
-        Case shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*COUPLER*" _
-                Or shpType Like "*block_splitter*" Or shpType Like "*COUP*" Or shpType Like "* JUNCTION_BLOCK_COUP*"
-         
-            If prt = "OUT1" Or prt = "IN1" Then
-                cnvPrt = "2"
+        Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*"
+            Select Case prt
+                Case "OUT1": cnvPrt = "1"
+                Case "IN-P1", "IN1": cnvPrt = "2"
+                Case "IN-P3", "IN2": cnvPrt = "3"
+            End Select
+
+        Case shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*block_splitter*"
+            If prt = "IN1" Then
+                cnvPrt = "1"
             ElseIf Left(prt, 1) = "P" And IsNumeric(Mid(prt, 2)) Then
                     parsePrt = Mid(prt, 2)
-                    Dim counter As Integer
-                    counter = 1 ' Start from 1
                     For i = 1 To parsePrt
-                    If counter = 2 Then counter = 3 ' Skip 2
-                    cnvPrt = counter
-                    counter = counter + 1
+                    cnvPrt = CStr(i + 1)
                     Next i
              ElseIf Left(prt, 3) = "OUT" And IsNumeric(Mid(prt, 4)) Then
                     parsePrt = Mid(prt, 4)
-                    'Dim counter As Integer
-                    counter = 1 ' Start from 1
                     For i = 1 To parsePrt
-                    If counter = 2 Then counter = 3 ' Skip 2
-                    cnvPrt = counter
-                    counter = counter + 1
+                    cnvPrt = CStr(i + 1)
                     Next i
                 End If
 
@@ -949,15 +1020,11 @@ Function ConvertPort(prt As String, shpType As String) As String
                 End If
             Else
                 If prt = "OUT1" Or prt = "IN1" Then
-                    cnvPrt = "2"
+                    cnvPrt = "1"
                  ElseIf Left(prt, 1) = "P" And IsNumeric(Mid(prt, 2)) Then
                     parsePrt = Mid(prt, 2)
-                    Dim c As Integer
-                    c = 1 ' Start from 1
-                    For i = 1 To parsePrt
-                    If c = 2 Then c = 3 ' Skip 2
-                    cnvPrt = c
-                    c = c + 1
+                    For i = 2 To parsePrt
+                    cnvPrt = CStr(i)
                     Next i
                 End If
             End If
@@ -967,7 +1034,7 @@ Function ConvertPort(prt As String, shpType As String) As String
             ElseIf Left(prt, 1) = "P" And IsNumeric(Mid(prt, 2)) Then
                     parsePrt = Mid(prt, 2)
                     For i = 2 To parsePrt
-                    cnvPrt = i
+                    cnvPrt = CStr(i)
                     Next i
                 End If
             'End If
@@ -1191,344 +1258,228 @@ Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, di
     Else
         'MsgBox "Could Not Find Shape " + rawString + CStr(isSet1) + " " + CStr(isSet2)
     End If
-    
-
 
 End Sub
-
-
-
-Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, shp As shape)
+Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, shp As shape) As Integer
     Dim row As Integer
     Dim parsePrt As String
-    'Debug.Print "shape " + shpType
-    'standard 2 or 4 port object
-    If shpType Like "*tcr_V*" Then
-        
-        If prt = "P1" Then
-            row = 0
-        ElseIf prt = "P2" Then
-            row = 1
-        ElseIf prt = "P3" Then
-            row = 2
-        ElseIf prt = "P4" Then
-            row = 3
-        End If
-    ElseIf shpType Like "*COMM_DUAL*" Then
-        If InStr(1, dir1, "BOTTOM") <> 0 Then
-            row = 0
-        ElseIf InStr(1, dir1, "TOP") <> 0 Then
-            row = 1
-        Else
-            row = -1
-        End If
-    ElseIf shpType Like "*SWITCH*" _
-        Or shpType Like "*CAMP*" _
-        Or shpType Like "*CHAMP*" _
-        Or shpType Like "*DUAL_IN*" _
-        Or shpType Like "*GND_*" _
-        Or shpType Like "*CHANNEL_POST*" _
-        Or shpType Like "*diplexer_combiner*" _
-    Then
-    'Debug.Print "HERE  " + dir1
-        If InStr(1, dir1, "BOTTOM") <> 0 Then
-            row = 2
-        ElseIf InStr(1, dir1, "TOP") <> 0 Then
-            row = 3
-        ElseIf InStr(1, dir1, "LEFT") <> 0 Then
-            row = 0
-        ElseIf InStr(1, dir1, "RIGHT") <> 0 Then
-            row = 1
-        Else
-            row = -1
-        End If
-    'EPC has 2 on left 2 on right
-    ElseIf shpType Like "*EPC*" Then
-        
-        If prt = "INA" Or prt = "IN1" Then
-            row = 1
-        ElseIf prt = "INB" Or prt = "IN2" Then
-            row = 0
-        ElseIf prt = "OUTA" Or prt = "OUT1" Then
-            row = 3
-        ElseIf prt = "OUTB" Or prt = "OUT2" Then
-            row = 2
-        End If
-     'DOWN_CONVERTER has 1 on left 1 on right
-    ElseIf shpType Like "*DOWN_CONVERTER*" Or shpType Like "*LNA*" Then
-        
-        If prt = "IN1" Then
-            row = 0
-        ElseIf prt = "OUT1" Then
-            row = 1
-        End If
-   ElseIf shpType Like "*XMITR*" Then
-        
-        If prt = "IN1" Or prt = "OUT1" Then
-            row = 1
-        ElseIf prt = "OUT2" Or prt = "NONE" Then
-            row = 0
-        End If
-      ElseIf shpType Like "*TCR_UNIT*" Then
-        
-        If prt = "IN1" Then
-            row = 0
-        ElseIf prt = "OUT1" Then
-            row = 1
-        ElseIf prt = "OUT2" Then
-            row = 2
-        End If
-     
+    Dim portNumber As String
+    Dim channelsValue As String
+    Dim originalLength As Integer
+    Dim modifiedLength As Integer
+    Dim index As Integer
+    Dim smc As Integer
+    Dim ports As Integer
+    
+    ' Default row value
+    row = -1
 
-    'EPC has 1 on left 1 on right
-   ElseIf shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" _
-    Or shpType Like "*T_RECEIVER*" Or shpType Like "*RECEIVER*" Then
+    ' Handling different types based on shpType
+    Select Case True
+        ' Standard 2 or 4 port object
+        Case shpType Like "*tcr_V*"
+            Select Case prt
+                Case "P1": row = 0
+                Case "P2": row = 1
+                Case "P3": row = 2
+                Case "P4": row = 3
+            End Select
         
-    If prt = "IN1" Then
-        row = 0
-    ElseIf InStr(1, prt, "OUT") > 0 Then
-        ' Extract the numeric part from "OUTx"
-        Dim portNumber As String
-        portNumber = Mid(prt, 4)
-          
-        ' Ensure the extracted part is numeric and calculate the row index
-        If IsNumeric(portNumber) Then
-            row = CInt(portNumber)
-        Else
-            row = -1 ' Handle unexpected or invalid port names
-        End If
-    ElseIf InStr(1, prt, "P") > 0 Then
-        ' Handle cases for ports like "P1", "P2", etc.
-        Dim pNumber As String
-        pNumber = Mid(prt, 2)
-        
-        ' Ensure the extracted part is numeric and calculate the row index
-        If IsNumeric(pNumber) Then
-            row = CInt(pNumber)
-        Else
-            row = -1 ' Handle unexpected or invalid port names
-        End If
-    Else
-        row = -1 ' Default for unknown ports
-    End If
+        ' COMM_DUAL types
+        Case shpType Like "*COMM_DUAL*"
+            If InStr(1, dir1, "BOTTOM") > 0 Then
+                row = 0
+            ElseIf InStr(1, dir1, "TOP") > 0 Then
+                row = 1
+            End If
 
-        'antenna has 1 on bottom 1 on top
-    ElseIf shpType Like "*COMM_DUAL*" Or shpType Like "*COMM_DUAL_IN_POL*" Or shpType Like "*DUAL_CONNECT*" Or shpType Like "*DUAL_IN*" Then
+        ' General SWITCH, CAMP, etc. handling
+        Case shpType Like "*SWITCH*" Or shpType Like "*CAMP*" Or shpType Like "*CHAMP*" _
+             Or shpType Like "*DUAL_IN*" Or shpType Like "*GND_*" Or shpType Like "*CHANNEL_POST*" _
+             Or shpType Like "*diplexer_combiner*"
+            Select Case True
+                Case InStr(1, dir1, "BOTTOM") > 0: row = 2
+                Case InStr(1, dir1, "TOP") > 0: row = 3
+                Case InStr(1, dir1, "LEFT") > 0: row = 0
+                Case InStr(1, dir1, "RIGHT") > 0: row = 1
+            End Select
         
-        If prt = "RHCP" Or "IN1" Then
-            row = 0
-        ElseIf prt = "LHCP" Or "IN2" Then
-            row = 1
-        End If
-    ElseIf shpType Like "*COMM_QUAD*" Then
+        ' EPC specific handling
+        Case shpType Like "*EPC*"
+            Select Case prt
+                Case "INA", "IN1": row = 1
+                Case "INB", "IN2": row = 0
+                Case "OUTA", "OUT1": row = 3
+                Case "OUTB", "OUT2": row = 2
+            End Select
+
+        ' Downconverter and LNA
+        Case shpType Like "*DOWN_CONVERTER*" Or shpType Like "*LNA*"
+            Select Case prt
+                Case "IN1": row = 0
+                Case "OUT1": row = 1
+            End Select
         
-        If prt = "V-RX" Then
-            row = 3
-        ElseIf prt = "LHCP" Or prt = "V-TX" Then
-            row = 1
-        ElseIf prt = "H-TX" Then
-            row = 2
-        ElseIf prt = "RHCP" Or prt = "H-RX" Then
-            row = 0
+        ' XMITR and similar types
+        Case shpType Like "*XMITR*"
+            Select Case prt
+                Case "IN1", "OUT1": row = 1
+                Case "OUT2", "NONE": row = 0
+            End Select
+            
+          ' DUAL_EPIC_RTN and similar types
+        Case shpType Like "*DUAL_EPIC_RTN*"
+            Select Case prt
+                Case "IN1": row = 1
+                Case "OUT1": row = 0
+                Case "IN2": row = 2
+            End Select
+
+        ' TCR_UNIT types
+        Case shpType Like "*TCR_UNIT*"
+            Select Case prt
+                Case "IN1": row = 0
+                Case "OUT1": row = 1
+                Case "OUT2": row = 2
+            End Select
         
-        End If
-    ElseIf shpType Like "*CHANNEL_POST*" Then
-     If prt = "NONE" Then
-        row = 0
-     Else
-         row = -1
-         End If
-    ElseIf shpType Like "*ANTENNA*" Then
+        ' TWTA, CHAMP, DUAL_OUTPUT_RECEIVER, etc.
+        Case shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" _
+             Or shpType Like "*T_RECEIVER*" Or shpType Like "*RECEIVER*" Or shpType Like "*BOEING_EPIC_RTN*"
+            If prt = "IN1" Then
+                row = 0
+            ElseIf InStr(1, prt, "OUT") > 0 Then
+                portNumber = Mid(prt, 4)
+                If IsNumeric(portNumber) Then
+                    row = CInt(portNumber)
+                End If
+            ElseIf InStr(1, prt, "P") > 0 Then
+                portNumber = Mid(prt, 2)
+                If IsNumeric(portNumber) Then
+                    row = CInt(portNumber)
+                End If
+            End If
+
+        ' COMM_QUAD
+        Case shpType Like "*COMM_QUAD*"
+            Select Case prt
+                Case "V-RX": row = 3
+                Case "LHCP", "V-TX": row = 1
+                Case "H-TX": row = 2
+                Case "RHCP", "H-RX": row = 0
+            End Select
+         Case shpType Like "*EPIC_OMT_QUAD_PLEXER*"
+            Select Case prt
+                Case "TX-RHCP": row = 0
+                Case "TX-LHCP": row = 3
+                Case "RX-RHCP": row = 1
+                Case "RX-LHCP": row = 2
+            End Select
+        ' Channel Post handling
+        Case shpType Like "*CHANNEL_POST*"
+            If prt = "NONE" Then
+                row = 0
+            End If
+        ' Beacons handling
+        Case shpType Like "*BEACON*"
+            If prt = "NONE" Or prt = "P*" Then
+                row = 0
+            End If
         
-        If prt = "NONE" Then
-            row = 0
-        ElseIf prt = "IN1" Then
-            row = 0
-        ElseIf prt = "IN2" Then
-            row = 1
-        Else
-            While InStr(1, prt, "NONE")
-            row = row + 1
-        Wend
-        End If
-     'splitter/6 ports on input side
-    ElseIf shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*COUPLER*" Or shpType Like "*JUNCTION_BLOCK_SPLI*" _
-        Or shpType Like "*block_splitter*" Or shpType Like "*COUP*" Or shpType Like "* JUNCTION_BLOCK_COUP*" Then
+        ' Antenna types
+        Case shpType Like "*ANTENNA*"
+            Select Case prt
+                Case "NONE", "IN1": row = 0
+                Case "IN2": row = 1
+            End Select
+
+        ' Handling COUPLER and related types
+        Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*"
+            Select Case prt
+                Case "OUT1": row = 1
+                Case "IN-P1", "IN1": row = 0
+                Case "IN-P3", "IN2": row = 2
+            End Select
+
+        ' Splitter with 6 ports
+        Case shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*block_splitter*"
+            Select Case prt
+                Case "IN1": row = 0
+                Case Else
+                    If Left(prt, 1) = "P" And IsNumeric(Mid(prt, 2)) Then
+                        parsePrt = Mid(prt, 2)
+                        row = CInt(parsePrt)
+                    ElseIf Left(prt, 3) = "OUT" And IsNumeric(Mid(prt, 4)) Then
+                        parsePrt = Mid(prt, 4)
+                        row = CInt(parsePrt)
+                    End If
+            End Select
         
+        ' Imux and Omux ports
+        Case shpType Like "*IMUX*" Or shpType Like "*OMUX*" Or shpType Like "*CMUX*"
             If prt = "OUT1" Or prt = "IN1" Then
                 row = 0
-            ElseIf Left(prt, 1) = "P" And IsNumeric(Mid(prt, 2)) Then
-                    parsePrt = Mid(prt, 2)
-                    'Dim counter As Integer
-                    'counter = 1 ' Start from 1
-                    For i = 1 To parsePrt
-                    'If counter = 2 Then counter = 3 ' Skip 2
-                    row = i
-                    'counter = counter + 1
-                    Next i
-            ElseIf Left(prt, 3) = "OUT" And IsNumeric(Mid(prt, 4)) Then
-                    parsePrt = Mid(prt, 4)
-                    'Dim counter As Integer
-                    'counter = 1 ' Start from 1
-                    For i = 1 To parsePrt
-                    'If counter = 2 Then counter = 3 ' Skip 2
-                    row = i
-                    'counter = counter + 1
-                    Next i
-                End If
-                
-    'imux/12 ports on input side
-    ElseIf shpType Like "*IMUX*" Then
-    ' Handle shapes with IN1 and 12 "P" channels (e.g., P1, P3, P5, etc.)
-    If shpType Like "*MIN*" Then
-        ' Special case for "MINI" IMUX shapes
-        If prt = "OUT1" Then
-            row = 0
-        Else
-            row = 1
-        End If
-    Else
-        ' General IMUX shape handling
-        If prt = "OUT1" Then
-            row = 0
-        ElseIf InStr(1, prt, "P") > 0 Then
-            ' Parse the port number and calculate the row based on channel semicolons
-            Dim channelsValue As String
-            Dim originalLength As Integer
-            Dim modifiedLength As Integer
-            Dim index As Integer
-            Dim smc As Integer
-            Dim ports As Integer
-            'Dim parsePrt As String
-            
-            ' Extract the numeric part of the port name
-            parsePrt = Mid(prt, 2)
-            
-            ' Get channel names from shape properties
-            channelsValue = shp.CellsU("Prop.Channel_Name").ResultStr("")
-            
-            ' Find the position of the current port in the channel list
-            index = InStr(channelsValue, parsePrt)
-            
-            ' Calculate the semicolon count up to the current index
-            originalLength = Len(Left(channelsValue, index))
-            modifiedLength = Len(Replace(Left(channelsValue, index), ";", ""))
-            smc = originalLength - modifiedLength
-            
-            ' Calculate the total number of semicolons in the entire channel list
-            originalLength = Len(channelsValue)
-            modifiedLength = Len(Replace(channelsValue, ";", ""))
-            ports = originalLength - modifiedLength
-            
-            ' Determine the row index
-            row = ports - smc + 1
-            Else
-                ' Default case for unhandled ports
-                row = -1 ' Or any appropriate value indicating an error or invalid input
+            ElseIf InStr(1, prt, "P") > 0 Then
+                parsePrt = Mid(prt, 2)
+                channelsValue = shp.CellsU("Prop.Channel_Name").ResultStr("")
+                index = InStr(channelsValue, parsePrt)
+                originalLength = Len(Left(channelsValue, index))
+                modifiedLength = Len(Replace(Left(channelsValue, index), ";", ""))
+                smc = originalLength - modifiedLength
+                originalLength = Len(channelsValue)
+                modifiedLength = Len(Replace(channelsValue, ";", ""))
+                ports = originalLength - modifiedLength
+                row = ports - smc + 1
             End If
-        End If
+        
+        ' Arrow and XMTR types
+        Case shpType Like "*ARROW*"
+            connToValue = shp.CellsU("Prop.ConnTo").ResultStr("")
+            Select Case connToValue
+                Case "top": row = 3
+                Case "bottom": row = 2
+                Case "right": row = 1
+                Case Else: row = 0
+            End Select
+        
+        Case shpType Like "*XMTR*"
+            Select Case prt
+                Case "RANGE0": row = 0
+                Case "RANGE1": row = 1
+                Case "LP": row = 2
+                Case "HP": row = 3
+                Case "BBE1": row = 4
+                Case "BBE2": row = 5
+            End Select
+        
+        ' Hybrid types
+        Case shpType Like "*HYBRID*"
+            Select Case prt
+                Case "P1": row = 0
+                Case "P4": row = 1
+                Case "P2": row = 2
+                Case "P3": row = 3
+            End Select
+        
+        ' TCR_CMDRX types
+        Case shpType Like "*TCR_CMDRX*"
+            If prt = "IN1" Then
+                row = 0
+            ElseIf prt = "OUT1" Then
+                row = 1
+            End If
+        
+        ' BBE types
+        Case shpType Like "*BBE*"
+            Select Case prt
+                Case "IN1": row = 0
+                Case "IN2": row = 1
+                Case "OUT1": row = 2
+                Case "OUT2": row = 3
+            End Select
+    End Select
 
-    'omux/12 ports on output side
-    ElseIf shpType Like "*OMUX*" Or shptyp Like "*CMUX*" Then
-        'has an OUT1 and 12 "P" channels (p1,p3,p5...)
-        If prt = "OUT1" Then
-            row = 0
-        ElseIf InStr(1, prt, "P") Then
-            
-            Dim channelsValue2 As String
-            Dim originalLength2 As Integer
-            Dim modifiedLength2 As Integer
-            Dim index2 As Integer
-            Dim smc2 As Integer
-            Dim ports2 As Integer
-           
-            parsePrt = Mid(prt, 2)
-            channelsValue2 = shp.CellsU("Prop.Channel_Name").ResultStr("")
-            index2 = InStr(channelsValue2, parsePrt)
-            originalLength2 = Len(Left(channelsValue2, index2))
-            modifiedLength2 = Len(Replace(Left(channelsValue2, index2), ";", ""))
-            smc2 = originalLength2 - modifiedLength2
-            
-            originalLength2 = Len(channelsValue2)
-            modifiedLength2 = Len(Replace(channelsValue2, ";", ""))
-            ports2 = originalLength2 - modifiedLength2
-            
-            row = ports2 - smc2 + 1
-            
-        End If
-    ElseIf shpType Like "*ARROW*" Then
-        'row = 0
-        Dim connToValue As String
-        connToValue = shp.CellsU("Prop.ConnTo").ResultStr("")
-        If connToValue = "top" Then
-            row = 3
-        ElseIf connToValue = "bottom" Then
-            row = 2
-        ElseIf connToValue = "right" Then
-            row = 1
-        Else
-            row = 0
-        End If
-
-    ElseIf shpType Like "*XMTR*" Then
-        
-        If prt = "RANGE0" Then
-            row = 0
-        ElseIf prt = "RANGE1" Then
-            row = 1
-        ElseIf prt = "LP" Then
-            row = 2
-        ElseIf prt = "HP" Then
-            row = 3
-        ElseIf prt = "BBE1" Then
-            row = 4
-        ElseIf prt = "BBE2" Then
-            row = 5
-        End If
-        
-    ElseIf shpType Like "*HYBRID*" Then
-        
-        If prt = "P1" Then
-            row = 0
-        ElseIf prt = "P4" Then
-            row = 1
-        ElseIf prt = "P2" Then
-            row = 2
-        ElseIf prt = "P3" Then
-            row = 3
-        Else
-            row = -1
-        End If
-    ElseIf shpType Like "*TCR_CMDRX*" Then
-        
-        If prt = "IN1" Then
-            row = 0
-        ElseIf prt = "OUT1" Then
-            row = 1
-        Else
-            While InStr(1, prt, "NONE")
-            row = row + 1
-        Wend
-        End If
-    ElseIf shpType Like "*BBE*" Then
-        
-        If prt = "IN1" Then
-            row = 0
-        ElseIf prt = "IN2" Then
-            row = 1
-        ElseIf prt = "OUT1" Then
-            row = 2
-        ElseIf prt = "OUT2" Then
-            row = 3
-        Else
-            row = -1
-        End If
-    End If
-
-
-    'Debug.Print "The row is **** " + CStr(row) + " " + dir1
     GetConnectionRowNum = row
-
 End Function
 
 Function rowName(ByRef count As Integer)

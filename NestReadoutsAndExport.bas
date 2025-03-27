@@ -162,7 +162,8 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                 Case InStr(1, title, "ARU-ENABLE", vbTextCompare) > 0
                     newName = "Readout.ARU-ENABLE"
                 Case InStr(1, title, "FIL-VOLTAGE", vbTextCompare) > 0 Or _
-                     InStr(1, title, "ALC-IP-ATTR-VOLT", vbTextCompare) > 0
+                     InStr(1, title, "ALC-IP-ATTR-VOLT", vbTextCompare) > 0 Or _
+                     InStr(1, title, "FG-SETTING", vbTextCompare) > 0
                     newName = "Readout.InputPwr"
                 Case InStr(1, title, "ATT-", vbTextCompare) > 0 Or _
                      InStr(1, title, "ALC-SETTING", vbTextCompare) > 0 Or InStr(1, title, "ATTEN", vbTextCompare) > 0 _

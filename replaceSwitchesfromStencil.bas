@@ -18,7 +18,7 @@ Sub ReplaceShapesWithStencilObjects()
     On Error GoTo ErrorHandler
     
     ' Define the path to the stencil containing the replacement objects
-    stencilPath = "C:\Users\SHUTEW\Downloads\MaxarVisioFiles\Stencil\Stencil11.vssx"
+    stencilPath = "C:\Users\SHUTEW\Desktop\VToR\process_adhoc2\Stencil11.vssx"
     
     ' Set Visio application and active document
     Set visioApp = Application
@@ -146,7 +146,7 @@ Function GetReplacementMasterNames(shapeName As String) As String
     If shapeName Like "*TCR_V_SWITCH*" Then
         replacementMaster = "VSwitch1"
         additionalMaster = "JPortsV1"
-    ElseIf shapeName Like "*TCR_TOGGLE*" Or shapeName Like "*S_SWITCH*" Then
+    ElseIf shapeName Like "*TCR_TOGGLE*" Then
         replacementMaster = "ZSwitch1"
         additionalMaster = "JPortsZ1"
     ElseIf shapeName Like "*S_SWITCH*" Then
@@ -156,6 +156,12 @@ Function GetReplacementMasterNames(shapeName As String) As String
         If InStr(shapeName, "KU") > 0 And InStr(shapeName, "24") > 0 And InStr(shapeName, "2431") > 0 Then
             replacementMaster = "TSwitchPos2"
             additionalMaster = "JPorts2431"
+        ElseIf InStr(shapeName, "4321") > 0 Then
+            replacementMaster = "TSwitchPos2"
+            additionalMaster = "JPorts4321"
+        ElseIf InStr(shapeName, "2314") > 0 Then
+             replacementMaster = "TSwitchPos2"
+             additionalMaster = "JPorts2314"
         ElseIf InStr(shapeName, "3241") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts3241"
@@ -234,6 +240,9 @@ Function GetReplacementMasterNames(shapeName As String) As String
         ElseIf InStr(shapeName, "1342") > 0 Then
             replacementMaster = "TSwitchPos2"
             additionalMaster = "JPorts1342"
+        ElseIf InStr(shapeName, "2341") > 0 Then
+            replacementMaster = "TSwitchPos2"
+            additionalMaster = "JPorts2341"
         End If
     ElseIf shapeName Like "*R_SWITCH*" Then
         If InStr(shapeName, "4123") > 0 Then

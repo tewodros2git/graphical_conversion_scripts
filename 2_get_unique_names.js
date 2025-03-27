@@ -330,6 +330,9 @@ function process_object(line_arr) { //console.log(line_arr)
         else if(classname.includes("IMUX")){
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
         }
+        else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
+            classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
+        }
         else{
             classname = classname.slice(0, 19);
         }
@@ -337,26 +340,25 @@ function process_object(line_arr) { //console.log(line_arr)
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-    //console.log("class = "+classname);
-    // if(classname.includes('TWTA')&& !classname.includes('EPC')&&  !classname.includes('IS10')&&  !classname.includes('IS9')){
-    //     group_name = line[1].split('-')[2]+"T1_TWTA"+ '_' + line[1].split('-')[2];
-    // }
+    if(classname.includes('LORAL-11-CHANNEL-44-24')){
+        classname = classname.replace("BEACONS-","").replace("-MUX","-TYPE-2");
+    }
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
-            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 3]+name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2] + "_TWTA_" +name[name.length - 2]; //console.log(group_name)
         }
         else{
-            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' +name[name.length - 3]+ name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2].slice(-2) + "_TWTA_" + name[name.length - 2]; //console.log(group_name)
         }
     }
     else if(classname.includes('IS') && classname.match(/IS\d+.*EPC/)||classname.includes ("T8-EPC-DUAL")){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = "E1_EPC"+ '_' + name[name.length - 3]+name; //console.log(group_name)
+        group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
-        let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = name.slice(-2)+"_LCAMP"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
+        let name = line[1].split('-')[line[1].split('-').length -2]; console.log(line[1])
+        group_name = name.slice(-2)+"_LCAMP_"+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
@@ -416,7 +418,7 @@ function process_object(line_arr) { //console.log(line_arr)
             }
         }
     }
-    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')) {
+    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')||classname.includes('BOEING-UHF-DRU')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
     else if (classname.includes('HOT-ARROW')) {
@@ -441,7 +443,10 @@ function process_object(line_arr) { //console.log(line_arr)
     else if (classname.includes ('HORIZONTAL-BORDER-LINE')) {
         style = 'fill="none" stroke="Black"';
     }
-    else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
+    else if (classname === 'COLOR-BLOCK-GREEN-YELLOW') {
+        style = 'fill="yellow" stroke="black"';
+    }
+    else if (classname.includes('OPA-CAMP')||classname.includes('UHF-POWER-MONITOR')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
         populateProps(line_arr, "LCAMP");
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
@@ -461,13 +466,29 @@ function process_object(line_arr) { //console.log(line_arr)
         extra += '\n\n\n\n\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" stroke="black" stroke-width="0.75"/>';
         extra += '<title>'  + 'E1_EPC'+'_' +twtaName + '</title>\n';
     }
-    else if (classname.includes('TWTA')&& !classname.includes('EPC')) {
+    else if (classname.includes('TWTA')||classname.includes('UHF-MLO')&& !classname.includes('EPC')) {
         populateProps(line_arr,"TWTA");
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + twtaName.slice(-2) + '_TWTA'+'_' +twtaName + '</title>';
+    }
+    else if(classname.includes('BOEING-EPIC-RTN-FIL')) {
+        populateProps(line_arr,"TWTA");
+        style = 'fill="none" stroke="black" stroke-width="2"';
+        right_multi = true;
+        left_multi = true; //console.log(twtaName);
+        //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+        extra += '<title>' +group_name  + '</title>';
+    }
+    else if(classname.includes('DUAL-EPIC-RTN-FIL')) {
+        populateProps(line_arr,"TWTA");
+        style = 'fill="none" stroke="black" stroke-width="2"';
+        right_multi = true;
+        left_multi = true; //console.log(twtaName);
+        extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+        extra += '<title>' +group_name + '</title>';
     }
     else if (classname.includes('TCR-XMTR')) {
         populateProps(line_arr,"TCR-XMTR");
@@ -520,7 +541,7 @@ function process_object(line_arr) { //console.log(line_arr)
         //style += 'fill="none"';
         extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
+    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')||classname.includes('EPIC-OMT-QUAD-PLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         if (classname.includes('COUPLER')) {
             channels = 2;
@@ -671,7 +692,7 @@ function process_object(line_arr) { //console.log(line_arr)
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname.includes ("BEACONS")|| classname.includes ("BEACONS-TYPE-2") ||  classname.includes("XMITRS")) {
+    else if (classname.includes ("BEACONS")|| classname.includes ("BEACONS-TYPE-2") ||  classname.includes("XMITRS")||classname.includes('UHF-BPS')) {
         populateProps(line_arr,"BEACONS")
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
@@ -803,7 +824,7 @@ function process_object(line_arr) { //console.log(line_arr)
     let bottom_axis = parseInt(y_loc + height);
     let left_axis = parseInt(x_loc);
     let right_axis = parseInt(x_loc + width);
-    if (classname.includes('MUX') || classname.includes('IMUX')|| classname.includes('LORAL')&&!classname.includes('SWITCH')) {
+    if (classname.includes('MUX')|| classname.includes('IMUX')|| classname.includes('LORAL')&&!classname.includes('SWITCH')) {
         let index = 0;
         ct=1;
         for (let n = all_port.length - 1; n >= 0; n--) {
@@ -1212,7 +1233,7 @@ function process_object(line_arr) { //console.log(line_arr)
         props += ('\n<v:cp v:nameU="Link" v:lbl="Link" v:type="0" v:langID="1033" v:val="VT4(' + line_arr[line_arr.length - 1].split(":")[1].replace(';', '').toUpperCase().replaceAll('-','_').trim() + ')" />');
         //props += ('\n<v:cp v:nameU="Trace" v:lbl="Trace" v:type="0" v:langID="1033" v:val="VT4()" />');
     }
-    else if (classname.includes('ANTENNA')) {//console.log(line_arr)
+    else if (classname.includes('ANTENNA')||classname.includes('EPIC-OMT-QUAD-PLEXER')) {//console.log(line_arr)
         let prt1, prt2;
         let prtaux=''; let prtaux2 ='';
         for(let i =1; i<line_arr.length; i++)
@@ -1238,7 +1259,7 @@ function process_object(line_arr) { //console.log(line_arr)
         props += ('\n<v:cp v:nameU="bottomAux" v:lbl="bottomAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux2+')" />');
     }
     else if (classname.includes('MUX')||classname.includes('LORAL')&&!classname.includes('SWITCH')) {
-        //console.log(line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1])
+        console.log(line_arr[0])//.split(',')[0].match(/\b(\w*MUX\w*)\b/)[1])
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
         props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
     }
@@ -1678,16 +1699,7 @@ let filename= fileName.split('\\')[3]
         let background = '\n<g id="background" v:mID="'+ id + '" v:groupContext="shape">\n';
         background += '<rect x="0" y="0" width="'+ width+'" height="'+height+'" fill="wheat"/>';
         background += `\n<v:custProps>`;
-        // for (const f of final_conn) {  //console.log(final_conn)
-        //         background += `\n<v:cp v:nameU="conn${conn_index}" v:lbl="conn${conn_index}" v:type="0" v:langID="1033" v:val="VT4(${f.s1}, ${f.s2}, ${f.initial_side},${f.p},${f.ending_side},${f.p2}` + ')" />';
-        //     conn_index += 1;
-        // }
-        // let connInfo =JSON.parse(fs.readFileSync('./output/cxn_file.json'))
-        // for(let i =0; i< connInfo.length; i++){
-        //     //conn_index = 0;
-        //     background += `\n<v:cp v:nameU="conn${i}" v:lbl="conn${i}" v:type="0" v:langID="1033" v:val="VT4(${connInfo[i].shp1}, ${connInfo[i].shp2}, ${connInfo[i].shp1_port},${connInfo[i].shp1_side},${connInfo[i].shp2_port},${connInfo[i].shp2_side}` + ')" />';
-        //     //conn_index += 1;
-        // }
+
         background += '\n</v:custProps>';
         label_id += 1;
         id += 1;

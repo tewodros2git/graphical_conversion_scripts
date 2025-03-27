@@ -360,7 +360,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
         else if(groupsec === "TCR-CMDRX") {
             let parent = classname
             twtaNum = el[0].split(",")[1].split("-")[2]; //console.log(twtaNum)
-            for (let k = 1; k < el.length; k++) { console.log(el[k])
+            for (let k = 1; k < el.length; k++) { console.log("el: "+el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
                 Mnemonic = el[k].split(",")[1]+"edge"; //console.log(readout+" : "+Mnemonic)//.split(scid.toString()+"-")[1].split("=")[0])//
                 formula = el[k].split(",")[1];
@@ -485,6 +485,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     let degree= getDirections(line_arr);
     const{pos,ori}=switchPropsCalc(classname,degree)
     objectNameList += classname +"\n";
+    //console.log(objectNameList)
     let group_name;
     if (classname.length > 25) {
         if(classname.includes("OMUX")){
@@ -494,7 +495,10 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             classname = classname.slice(0, 15)+"_CMUX";
         }
         else if(classname.includes("IMUX")){
-            classname = classname.slice(0, 15)+"_IMUX";
+            classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
+        }
+        if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
+            classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
         }
         else{
             classname = classname.slice(0, 19);
@@ -504,29 +508,26 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-    if(classname.includes('LORAL-11-CHANNEL-44-24')){
-        classname = classname.replace("BEACONS-","").replace("-MUX","");
+    if(classname.includes(' BOEING-HYBRID-MUX')){
+        classname = classname.replace("BOEING-","").replace("-MUX","-TYPE-2");
     }
 
-     // if(classname.includes('TWTA')&& !classname.includes('EPC')&&  !classname.includes('IS10')){
-     //        group_name = line[1].split('-')[2]+"T1_TWTA"+ '_' + line[1].split('-')[2];
-     //    }
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
-            group_name = name[name.length - 2] + "_TWTA" + '_' + name[name.length - 3]+name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2] + "_TWTA_" +name[name.length - 2]; //console.log(group_name)
         }
         else{
-            group_name = name[name.length - 2].slice(-2) + "_TWTA" + '_' +name[name.length - 3]+ name[name.length - 2]; //console.log(group_name)
+            group_name = name[name.length - 2].slice(-2) + "_TWTA_" + name[name.length - 2]; //console.log(group_name)
         }
     }
     else if(classname.includes('IS') && classname.match(/IS\d+.*EPC/)||classname.includes ("T8-EPC-DUAL")){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = "E1_EPC"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
+        group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
-        let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = name.slice(-2)+"_LCAMP"+ '_' +name[name.length - 3]+ name; //console.log(group_name)
+        let name = line[1].split('-')[line[1].split('-').length -2]; console.log(line[1])
+        group_name = name.slice(-2)+"_LCAMP_"+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
@@ -541,6 +542,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if (classname === 'WIN-GROW-BTN' || classname === 'WIN-DISPLAY-HIDE-BTN'||   classname ==='WIN-SHRINK-BTN') {
         return '';
     }
+    //console.log(classname)
     let objname = line[1];
     let alias = line[2];
     let x_loc = parseInt(line[3]) - offset[0];
@@ -581,10 +583,10 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             }
         }
     }
-    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')) {
+    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')||classname.includes('BOEING-UHF-DRU')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
-    else if (classname.includes('HOT-ARROW')) {
+    else if (classname.includes('HOT-ARROW')||classname.includes('RETURN-HOT-ARROW')) {
         //style = 'fill="grey"';
             }
     else if ( classname === 'CHANNEL-STUB') {
@@ -606,6 +608,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     else if (classname === 'HORIZONTAL-BORDER-LINE') {
         style = 'fill="none" stroke="Black"';
     }
+    else if (classname === 'COLOR-BLOCK-GREEN-YELLOW') {
+        style = 'fill="yellow" stroke="Black"';
+    }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('CAMP')) {
         populateProps(line_arr, "LCAMP",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
@@ -614,12 +619,29 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
         extra += '<title>' + group_name + '</title>\n';
     }
-    else if (classname.includes('LCHAMP')||classname.includes('CHAMP')) {
+    else if (classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('BOEING-KU-TWTA')||classname.includes('UHF-POWER-MONITOR')) {
         populateProps(line_arr, "LCAMP",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         extra += '<title>' + group_name + '</title>\n';
+    }
+    else if(classname.includes('BOEING-EPIC-RTN')) {
+        populateProps(line_arr,"TWTA");
+        style = 'fill="none" stroke="black" stroke-width="2"';
+        right_multi = true;
+        left_multi = true; //console.log(twtaName);
+        height=h_height+10
+        //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+        extra += '<title>' +group_name + '</title>';
+    }
+    else if(classname.includes('DUAL-EPIC-RTN-FIL')) {
+        populateProps(line_arr,"TWTA");
+        style = 'fill="none" stroke="black" stroke-width="2"';
+        right_multi = true;
+        left_multi = true; //console.log(twtaName);
+        extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+        extra += '<title>' +group_name + '</title>';
     }
     else if (classname.includes('EPC')) { // second twta
         populateProps(line_arr,"EPC",group_name);
@@ -642,11 +664,11 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
-        left_multi = true; console.log(group_name);
+        left_multi = true; //console.log(group_name);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + group_name + '</title>';
     }
-    else if (classname.includes('TWTA')&& !classname.includes('EPC')&&!classname.includes('LCAMP-TWTA')) {
+    else if (classname.includes('TWTA')||classname.includes('UHF-MLO')&& !classname.includes('EPC')&&!classname.includes('LCAMP-TWTA')) {
         populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
@@ -654,14 +676,14 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         //extra += '<title>' + g + '</title>';
     }
-    else if (classname.includes('TCR-XMTR') || classname.includes('TCR-TLM-XMTR')) {
+    else if (classname.includes('TCR-XMTR') || classname.includes('TLM-XMTR')) {
         populateProps(line_arr,"TCR-XMTR",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
     }
-    else if (classname.includes('TCR-CMDRX')) {
+    else if (classname.includes('TCR-CMDRX')||classname.includes(' BOEING-CMD-RX')) {
         populateProps(line_arr,"TCR-CMDRX",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
@@ -679,7 +701,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         left_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
-    else if (classname.includes('IMUX')) {
+    else if (classname.includes('IMUX')||classname.includes(' BOEING-UHF-DRU')) {
         right_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
@@ -713,7 +735,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
+    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')||classname.includes('EPIC-OMT-QUAD-PLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         if (classname.includes('COUPLER')) {
             channels = 2;
@@ -722,7 +744,16 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if (classname.includes('DUAL-BFN')) {
             channels = 2;
             right_multi = true;
+        }else if (classname.includes('OMT-QUAD-PLEXER')) {
+            channels = 4;
+            right_multi = true;
+            extra += ` <text x="${x_loc}" y="${y_loc - (height / 10)}" font-size="12" text-anchor="middle">
+                        <tspan x="${x_loc}" dy="0">O</tspan>
+                        <tspan x="${x_loc}" dy="16">M</tspan>
+                        <tspan x="${x_loc}" dy="14">T</tspan>
+                      </text>`;
         }
+
         else if (classname.includes('TRIPLE-BFN')) {
             channels = 3;
             right_multi = true;
@@ -800,9 +831,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     }
     else if (classname.includes('IS32-TCR-TOGGLE') || classname.includes('IS32-TCR-SELECT-SWITCH')|| classname.includes('IS32-TCR-V-SWITCH')) {
         style = 'fill="wheat" stroke="Black"';
-        // extra += `<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
-        // extra += `<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
-    }
+        }
     else if (classname.includes('DOWN-CONVERTER')|| classname.includes('LNA')|| classname.includes('T8-KA-DC-CONVERTER')||classname.includes('DOWNCONVERTER')) {
         populateProps(line_arr,"DC",group_name)
         style = 'fill="none" stroke="green" stroke-width="2"';
@@ -816,7 +845,6 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         }
         else {
             extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 4}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-            //extra += `\n<text x="${x_loc - h_width + 2}" y="${y_loc + 4}" font-size="${text_size}">T</text>`;
         }
         extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         extra += `\n<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
@@ -832,7 +860,6 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             extra += `\n<rect x="${x_loc}" y="${y_loc - height + 5}" height="${height}" width="${width / 2}" fill="none"/>`;
             extra += `\n<text x="${x_loc}" y="${y_loc - height + 5}" font-size="${text_size}">S</text>`;
         }
-
         extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         extra += "\n" + "</g>";
     }
@@ -845,26 +872,12 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         }
         else {
             extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 4}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-            //extra += `\n<text x="${x_loc - h_width + 2}" y="${y_loc + 4}" font-size="${text_size}">T</text>`;
-        }
+            }
         extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         extra += `\n<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
         extra += "\n" + "</g>";
     }
-    //     style = 'fill="wheat" stroke="Black"';
-    //     extra += `\n<g id="object${label_id}" v:mID="${id}" v:groupContext="shape">`;
-    //     if (width > 20) {
-    //         extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 1}" height="${height - 15}" width="${width/2}" fill="none"/>`;
-    //         extra += `\n<text x="${x_loc - h_width + 2}" y="${y_loc + 1}" font-size="${text_size}">R</text>`
-    //     }else {
-    //         extra += `\n<rect x="${x_loc}" y="${y_loc - height + 5}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-    //         //extra += `\n<text x="${x_loc}" y="${y_loc - height + 5}" font-size="${text_size}">S</text>`;
-    //     }
-    //
-    //     extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
-    //     extra += `\n<line x1=" ${x_loc}" y1=" ${y_loc - h_height } " x2=" ${x_loc} " y2="  ${y_loc - h_height }" stroke="black" stroke-width="0.75"/>`
-    //     extra += "\n" + "</g>";
-    // }
+
     else if (classname.includes ("RECEIVER")) {
         populateProps(line_arr, "RCVR",group_name);
         style = 'fill="none" stroke="green" stroke-width="0.75"';
@@ -879,7 +892,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname.includes("XMITRS")) {
+    else if (classname === "BEACONS"|| classname === "BEACONS-TYPE-2" ||  classname.includes("XMITRS")||classname.includes('UHF-BPS')) {
         populateProps(line_arr,"BEACONS",group_name)
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
@@ -910,8 +923,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     }
     else if (classname.includes('IS32-TCR-TX-HYBRID')||classname.includes('IS32-TCR-RX-HYBRID')||classname.includes('HYBRID-TYPE-2')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
-        //extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="wheat"/>`;
-    }
+        }
     else if (classname === 'RECEIVER-TYPE-3') {
         style = 'fill="none" stroke="blue" stroke-width="0.75"';
         extra = `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
@@ -1017,7 +1029,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     let bottom_axis = parseInt(y_loc + height);
     let left_axis = parseInt(x_loc);
     let right_axis = parseInt(x_loc + width);
-    if (classname.includes('OMUX') || classname.includes('CMUX') ||classname.includes('IMUX')|| classname.includes('LORAL')&&!classname.includes('SWITCH')) {
+    if ((classname.includes('OMUX')|| classname.includes('CMUX')|| classname.includes('BOEING-UHF-DRU') || classname.includes('IMUX') ||classname.includes('LORAL')) &&!classname.includes('SWITCH')){
         let index = 0;
         ct=1;
         for (let n = all_port.length - 1; n >= 0; n--) {
@@ -1040,7 +1052,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
                 // if(pN=== 1){
                 //     pN=pN+1;
                 // }
-                chn+=ct+";";
+                chn+=ct+";"; //console.log(chName+"="+ct)
                 extra += '\n<g id="channel_' + chName + '" v:mID="' + id + '" v:groupContext="shape">\n';
                     if(all_port[n][1].includes("TOP")){
                         extra += '<rect x="' + ((x_loc + (index * (width / all_port.length))) + (index * 2) -11) + '" y="' + (y_loc-3 ) + '" width="20" height="20" fill="none"/>';
@@ -1111,8 +1123,12 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes('HOT-ARROW')&&!classname.includes('RETURN')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
+                extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
+            }
+            else if (classname.includes('RETURN-HOT-ARROW')) {
+                extra = `\n<title>RETURN_HOT_ARROW_${label_id}</title>`;
                 extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
             }
             if (top_multi === true && shape_obj.channels !== 0) {
@@ -1187,9 +1203,13 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes('HOT-ARROW')&& !classname.includes('RETURN')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc)} L ${parseInt(x_loc)} ${y_loc + parseInt(height)} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc) + parseInt(height) - 5} L ${x_loc + parseInt(width)} ${y_loc + parseInt(height)} L ${parseInt(x_loc) + (parseInt(width) / 2)} ${parseInt(y_loc)}" fill="blue"/>`;
+            }
+            else if (classname.includes('RETURN-HOT-ARROW')) {
+                extra = `\n<title>RETURN_HOT_ARROW_${label_id}</title>`;
+                extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
             }
             if (bottom_multi === true && shape_obj.channels !== 0) {
                 const diff = width / parseFloat(shape_obj.channels);
@@ -1259,9 +1279,13 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes('HOT-ARROW')&&! classname.includes('RETURN')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc) + parseInt(width)} ${parseInt(y_loc) + (parseInt(height) / 2)} L ${x_loc} ${y_loc} L ${parseInt(x_loc) + 5} ${parseInt(y_loc) + (parseInt(height) / 2)} L ${x_loc} ${parseInt(y_loc) + parseInt(height)} L ${parseInt(x_loc) + parseInt(width)} ${parseInt(y_loc) + (parseInt(height) / 2)}" fill="blue"/>`;
+            }
+            else if (classname.includes('RETURN-HOT-ARROW')) {
+                extra = `\n<title>RETURN_HOT_ARROW_${label_id}</title>`;
+                extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
             }
             if (left_multi===true && shape_obj.channels !== 0) {
                 let diff = parseInt(height) / parseFloat(shape_obj.channels);
@@ -1336,11 +1360,14 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
                 }
                 extra += '\n</g>';
             }
-            else if (classname === 'HOT-ARROW') {
+            else if (classname.includes('HOT-ARROW')&&!classname.includes('RETURN')) {
                 extra = `\n<title>HOT_ARROW_${label_id}</title>`;
                 extra += `\n<path d="M${parseInt(x_loc)} ${parseInt(y_loc) + parseInt(height / 2)} L ${parseInt(x_loc) + parseInt(width)} ${y_loc + parseInt(height)} L ${parseInt(x_loc) + (parseInt(width)) - 5} ${parseInt(y_loc) + parseInt(height / 2)} L ${x_loc + width} ${y_loc} L ${parseInt(x_loc)} ${parseInt(y_loc) + parseInt(height / 2)}" fill="blue"/>`;
             }
-
+            else if (classname.includes('RETURN-HOT-ARROW')) {
+                extra = `\n<title>RETURN_HOT_ARROW_${label_id}</title>`;
+                extra += '\n<path d="M' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' +(parseInt(y_loc) + parseInt(height)) + ' L ' + (parseInt(x_loc) + parseInt(width)) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + 5) + ' L ' + (x_loc) + ' ' + (y_loc) + ' L ' + (parseInt(x_loc) + (parseInt(width) / 2)) + ' ' + (parseInt(y_loc) + parseInt(height)) + '" fill="blue"/>'
+            }
             if (right_multi === true && shape_obj.channels !== 0) {
                 const diff = parseInt(height) / parseFloat(shape_obj.channels);
                 const dist = parseInt(right_line[i][2]);
@@ -1411,7 +1438,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         }
     }
 
-    else if (classname.includes('HOT-ARROW')) {
+    else if (classname.includes('HOT-ARROW')||classname.includes('RETURN-HOT-ARROW')) {
         props += ('\n<v:cp v:nameU="Link" v:lbl="Link" v:type="0" v:langID="1033" v:val="VT4(' + line_arr[line_arr.length - 1].split(":")[1].replace(';', '').toUpperCase().replaceAll('-','_').trim() + ')" />');
         //props += ('\n<v:cp v:nameU="Trace" v:lbl="Trace" v:type="0" v:langID="1033" v:val="VT4()" />');
         if (top.length !== 0)
@@ -1423,7 +1450,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if (right.length !== 0)
             props += ('\n<v:cp v:nameU="ConnTo" v:lbl="ConnTo" v:type="0" v:langID="1033" v:val="VT4(right)" />');
     }
-    else if (classname.includes('COMM-DUAL')|| classname.includes('ANTENNA') ) {//console.log(classname)
+    else if (classname.includes('COMM-DUAL')|| classname.includes('ANTENNA')||classname.includes('EPIC-OMT-QUAD-PLEXER') ) {//console.log(classname)
         let prt1, prt2;
         let prtaux=''; let prtaux2 ='';
         for(let i =1; i<line_arr.length; i++)
@@ -1448,14 +1475,15 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         props += ('\n<v:cp v:nameU="topAux" v:lbl="topAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux+')" />');
         props += ('\n<v:cp v:nameU="bottomAux" v:lbl="bottomAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux2+')" />');
     }
-    else if (classname.includes('MUX')||classname.includes('LORAL')&&!classname.includes('SWITCH')) {
+    else if ((classname.includes('MUX') || classname.includes('LORAL'))&& !classname.includes('SWITCH'))
+    {
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
         props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
            }
-    else if (classname.includes('SPLITTER')||classname.includes('COUPLER') && !classname.includes('SWITCH')) {
+    else if (classname.includes('SPLITTER')||classname.includes('COUPLER') && !classname.includes('SWITCH')) { //console.log(classname)
         let ch = ''; // Initialize chn to avoid undefined values
 
-        if (classname.includes("DUAL")) {
+        if (classname.includes("DUAL")||classname.includes('EPIC')) {
             ch = '1;2;3;';
         } else if (classname.includes("TRIPLE")) {
             ch = '1;2;3;4;';
@@ -1582,20 +1610,20 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             readOut = line_arr[7] ; //console.log(readOut)
             tId=pin+'-'+id;
         }
-        else if (line_arr[6].includes("RCVR")||line_arr[6].includes("LNA") ) {
-            //group ="RCVR";
+        else if (line_arr[6].includes("RCVR")||line_arr[6].includes("LNA")||line_arr[6].includes("MLO") ) {
+            let parts= line_arr[6].split('-');
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "RCVR-"+line_arr[6].split('-')[2]+'-'+line_arr[6].split('-')[3]; //console.log(tId)
+            tId = parts.at(-3)+"_"+parts.at(-2); //console.log(tId)
         }
         else if (line_arr[6].includes("-RX")) {
-            //group ="RCVR";
+            let parts= line_arr[6].split('-');
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "RCVR-"+line_arr[6].split('-')[3]; //console.log(group)
+            tId = "RCVR-"+parts.at(-3)+"_"+parts.at(-2); //console.log(tId)
         }
         else if (line_arr[6].includes("DC")) {
             let parts= line_arr[6].split('-');
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "DC-"+parts.at(2)+parts.at(-2); //console.log("id: "+tId)
+            tId = "DC-"+parts.at(-3)+parts.at(-2); //console.log("id: "+tId)
         }
         else if (line_arr[6].includes('UC')) {
             //group ="RCVR";
@@ -1611,7 +1639,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             let parts= line_arr[6].split('-');
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
-                tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log(tId)
+                tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log("tid: "+tId)
                 pin = line_arr[6];
         }
         else if (line_arr[6].includes("EPC")) {
@@ -1621,11 +1649,13 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = line_arr[6];
         }
         else if ((line_arr[6].includes("LCTWTA"))|| (line_arr[6].includes("TWT")) || (line_arr[6].includes("TWTA")) || (line_arr[6].includes("LCAMP-TWTA")) || ((line_arr[6].includes("KU-TWTA")) && (!line_arr[6].includes("EPC")))) {
-            let parts= line_arr[6].split('-');
-            readOut = line_arr[7].trim();//console.log(readOut);
-            group = "TWTA";
-            tId = parts.at(-3)+parts.at(-2) + '_TWTA';  //console.log(tId);
-            pin = line_arr[6]; //console.log("TWTA: "+pin);
+            let g;
+            if(line_arr[6].includes("3136")){g="LCAMP"}else {g="TWTA"}
+                let parts = line_arr[6].split('-');
+                readOut = line_arr[7].trim();//console.log(readOut);
+                group = g;
+                tId = parts.at(-3) + '-' + parts.at(-2) + '_TWTA';  //console.log("tid: "+tId)
+                pin = line_arr[6]; //console.log("TWTA: "+pin);
         }
         else {
             if (line_arr[6].split("-").length >= 5) {
@@ -2062,27 +2092,36 @@ console.log('opening ' + filename);
 
         function getPortNumber(shape, port, side) {
             let key = shape + "_" + side;
+            let portNumber;
+
             if (!(key in counters)) {
                 counters[key] = 2; // Start counter at 2
             }
-            if (port.includes("OUT1") || port.includes("IN1")) {
-                return "OUT1";
+
+            if (port.includes("OUT1")) {
+                //counters[key]++; // Increment counter even if OUT1 is used
+                portNumber =  "OUT1";
             } else if (port.includes("PTLM")) {
-                return "PTLM";
+                //counters[key]++;
+                portNumber =  "PTLM";
+            } else if (port.includes("IN1")) {
+                //counters[key]++;
+                portNumber =  "IN1";
             } else {
-                let portNumber = "P" + counters[key];
-                counters[key]++;
-                return portNumber;
+                portNumber = "P" + counters[key];
             }
+            counters[key]++; //console.log(portNumber)
+            return portNumber;
         }
 
-        for (let i = 0; i < connInfo.length; i++) {
-            if (connInfo[i].shp1.includes("MUX")||connInfo[i].shp1.includes('SPLITTER')||connInfo[i].shp1.includes('COUPLER')) {
+
+        for (let i = 0; i < connInfo.length; i++) { //console.log(connInfo[i].shp1+': '+connInfo[i].shp1_port)
+            if (connInfo[i].shp1.includes("MUX")) {
                 connInfo[i].shp1_port = getPortNumber(connInfo[i].shp1, connInfo[i].shp1_port, connInfo[i].shp1_side);
                 //console.log(connInfo[i].shp1+': '+connInfo[i].shp1_port)
             }
 
-            if (connInfo[i].shp2.includes("MUX")||connInfo[i].shp2.includes('SPLITTER')||connInfo[i].shp2.includes('COUPLER')) {
+            if (connInfo[i].shp2.includes("MUX")) {
                 connInfo[i].shp2_port = getPortNumber(connInfo[i].shp2, connInfo[i].shp2_port, connInfo[i].shp2_side);
                 //console.log( connInfo[i].shp2+': '+connInfo[i].shp2_port)
             }

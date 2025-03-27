@@ -195,7 +195,7 @@ def get_cxn_obj(cxn_list):
         for j in shp2:
             #if (i["start_x"] == j["end_x"] or i["start_x"] - j["end_x"] <=1)  and (i["start_y"] == j["end_y"] or i["start_y"] - j["end_y"] <=1):
             if i and j is not None:#"start_x" in i and "end_x" in j and "start_y" in i and "end_y" in j:
-                if (i["prt"] == "HOT-ARROW" and i["offset_side"] != "NONE") or (j["prt"] == "HOT-ARROW" and j["offset_side"] != "NONE"):
+                if (i["prt"] in ["HOT-ARROW", "RETURN-HOT-ARROW"] and i["offset_side"] != "NONE") or (j["prt"] in ["HOT-ARROW", "RETURN-HOT-ARROW"] and j["offset_side"] != "NONE"):
                     continue
                 x_diff = i["start_x"] - j["end_x"]
                 y_diff = i["start_y"] - j["end_y"]
@@ -251,7 +251,7 @@ def get_cxn_obj(cxn_list):
                 closest_dist = 100000
                 for k in shp2:
                     if i and k is not None:
-                        if (i["prt"] == "HOT-ARROW" and i["offset_side"] != "NONE") or (k["prt"] == "HOT-ARROW" and k["offset_side"] != "NONE"):
+                        if (i["prt"] in ["HOT-ARROW", "RETURN-HOT-ARROW"] and i["offset_side"] != "NONE") or (k["prt"] in ["HOT-ARROW", "RETURN-HOT-ARROW"] and k["offset_side"] != "NONE"):
                             continue
                         if k != None and "STUB" not in k["obj_name"] and k["obj_name"] != i["obj_name"]:
                             d = dist(i, k)
