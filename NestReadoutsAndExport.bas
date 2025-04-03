@@ -26,7 +26,7 @@ Sub RearrangeShapes()
 
     ' Define patterns for each group
     patterns1 = Array() '"_TWTA_", "_EPC_", "_LCAMP_", "_CAMP_")
-    patterns2 = Array("_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
+    patterns2 = Array("_LNA_""_DOWNCONVERTER_", "_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
 
     ' Loop through each shape to identify parents for both pattern groups
     For Each shape In ActivePage.Shapes
@@ -162,8 +162,7 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                 Case InStr(1, title, "ARU-ENABLE", vbTextCompare) > 0
                     newName = "Readout.ARU-ENABLE"
                 Case InStr(1, title, "FIL-VOLTAGE", vbTextCompare) > 0 Or _
-                     InStr(1, title, "ALC-IP-ATTR-VOLT", vbTextCompare) > 0 Or _
-                     InStr(1, title, "FG-SETTING", vbTextCompare) > 0
+                     InStr(1, title, "ALC-IP-ATTR-VOLT", vbTextCompare) > 0
                     newName = "Readout.InputPwr"
                 Case InStr(1, title, "ATT-", vbTextCompare) > 0 Or _
                      InStr(1, title, "ALC-SETTING", vbTextCompare) > 0 Or InStr(1, title, "ATTEN", vbTextCompare) > 0 _

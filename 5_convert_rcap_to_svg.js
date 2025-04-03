@@ -508,9 +508,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-    if(classname.includes(' BOEING-HYBRID-MUX')){
-        classname = classname.replace("BOEING-","").replace("-MUX","-TYPE-2");
-    }
+    // if(classname.includes('BOEING-HYBRID-MUX')) {
+    //     classname = classname.replace("-MUX", "-TYPE-2");
+    // }
 
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')

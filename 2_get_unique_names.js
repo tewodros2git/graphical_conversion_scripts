@@ -340,9 +340,9 @@ function process_object(line_arr) { //console.log(line_arr)
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-    if(classname.includes('LORAL-11-CHANNEL-44-24')){
-        classname = classname.replace("BEACONS-","").replace("-MUX","-TYPE-2");
-    }
+    // if(classname.includes('BOEING-HYBRID-MUX')) {
+    //     classname = classname.replace("-MUX", "-TYPE-2");
+    // }
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
@@ -357,7 +357,7 @@ function process_object(line_arr) { //console.log(line_arr)
         group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
-        let name = line[1].split('-')[line[1].split('-').length -2]; console.log(line[1])
+        let name = line[1].split('-')[line[1].split('-').length -2]; //console.log(line[1])
         group_name = name.slice(-2)+"_LCAMP_"+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
@@ -1259,7 +1259,7 @@ function process_object(line_arr) { //console.log(line_arr)
         props += ('\n<v:cp v:nameU="bottomAux" v:lbl="bottomAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux2+')" />');
     }
     else if (classname.includes('MUX')||classname.includes('LORAL')&&!classname.includes('SWITCH')) {
-        console.log(line_arr[0])//.split(',')[0].match(/\b(\w*MUX\w*)\b/)[1])
+        //console.log(line_arr[0])//.split(',')[0].match(/\b(\w*MUX\w*)\b/)[1])
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
         props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
     }
