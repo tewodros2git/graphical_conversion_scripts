@@ -86,7 +86,7 @@ Sub AddConnectionPoints()
 
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
-         ElseIf (strName Like "*beacon*") Then
+         ElseIf (strName Like "*beacon*") Or (strName Like "*power_monitor*") Or (strName Like "*uhf_bps*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -150,7 +150,7 @@ Sub AddConnectionPoints()
             
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
-        ElseIf (strName Like "*quad_bfn_splitter*") Then
+        ElseIf (strName Like "*quad_bfn_splitter*") Or (strName Like "*quad_bfn_coupler*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -231,7 +231,7 @@ Sub AddConnectionPoints()
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
             
-            ElseIf (strName Like "*dual_bfn_coupler*") Or (strName Like "*epic_ul_filter_coupler*") Then
+            ElseIf (strName Like "*dual_bfn_coupler*") Or (strName Like "*dual_coupler*") Or (strName Like "*epic_ul_filter_coupler*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -366,7 +366,7 @@ Sub AddConnectionPoints()
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 15) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
-            ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*ka_downconverter*") Or (strName Like "*down_converter*") Or (strName Like "*lna*") Then
+            ElseIf (strName Like "*camp*") Or (strName Like "*uhf_mlo*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*ka_downconverter*") Or (strName Like "*down_converter*") Or (strName Like "*lna*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -617,9 +617,80 @@ Sub AddConnectionPoints()
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
                 shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
+                
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
+            
+            ElseIf (strName Like "*boeing_tlm_xmtr*") Then
+                ' Get dimensions of where the points should go.
+                nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
+                nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
+                x = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinX).Result(visPoints)
+                y = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinY).Result(visPoints)
+            
+                ' === Add 2 connections to the left ===
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
+            
+                ' === Add 5 connections to the right ===
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.4)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.2)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.2)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.4)) + " pt."
+            
+                shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
+                
+           ElseIf (strName Like "*boeing_cmd_rx*") Then
+                ' Get dimensions of where the points should go.
+                nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
+                nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
+                x = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinX).Result(visPoints)
+                y = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinY).Result(visPoints)
+            
+                ' === Add 1 connection to the left ===
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
+            
+                ' === Add 4 connections to the right ===
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.3)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.1)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.1)) + " pt."
+            
+                NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.3)) + " pt."
+            
+                shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
-            ElseIf (strName Like "*xmtr*") Then
+            ElseIf (strName Like "*xmtr*") And Not (strName Like "*boeing_tlm_xmtr*") Then
                 
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -934,7 +1005,7 @@ Function ConvertPort(prt As String, shpType As String) As String
     Dim portExist As Boolean
 
     Select Case True
-        Case shpType Like "*SWITCH*"
+        Case shpType Like "*SWITCH*" Or shpType Like "*tcr_toggle_inp*"
             Select Case prt
                 Case "P1": cnvPrt = "1"
                 Case "P2": cnvPrt = "2"
@@ -950,8 +1021,26 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "OUTA", "OUT1": cnvPrt = "1"
                 Case "OUTB", "OUT2": cnvPrt = "3"
             End Select
+        Case shpType Like "*CMD_RX*"
+            Select Case prt
+                Case "INA", "IN1": cnvPrt = "2"
+                Case "RNG-OUT1": cnvPrt = "4"
+                Case "RNG-OUT2": cnvPrt = "5"
+                Case "CMD-OUT1", "OUT1": cnvPrt = "1"
+                Case "CMD-OUT2", "OUT2": cnvPrt = "3"
+            End Select
+        Case shpType Like "*TLM_XMTR*"
+            Select Case prt
+                Case "OUT1": cnvPrt = "1"
+                Case "OUT2": cnvPrt = "2"
+                Case "CMD-OUT1": cnvPrt = "3"
+                Case "CMD-OUT2": cnvPrt = "4"
+                Case "CMD-OUT3": cnvPrt = "5"
+                Case "RNG-OUT1": cnvPrt = "6"
+                Case "RNG-OUT2": cnvPrt = "7"
+            End Select
         
-        Case shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
+        Case shpType Like "*TWTA*" Or shpType Like "*UHF_MLO*" Or shpType Like "*CHAMP*" Or shpType Like "*CAMP*" Or shpType Like "*DOWN_CONVERTER*" _
             Or shpType Like "*receiver*" Or shpType Like "*BOEING_EPIC_RTN_FIL*" Or shpType Like "*RECEIVER*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" Or shpType Like "*T_RECEIVER*" Or shpType Like "*LNA*"
             Select Case prt
                 Case "IN1": cnvPrt = "2"
@@ -992,8 +1081,10 @@ Function ConvertPort(prt As String, shpType As String) As String
         Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*"
             Select Case prt
                 Case "OUT1": cnvPrt = "1"
-                Case "IN-P1", "IN1": cnvPrt = "2"
-                Case "IN-P3", "IN2": cnvPrt = "3"
+                Case "IN-P1", "P1", "IN1": cnvPrt = "2"
+                Case "IN-P3", "P2", "IN2": cnvPrt = "3"
+                Case "P3": cnvPrt = "4"
+                Case "P4": cnvPrt = "5"
             End Select
 
         Case shpType Like "*SPLITTER*" Or shpType Like "*SPLI*" Or shpType Like "*block_splitter*"
@@ -1044,9 +1135,9 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "IN-P3": cnvPrt = "3"
                 Case "OUT1": cnvPrt = "1"
             End Select
-        Case shpType Like "*beacon*" Or shpType Like "*BEACONS*"
+        Case shpType Like "*beacon*" Or shpType Like "*BEACONS*" Or shpType Like "*POWER_MONITOR*" Or shpType Like "*UHF_BPS*"
             Select Case prt
-                Case "NONE": cnvPrt = "1"
+                Case "NONE", "OUT1": cnvPrt = "1"
                 Case "P*": cnvPrt = "2"
             End Select
         Case shpType Like "*ANTENNA*"
@@ -1063,7 +1154,7 @@ Function ConvertPort(prt As String, shpType As String) As String
             Select Case prt
                 Case "NONE": cnvPrt = "1"
             End Select
-        Case shpType Like "*HYBRID*"
+        Case shpType Like "*HYBRID*" Or shpType Like "*HYBRID_MUX*"
             Select Case prt
                 Case "P1": cnvPrt = "1"
                 Case "P2": cnvPrt = "2"
@@ -1083,7 +1174,7 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "OUT2": cnvPrt = "3"
                 Case "OUT1": cnvPrt = "1"
             End Select
-        Case shpType Like "*XMTR*"
+        Case shpType Like "*XMTR*" And Not shpType Like "*TLM_XMTR*"
             Select Case prt
                 Case "RANGE0": cnvPrt = "3"
                 Case "RANGE1": cnvPrt = "4"
@@ -1296,7 +1387,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         ' General SWITCH, CAMP, etc. handling
         Case shpType Like "*SWITCH*" Or shpType Like "*CAMP*" Or shpType Like "*CHAMP*" _
              Or shpType Like "*DUAL_IN*" Or shpType Like "*GND_*" Or shpType Like "*CHANNEL_POST*" _
-             Or shpType Like "*diplexer_combiner*"
+             Or shpType Like "*diplexer_combiner*" Or shpType Like "*tcr_toggle_inp*"
             Select Case True
                 Case InStr(1, dir1, "BOTTOM") > 0: row = 2
                 Case InStr(1, dir1, "TOP") > 0: row = 3
@@ -1312,6 +1403,25 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
                 Case "OUTA", "OUT1": row = 3
                 Case "OUTB", "OUT2": row = 2
             End Select
+            
+        Case shpType Like "*CMD_RX*"
+            Select Case prt
+                Case "INA", "IN1": row = 1
+                Case "RNG-OUT1": row = 3
+                Case "RNG-OUT2": row = 4
+                Case "CMD-OUT1": row = 0
+                Case "CMD-OUT2": row = 2
+            End Select
+        Case shpType Like "*TLM_XMTR*"
+            Select Case prt
+                Case "OUT1": row = 0
+                Case "OUT2": row = 1
+                Case "CMD-OUT1": row = 2
+                Case "CMD-OUT2": row = 3
+                Case "CMD-OUT3": row = 4
+                Case "RNG-OUT1": row = 5
+                Case "RNG-OUT2": row = 6
+            End Select
 
         ' Downconverter and LNA
         Case shpType Like "*DOWN_CONVERTER*" Or shpType Like "*LNA*"
@@ -1321,7 +1431,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             End Select
         
         ' XMITR and similar types
-        Case shpType Like "*XMITR*"
+        Case shpType Like "*XMITR*" And Not shpType Like "*TLM_XMITR*"
             Select Case prt
                 Case "IN1", "OUT1": row = 1
                 Case "OUT2", "NONE": row = 0
@@ -1344,7 +1454,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             End Select
         
         ' TWTA, CHAMP, DUAL_OUTPUT_RECEIVER, etc.
-        Case shpType Like "*TWTA*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" _
+        Case shpType Like "*TWTA*" Or shpType Like "*UHF_MLO*" Or shpType Like "*CHAMP*" Or shpType Like "*DUAL_OUTPUT_RECEIVER*" _
              Or shpType Like "*T_RECEIVER*" Or shpType Like "*RECEIVER*" Or shpType Like "*BOEING_EPIC_RTN*"
             If prt = "IN1" Then
                 row = 0
@@ -1381,8 +1491,8 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
                 row = 0
             End If
         ' Beacons handling
-        Case shpType Like "*BEACON*"
-            If prt = "NONE" Or prt = "P*" Then
+        Case shpType Like "*BEACON*" Or shpType Like "*POWER_MONITOR*" Or shpType Like "*UHF_BPS*"
+            If prt = "NONE" Or prt = "P*" Or prt = "OUT1" Then
                 row = 0
             End If
         
@@ -1397,8 +1507,10 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*"
             Select Case prt
                 Case "OUT1": row = 1
-                Case "IN-P1", "IN1": row = 0
-                Case "IN-P3", "IN2": row = 2
+                Case "IN-P1", "P1", "IN1": row = 0
+                Case "IN-P3", "P2", "IN2": row = 2
+                Case "P3": row = 3
+                Case "P4": row = 4
             End Select
 
         ' Splitter with 6 ports
@@ -1453,7 +1565,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             End Select
         
         ' Hybrid types
-        Case shpType Like "*HYBRID*"
+        Case shpType Like "*HYBRID*" Or shpType Like "*HYBRID_MUX*"
             Select Case prt
                 Case "P1": row = 0
                 Case "P4": row = 1

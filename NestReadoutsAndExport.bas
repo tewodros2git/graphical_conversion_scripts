@@ -26,7 +26,7 @@ Sub RearrangeShapes()
 
     ' Define patterns for each group
     patterns1 = Array() '"_TWTA_", "_EPC_", "_LCAMP_", "_CAMP_")
-    patterns2 = Array("_LNA_""_DOWNCONVERTER_", "_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
+    patterns2 = Array("_BPS_", "_POWER_", "_MLO_", "_LNA_""_DOWNCONVERTER_", "_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
 
     ' Loop through each shape to identify parents for both pattern groups
     For Each shape In ActivePage.Shapes
@@ -171,6 +171,24 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                 Case InStr(1, title, "BAND", vbTextCompare) > 0 Or _
                      InStr(1, title, "MODE", vbTextCompare) > 0
                     newName = "Readout.Mode"
+                 Case InStr(1, title, "FCA", vbTextCompare) > 0
+                    newName = "Readout.FCA"
+                Case InStr(1, title, "GCA", vbTextCompare) > 0
+                    newName = "Readout.GCA"
+                Case InStr(1, title, "HI-POWER", vbTextCompare) > 0
+                    newName = "Readout.HPWR"
+                Case InStr(1, title, "LO-POWER", vbTextCompare) > 0
+                    newName = "Readout.LPWR"
+                Case InStr(1, title, "BIAS", vbTextCompare) > 0
+                    newName = "Readout.BIAS"
+                Case InStr(1, title, "VOLTAGE", vbTextCompare) > 0
+                    newName = "Readout.VOLTAGE"
+                Case InStr(1, title, "TEMP", vbTextCompare) > 0
+                    newName = "Readout.TEMP"
+                Case InStr(1, title, "RF-STATUS", vbTextCompare) > 0
+                    newName = "Readout.RF-STATUS"
+                Case InStr(1, title, "FREQ", vbTextCompare) > 0
+                    newName = "Readout.FREQ"
                 Case Else
                     Debug.Print "Edge Case: " & title
                     newName = "" ' Default case

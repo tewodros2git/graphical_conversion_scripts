@@ -66,6 +66,7 @@ new_classes = u_list - existing_classes  # Find new classes
 
 with open("class_list.txt", "a") as fil:
     for u in new_classes:
+        #print(u)
         fil.write(u + "\n")
 
 # Append unique ports to 'available_ports.txt'

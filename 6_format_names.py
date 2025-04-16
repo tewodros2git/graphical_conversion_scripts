@@ -19,7 +19,7 @@ scid = file_name.split(".")[1]
 display_type = file_name.split(".")[0]
 svg_name = "./output/" + config + ".svg"
 json_name = f"./output/{scid}_{display_type}_obj.json"
-print(json_name)
+#print(json_name)
 
 with open(json_name, "r") as f:
     json_file = f.read()
@@ -29,6 +29,7 @@ json_file = json.loads(json_file)
 
 ss = open(svg_name, "r")
 svg_lines = ss.readlines()
+#print(svg_lines)
 final_svg = []
 obj_dict = {}
 
@@ -36,6 +37,7 @@ for i in json_file:
     name = i["instance"]
     #print(name)
     if name not in obj_dict:
+        print(name)
         obj_dict[name] = True
         #print(obj_dict)
 
@@ -43,7 +45,7 @@ for i in json_file:
 for line in svg_lines:
     for key in obj_dict:
         if key in line:
-            print(line)
+            #print(key)
             idx = line.find(key)
             if idx > -1:
                 replace_val = key.replace("-","_")
