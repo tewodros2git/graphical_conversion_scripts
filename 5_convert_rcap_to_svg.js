@@ -226,13 +226,13 @@ const switchPropsCalc = (name, jports) => {
     return { pos, ori }; // Return as an object for better structure
 }
 
-const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr)
+const populateProps = (collection,groupsec,group_name) =>{ //console.log(line_arr)
     let twtaNum,readout,Mnemonic,formula;
     let arr =[]; //console.log(collection);
     arr.push(collection)
     arr.forEach(el => {
         if(groupsec === "LCAMP"){
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].trim().replace("\\","").replace('TWTA', 'LCAMP'); //console.log(twtaNum)
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log("read : " +readout)
@@ -249,7 +249,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else   if(groupsec === "BEACONS"){
-            let parent = classname
+            let parent = group_name
             let twta =  el[0].split(",")[1].split("-")
             twtaNum = twta[twta.length -1]; //console.log(twtaNum)
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
@@ -267,7 +267,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if (groupsec === "EPC"){
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].trim().replace("\\","")
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
@@ -284,7 +284,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if(groupsec === "TWTA") {
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].trim().replace("\\","");//console.log(twtaNum)
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
@@ -301,7 +301,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if(groupsec === "RCVR") {
-            let parent = classname
+            let parent = group_name
             let twta =  el[0].split(",")[1].split("-"); //console.log( el[0].split(",")[1])
             twtaNum = twta[2]; //console.log(twtaNum)//console.log(el[0].split(",")[1].trim())//
             for (let k = 1; k < el.length; k++) { //console.log(el[k].split(',')[1])
@@ -321,7 +321,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             //}
         }
         else if(groupsec === "DC") {
-            let parent = classname
+            let parent = group_name
             let twta =  el[0].split(",")[1].split("-"); //console.log( el[0].split(",")[1])
             twtaNum = twta[2]; //console.log(twtaNum)//console.log(el[0].split(",")[1].trim())//
             for (let k = 1; k < el.length; k++) { //console.log(el[k].split(',')[1])
@@ -341,7 +341,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             //}
         }
         else if(groupsec === "TCR-XMTR") {
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].split("-")[2]; //console.log(twtaNum)
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
@@ -358,9 +358,9 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if(groupsec === "TCR-CMDRX") {
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].split("-")[2]; //console.log(twtaNum)
-            for (let k = 1; k < el.length; k++) { console.log("el: "+el[k])
+            for (let k = 1; k < el.length; k++) { //console.log("el: "+el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
                 Mnemonic = el[k].split(",")[1]+"edge"; //console.log(readout+" : "+Mnemonic)//.split(scid.toString()+"-")[1].split("=")[0])//
                 formula = el[k].split(",")[1];
@@ -375,7 +375,7 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if(groupsec === "TCR-BBE") {
-            let parent = classname
+            let parent = group_name
             twtaNum = el[0].split(",")[1].split("-")[2];
             for (let k = 1; k < el.length; k++) { //console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
@@ -441,11 +441,11 @@ function process_label(label_arr, offset) { //console.log(label_arr.split(','));
         svg_elm += ('\n<v:cp v:nameU="Link" v:lbl="Link" v:type="0" v:langID="1033" v:val="VT4(' + line[1].replace(';', '').toUpperCase().replaceAll('-', '_') + ')" />');
         svg_elm += ('\n<v:cp v:nameU="Trace" v:lbl="Trace" v:type="0" v:langID="1033" v:val="VT4()" />');
         svg_elm += ('\n</v:custProps>');
-    label_id++;
-    id++;
-    //svg_elm += '</text>\n';
-    svg_elm += '</g>';
-}//console.log(svg_elm)
+        label_id++;
+        id++;
+        //svg_elm += '</text>\n';
+        svg_elm += '</g>';
+    }//console.log(svg_elm)
     return svg_elm;
 }
 
@@ -470,20 +470,18 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if(classname.includes("IMUX")){
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
         }
-        if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
+        else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
         }
         else{
             classname = classname.slice(0, 19);
         }
-        }
+    }
 
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-    // if(classname.includes('BOEING-HYBRID-MUX')) {
-    //     classname = classname.replace("-MUX", "-TYPE-2");
-    // }
+
 
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
@@ -499,14 +497,14 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
-        let name = line[1].split('-')[line[1].split('-').length -2]; console.log(line[1])
+        let name = line[1].split('-')[line[1].split('-').length -2]; //console.log(line[1])
         group_name = name.slice(-2)+"_LCAMP_"+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
     }
-    // else if(classname.includes('CHAMP')|| classname.includes('T8-CB-TWTA')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
-    //     group_name = classname+ '_' + label_id; //console.log(group_name)
+        // else if(classname.includes('CHAMP')|| classname.includes('T8-CB-TWTA')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
+        //     group_name = classname+ '_' + label_id; //console.log(group_name)
     // }
     else {
             group_name = classname + '_' + label_id; //console.log(group_name)
@@ -591,7 +589,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         style = 'fill="CYAN" stroke="black"';
     }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
-        populateProps(line_arr, "LCAMP");
+        populateProps(line_arr, "LCAMP",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
@@ -601,42 +599,42 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra += '<title>' + group_name + '</title>\n';
     }
     else if (classname.includes('EPC')) { // second twta
-        populateProps(line_arr,"EPC");
+        populateProps(line_arr,"EPC",group_name);
         style = 'fill="none" stroke="black" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         channels = 2;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + (height / 3)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + (height / 3)) +'" stroke="black" stroke-width="0.75"/>';
         extra += '\n\n\n\n\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" stroke="black" stroke-width="0.75"/>';
-        extra += '<title>'  + 'E1_EPC'+'_' +twtaName + '</title>\n';
+        extra += '<title>'  + group_name+ '</title>\n';
     }
-    else if ((classname.includes('TWTA'))||classname.includes('EPIC-TPAM')&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
-        populateProps(line_arr,"TWTA");
+    else if ((classname.includes('TWTA')||classname.includes('EPIC-TPAM')||classname.includes('UHF-MLO'))&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
+        populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' +group_name+ '</title>';
     }
-    else if (classname.includes('BOEING-KU-TWTA')) {
-        populateProps(line_arr,"TWTA");
+    else if (classname.includes('BOEING-KU-TWTA')||classname.includes('UHF-POWER-MONITOR')) {
+        populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
         //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + group_name + '</title>';
     }
-    else if(classname.includes('BOEING-EPIC-RTN')) {
-        populateProps(line_arr,"TWTA");
-        style = 'fill="none" stroke="black" stroke-width="2"';
-        right_multi = true;
-        left_multi = true; //console.log(twtaName);
-        height=h_height+10
-        //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
-        extra += '<title>' +group_name + '</title>';
+        else if(classname.includes('BOEING-EPIC-RTN')) {
+            populateProps(line_arr,"TWTA",group_name);
+            style = 'fill="none" stroke="black" stroke-width="2"';
+            right_multi = true;
+            left_multi = true; //console.log(twtaName);
+            height=h_height+10
+            //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+            extra += '<title>' +group_name + '</title>';
     }
     else if(classname.includes('DUAL-EPIC-RTN-FIL')) {
-        populateProps(line_arr,"TWTA");
+        populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="black" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
@@ -644,14 +642,14 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra += '<title>' +group_name + '</title>';
     }
     else if (classname.includes('TCR-XMTR')||classname.includes("BOEING-TLM-XMTR")) {
-        populateProps(line_arr,"TCR-XMTR");
+        populateProps(line_arr,"TCR-XMTR",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
     }
     else if (classname.includes('TCR-CMDRX')||classname.includes("BOEING-CMD-RX")) {
-        populateProps(line_arr,"TCR-CMDRX");
+        populateProps(line_arr,"TCR-CMDRX",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true;
@@ -777,7 +775,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             channels = 2;
             left_multi = true;
         }
-        else if (classname.includes('HYBRID-MUX') ||classname.includes('EPIC-MPA') || classname.includes('HYBRID-TYPE-2')) {
+        else if (classname.includes('HYBRID-MUX')||classname.includes('EPIC-MPA') || classname.includes('HYBRID-TYPE-2')) {
             channels = 2;
             left_multi = true;
             right_multi = true;
@@ -858,7 +856,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         }
         else {
             extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 4}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-            }
+        }
         extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         extra += `\n<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
         extra += "\n" + "</g>";
@@ -878,11 +876,11 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc - h_height} L ${x_loc - h_width + ((width / 4) * 2)} ${y_loc + h_height} L ${x_loc - h_width + ((width / 4) * 3)} ${y_loc - h_height} L ${x_loc + h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
         }
     }
-    else if (classname.includes ("BEACONS")|| classname.includes ("BEACONS-TYPE-2") ||  classname.includes("XMITRS")) {
+    else if (classname.includes ("BEACONS")|| classname.includes ("BEACONS-TYPE-2") ||  classname.includes("XMITRS")||classname.includes('UHF-BPS')) {
         populateProps(line_arr,"BEACONS")
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
-    else if (classname.includes("BEACONS-HYBRID-MUX") ||classname.includes('EPIC-MPA') ||classname.includes('HYBRID-TYPE-2')) {
+    else if (classname.includes("BEACONS-HYBRID-MUX") ||classname.includes('EPIC-MPA')||classname.includes('HYBRID-TYPE-2')) {
         channels = 2;
         left_multi = true;
         right_multi = true;
@@ -1015,7 +1013,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     let bottom_axis = parseInt(y_loc + height);
     let left_axis = parseInt(x_loc);
     let right_axis = parseInt(x_loc + width);
-    if ((classname.includes('OMUX')|| classname.includes('CMUX')||classname.includes('BOEING-UHF-DRU')|| classname.includes('IMUX') ||classname.includes('LORAL')) &&!classname.includes('SWITCH')){
+    if ((classname.includes('OMUX')|| classname.includes('CMUX')|| classname.includes('BOEING-UHF-DRU') || classname.includes('IMUX') ||classname.includes('LORAL')) &&!classname.includes('SWITCH')){
         let index = 0;
         ct=1;
         for (let n = all_port.length - 1; n >= 0; n--) {
@@ -1461,7 +1459,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         props += ('\n<v:cp v:nameU="topAux" v:lbl="topAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux+')" />');
         props += ('\n<v:cp v:nameU="bottomAux" v:lbl="bottomAux" v:type="0" v:langID="1033" v:val="VT4('+prtaux2+')" />');
     }
-    else if ((classname.includes('MUX') || classname.includes('LORAL'))&& !classname.includes('SWITCH'))
+    else if ((classname.includes('MUX')|| classname.includes('LORAL'))&& !classname.includes('SWITCH'))
     {
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
         props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
@@ -1631,7 +1629,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
                 tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log("tid: "+tId)
-                pin = line_arr[6].replace('TWTA','LCAMP'); console.log("Pin: "+pin)
+                pin = line_arr[6].replace('TWTA','LCAMP'); //console.log("Pin: "+pin)
         }
         else if (line_arr[6].includes("EPC")) {
             readOut = line_arr[7].trim();
@@ -1679,7 +1677,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
         //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
         if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
-            if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]"; console.log(Mnemonic);}
+            if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
             else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log(Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
                 mnemonic =Mnemonic.split(scid.toString())[1].replace("-","").replace("edge","").replace("the symbol","").trim(); //console.log(readOut +" : " +mnemonic)
@@ -1812,7 +1810,7 @@ console.log('opening ' + filename);
                         height = lines[i].split(', ')[1].split(': ')[1]; console.log("H: " +height)
                         i++;
                         continue;
-                    } 
+                    }
                     else if (lines[i].includes('Map')) {
                         displayName = lines[i].split(', ')[0].split(':')[1].trim().replace(/"/g, '').replace(' ', '_').replaceAll('-', '_').replace(/\([^)]*\)/g, ''); console.log("Dispaly: " +displayName)
                         scid = lines[i].split(', ')[0].split(': ')[1].split(" ")[0].replace('"',''); console.log("scid: " +scid)
@@ -1937,7 +1935,7 @@ console.log('opening ' + filename);
             for (let k = 0; k < 13; k++) {
                 for (let s of all_obj) { //console.log(all_obj)
                     if (s.inBounds(c.x2 + k, c.y2) && s.name !== shape1.name) {
-                        shape2 = s; 
+                        shape2 = s;
                         break;
                     }
                     else if (s.inBounds(c.x2 - k, c.y2) && s.name !== shape1.name) {
