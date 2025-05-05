@@ -18,7 +18,7 @@ Sub ReplaceShapesWithStencilObjects()
     On Error GoTo ErrorHandler
     
     ' Define the path to the stencil containing the replacement objects
-    stencilPath = "C:\Users\SHUTEW\Desktop\VToR\process_adhoc2\Stencil11.vssx"
+    stencilPath = "C:\Users\SHUTEW\Downloads\MaxarVisioFiles\Stencil\Stencil11.vssx"
     
     ' Set Visio application and active document
     Set visioApp = Application
@@ -146,25 +146,48 @@ Function GetReplacementMasterNames(shapeName As String) As String
     If shapeName Like "*TCR_V_SWITCH*" Then
         replacementMaster = "VSwitch1"
         additionalMaster = "JPortsV1"
-    ElseIf shapeName Like "*TCR_TOGGLE*" Then
-        replacementMaster = "ZSwitch1"
-        additionalMaster = "JPortsZ1"
-    ElseIf shapeName Like "*S_SWITCH*" Then
-        replacementMaster = "ZSwitch1"
-        additionalMaster = "JPortsS"
+    ElseIf shapeName Like "*TCR_TOGGLE*" Or shapeName Like "*S_SWITCH*" Then
+        Dim i As Integer
+        Dim propValue As String
+        Dim labelText As String
+        Dim found As Boolean
+        found = False
+        
+        If shape.SectionExists(visSectionProp, visExistsLocally) Then
+            For i = 0 To shape.rowCount(visSectionProp) - 1
+                labelText = LCase(Trim(shape.CellsSRC(visSectionProp, i, visCustPropsLabel).ResultStr("")))
+                If labelText = "j-Ports" Then
+                    propValue = shape.CellsSRC(visSectionProp, i, visCustPropsValue).ResultStr("")
+                    
+                    If propValue = "0,270,180,null" Then
+                        replacementMaster = "S_SWITCH"
+                        additionalMaster = "JPortsS_Switch"
+                    ElseIf propValue = "180,270,0,null" Then
+                        replacementMaster = "S_SWITCH.Rev"
+                        additionalMaster = "JPortsSRev"
+                    ElseIf propValue = "180,90,0,null" Then
+                        replacementMaster = "S_SWITCH.Rev2"
+                        additionalMaster = "JPortsSRev2"
+                    ElseIf propValue = "0,90,180,null" Then
+                        replacementMaster = "S_SWITCH.Rev2"
+                        additionalMaster = "JPortsSRev1"
+                    End If
+                    
+                    found = True
+                    Exit For
+                End If
+            Next i
+        End If
     ElseIf shapeName Like "*T_SWITCH*" Then
         If InStr(shapeName, "KU") > 0 And InStr(shapeName, "24") > 0 And InStr(shapeName, "2431") > 0 Then
             replacementMaster = "TSwitchPos2"
             additionalMaster = "JPorts2431"
-        ElseIf InStr(shapeName, "4321") > 0 Then
-            replacementMaster = "TSwitchPos2"
-            additionalMaster = "JPorts4321"
-        ElseIf InStr(shapeName, "2314") > 0 Then
-             replacementMaster = "TSwitchPos2"
-             additionalMaster = "JPorts2314"
         ElseIf InStr(shapeName, "3241") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts3241"
+         ElseIf InStr(shapeName, "4321") > 0 Then
+             replacementMaster = "TSwitchPos2"
+             additionalMaster = "JPorts4321"
          ElseIf InStr(shapeName, "1324") > 0 Then
              replacementMaster = "TSwitchPos2"
              additionalMaster = "JPorts1324"
@@ -240,9 +263,6 @@ Function GetReplacementMasterNames(shapeName As String) As String
         ElseIf InStr(shapeName, "1342") > 0 Then
             replacementMaster = "TSwitchPos2"
             additionalMaster = "JPorts1342"
-        ElseIf InStr(shapeName, "2341") > 0 Then
-            replacementMaster = "TSwitchPos2"
-            additionalMaster = "JPorts2341"
         End If
     ElseIf shapeName Like "*R_SWITCH*" Then
         If InStr(shapeName, "4123") > 0 Then

@@ -156,6 +156,17 @@ function getDirections(data) {
     return jports;
 }
 
+const destructConcatedPin = (val)=>{
+    const matches = [...val.matchAll(/concat\(([^)]*)\)/g)];
+
+    const values = matches
+        .flatMap(match => match[1].split(',').map(v => v.trim()))
+        .filter((v, i, arr) => arr.indexOf(v) === i)  // unique
+        .sort();
+
+    return values.join('-');
+}
+
 const switchPropsCalc = (name, jports) => {
     const substrings1 = ['2341', '2314', '3241', '3214', '4132', '1432'];
     const substrings2 = ['2431', '3124', '24', '4231', '1342', '3142', '4213'];
@@ -301,14 +312,15 @@ const populateProps = (collection,groupsec,group_name) =>{ //console.log(line_ar
             }
         }
         else if(groupsec === "RCVR") {
-            let parent = group_name
-            let twta =  el[0].split(",")[1].split("-"); //console.log( el[0].split(",")[1])
+            let parent = group_name;
+            let twta =  el[0].split(",")[1].split("-"); //console.log( "twta: "+el[0].split(",")[1])
+            let mn;
             twtaNum = twta[2]; //console.log(twtaNum)//console.log(el[0].split(",")[1].trim())//
-            for (let k = 1; k < el.length; k++) { //console.log(el[k].split(',')[1])
-                ///if (el[k].startsWith("ON-OFF-STATUS")) {//console.log(el[k])
+            for (let k = 1; k < el.length; k++) { //console.log(el[k])
+                if (el[k].includes("concat")) { mn="concat("+destructConcatedPin(el[k]+")");}else{mn=el[k].split(",")[1]}//console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
-                Mnemonic = el[k].split(",")[1]; //console.log(Mnemonic)//
-                formula = el[k].split(",")[1];  //console.log("group: "+el[0].split(",")[1].split("-")[1].slice(0,4))//console.log(formula)
+                Mnemonic = mn; //console.log("MN: "+Mnemonic)//
+                formula = mn;  //console.log("group: "+el[0].split(",")[1].split("-")[1].slice(0,4))//console.log(formula)
                 readOutLcamp.push({
                     "group": el[0].split(",")[1],
                     "twtaNum": twtaNum,
@@ -469,6 +481,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         }
         else if(classname.includes("IMUX")){
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
+        }
+        else if(classname.includes("EPIC-UL-FILTER-TRIPLE-COUPLER")){
+            classname = classname.slice(0, 15)+"_COUPLER"; //console.log(classname)
         }
         else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
@@ -947,6 +962,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         formula = line_arr[x + i].split(', ')[1].replace(';', '').replace('"', '').replace('"', '');
         if(formula ==="NA"){
             itn="NA"
+        }
+        else if(formula.includes("concat")) {
+               itn = destructConcatedPin(formula).replace("-",",");
         }
         else {
             let m = formula.match(/\d{3,}.-\w+(\.\w+)?/);
@@ -1601,6 +1619,8 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
         // }
         else if (line_arr[6].includes("RCVR")||line_arr[6].includes("LNA")||line_arr[6].includes("BPS")||line_arr[6].includes("MLO")|| line_arr[6].includes("UHF-POWER") ) {
             let parts= line_arr[6].split('-');
+            //console.log(readOut);
+            //console.log("LC: "+group)
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
             tId = parts.at(-3)+"_"+parts.at(-2); //console.log(tId)
         }
@@ -1678,7 +1698,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
         if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
-            else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log(Mnemonic)
+            else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log("M: "+Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
                 mnemonic =Mnemonic.split(scid.toString())[1].replace("-","").replace("edge","").replace("the symbol","").trim(); //console.log(readOut +" : " +mnemonic)
             }
@@ -1704,7 +1724,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
                         mnemonic = "["+Mnemonic.split('round')[1].replace(scid.toString() + "-", "")+"]"; //console.log(mnemonic)
                 }
             }
-            else if(Mnemonic.startsWith("if")||Mnemonic.startsWith("IF")){ //console.log("Mn:"+Mnemonic.split( scid.toString()+"-")[1].split(" ")[0])
+            else if(Mnemonic.startsWith("if")||Mnemonic.startsWith("IF")){ //console.log("Mn:"+Mnemonic); //console.log("Mn:"+Mnemonic.split( scid.toString()+"-")[1].split(" ")[0])
                 Mnemonic = Mnemonic.replace(/if/gi, "if the raw-value of ");
                 if(Mnemonic.includes("round")) {
                     mnemonic = Mnemonic.split("round")[1].replace(scid.toString()+"-", "").replace(" else", ""); //console.log(mnemonic)
@@ -1725,6 +1745,9 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             } //console.log(mnemonic);
             else if(Mnemonic.includes("multi")) { //console.log(Mnemonic)
                 mnemonic =  Mnemonic.replace(",multi", '');  //console.log("Mnemonic: " + mnemonic)//console.log(edge)
+            }
+            else if(Mnemonic.includes("concat")){
+                mnemonic = "["+Mnemonic.replace('concat','').replace("-",",")+"]"; //console.log(mnemonic)
             }
             else if(Mnemonic === "NA"){
                 mnemonic = "["+Mnemonic+"]"

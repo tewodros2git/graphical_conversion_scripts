@@ -154,6 +154,17 @@ function getDirections(data) {
     return jports;
 }
 
+const destructConcatedPin = (val)=>{
+    const matches = [...val.matchAll(/concat\(([^)]*)\)/g)];
+
+    const values = matches
+        .flatMap(match => match[1].split(',').map(v => v.trim()))
+        .filter((v, i, arr) => arr.indexOf(v) === i)  // unique
+        .sort();
+
+    return values.join('-');
+}
+
 const switchPropsCalc = (name, jports) => {
     const substrings1 = ['2341', '2314', '3241', '3214', '4132', '1432'];
     const substrings2 = ['2431', '3124', '24', '4231', '1342', '3142', '4213'];
@@ -299,14 +310,15 @@ const populateProps = (collection,groupsec,classname) =>{ //console.log(line_arr
             }
         }
         else if(groupsec === "RCVR") {
-            let parent = classname
-            let twta =  el[0].split(",")[1].split("-"); //console.log( el[0].split(",")[1])
+            let parent = classname;
+            let twta =  el[0].split(",")[1].split("-"); //console.log( "twta: "+el[0].split(",")[1])
+            let mn;
             twtaNum = twta[2]; //console.log(twtaNum)//console.log(el[0].split(",")[1].trim())//
-            for (let k = 1; k < el.length; k++) { //console.log(el[k].split(',')[1])
-                ///if (el[k].startsWith("ON-OFF-STATUS")) {//console.log(el[k])
+            for (let k = 1; k < el.length; k++) { //console.log(el[k])
+                if (el[k].includes("concat")) { mn="concat("+destructConcatedPin(el[k]+")");}else{mn=el[k].split(",")[1]}//console.log(el[k])
                 readout = el[k].split(",")[0]; //console.log(readout)
-                Mnemonic = el[k].split(",")[1]; //console.log(Mnemonic)//
-                formula = el[k].split(",")[1];  //console.log("group: "+el[0].split(",")[1].split("-")[1].slice(0,4))//console.log(formula)
+                Mnemonic = mn; //console.log("MN: "+Mnemonic)//
+                formula = mn;  //console.log("group: "+el[0].split(",")[1].split("-")[1].slice(0,4))//console.log(formula)
                 readOutLcamp.push({
                     "group": el[0].split(",")[1],
                     "twtaNum": twtaNum,
@@ -468,6 +480,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if(classname.includes("IMUX")){
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
         }
+        else if(classname.includes("EPIC-UL-FILTER-TRIPLE-COUPLER")){
+            classname = classname.slice(0, 15)+"_COUPLER"; //console.log(classname)
+        }
         else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
         }
@@ -589,7 +604,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         style = 'fill="CYAN" stroke="black"';
     }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
-        populateProps(line_arr, "LCAMP",group_name);
+        (line_arr, "LCAMP",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
@@ -948,7 +963,10 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         if(formula ==="NA"){
             itn="NA"
         }
-        else {
+        else if(formula.includes("concat")) {
+            itn = destructConcatedPin(formula).replace("-",",");
+        }
+        else  {
             let m = formula.match(/\d{3,}.-\w+(\.\w+)?/);
             itn = m[0];
         }
@@ -1719,10 +1737,13 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
                 else if(Mnemonic.includes("edge")){
                     mnemonic = Mnemonic.split(scid.toString() + "-")[1].split(" ")[0]; //console.log(mnemonic)
                 }
-                else{
+                else{ //console.log(mnemonic)
                     mnemonic = Mnemonic.split( scid.toString()+"-")[1].split(" ")[0]; //console.log(mnemonic);
                 }
             } //console.log(mnemonic);
+            else if(Mnemonic.includes("concat")){
+                mnemonic = "["+Mnemonic.replace('concat','').replace("-",",")+"]"; //console.log(mnemonic)
+            }
             else if(Mnemonic.includes("multi")) { //console.log(Mnemonic)
                 mnemonic =  Mnemonic.replace(",multi", '');  //console.log("Mnemonic: " + mnemonic)//console.log(edge)
             }
