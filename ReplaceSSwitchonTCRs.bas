@@ -156,10 +156,10 @@ Function GetReplacementMasterNames(shapeName As String, shape) As String
         If shape.SectionExists(visSectionProp, visExistsLocally) Then
             For i = 0 To shape.rowCount(visSectionProp) - 1
                 labelText = LCase(Trim(shape.CellsSRC(visSectionProp, i, visCustPropsLabel).ResultStr("")))
-                If labelText = "j-ports" Then
+                If labelText = "j-ports" Or labelText = "j_ports" Then
                     propValue = shape.CellsSRC(visSectionProp, i, visCustPropsValue).ResultStr("")
-                    
-                    If propValue = "0,270,180,null" Then
+                   
+                    If propValue = "0,270,180,null" Or propValue = "180,0,270,null" Then
                         replacementMaster = "S_SWITCH"
                         additionalMaster = "JPortsS_Switch"
                     ElseIf propValue = "180,270,0,null" Then
@@ -171,6 +171,9 @@ Function GetReplacementMasterNames(shapeName As String, shape) As String
                     ElseIf propValue = "0,90,180,null" Then
                         replacementMaster = "S_SWITCH.Rev2"
                         additionalMaster = "JPortsSRev1"
+                    ElseIf propValue = "270,180,0,null" Or propValue = "0,180,270,null" Then
+                        replacementMaster = "S_SWITCH.Rev3"
+                        additionalMaster = "JPortsSRev3"
                     End If
                     
                     found = True

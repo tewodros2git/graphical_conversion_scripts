@@ -18,7 +18,7 @@ Sub ReplaceShapesWithStencilObjects()
     On Error GoTo ErrorHandler
     
     ' Define the path to the stencil containing the replacement objects
-    stencilPath = "C:\Users\SHUTEW\Downloads\MaxarVisioFiles\Stencil\Stencil11.vssx"
+    stencilPath = "C:\Users\SHUTEW\Desktop\VToR\process_adhoc2\Stencil11.vssx"
     
     ' Set Visio application and active document
     Set visioApp = Application
@@ -49,7 +49,7 @@ Sub ReplaceShapesWithStencilObjects()
     For Each shp In pg.Shapes
         If InStr(shp.name, "SWITCH") > 0 Or InStr(shp.name, "TCR_TOGGLE") > 0 Then
             ' Get the names of the replacement and additional masters dynamically based on shp.Name
-            masterNames = GetReplacementMasterNames(shp.name)
+            masterNames = GetReplacementMasterNames(shp.name, shp)
             replacementMasterName = Split(masterNames, ",")(0)
             additionalMasterName = Split(masterNames, ",")(1)
         
@@ -139,7 +139,7 @@ ErrorHandler:
     Resume Cleanup
 End Sub
 
-Function GetReplacementMasterNames(shapeName As String) As String
+Function GetReplacementMasterNames(shapeName As String, shape) As String
     Dim replacementMaster As String
     Dim additionalMaster As String
     Debug.Print shapeName
@@ -156,10 +156,10 @@ Function GetReplacementMasterNames(shapeName As String) As String
         If shape.SectionExists(visSectionProp, visExistsLocally) Then
             For i = 0 To shape.rowCount(visSectionProp) - 1
                 labelText = LCase(Trim(shape.CellsSRC(visSectionProp, i, visCustPropsLabel).ResultStr("")))
-                If labelText = "j-Ports" Then
+                If labelText = "j-ports" Or labelText = "j_ports" Then
                     propValue = shape.CellsSRC(visSectionProp, i, visCustPropsValue).ResultStr("")
                     
-                    If propValue = "0,270,180,null" Then
+                    If propValue = "0,270,180,null" Or propValue = "180,0,270,null" Then
                         replacementMaster = "S_SWITCH"
                         additionalMaster = "JPortsS_Switch"
                     ElseIf propValue = "180,270,0,null" Then
@@ -171,7 +171,11 @@ Function GetReplacementMasterNames(shapeName As String) As String
                     ElseIf propValue = "0,90,180,null" Then
                         replacementMaster = "S_SWITCH.Rev2"
                         additionalMaster = "JPortsSRev1"
+                    ElseIf propValue = "270,180,0,null" Or propValue = "0,180,270,null" Then
+                        replacementMaster = "S_SWITCH.Rev3"
+                        additionalMaster = "JPortsSRev3"
                     End If
+                    
                     
                     found = True
                     Exit For
