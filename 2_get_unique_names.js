@@ -494,7 +494,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
-
+    if(classname.includes('RETURN-HOT-ARROW')){
+        classname = classname.replace("RETURN-","");
+    }
 
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
@@ -684,7 +686,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         left_multi = true;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
     }
-    else if (classname.includes('OMUX') || classname.includes('LORAL')||classname.includes('CMUX') ) {
+    else if (classname.includes('OMUX') || classname.includes('LORAL')||classname.includes('CMUX') ||classname.includes('EPIC-8X8-OUTPUT-MUX')) {
         left_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
@@ -722,7 +724,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
+    else if (classname.includes('SPLITTER')||classname.includes('EPIC-MPA') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         if (classname.includes('COUPLER')) {
             channels = 2;

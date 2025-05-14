@@ -496,6 +496,9 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if(classname.includes('BEACONS-HYBRID-MUX-TYPE-2')){
         classname = classname.replace("BEACONS-","").replace("-MUX","");
     }
+    if(classname.includes('RETURN-HOT-ARROW')){
+        classname = classname.replace("RETURN-","");
+    }
 
 
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
@@ -569,7 +572,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             }
         }
     }
-    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')||classname.includes('BOEING-UHF-DRU-IMUX')) {
+    if (classname.includes('LORAL-MINI-IMUX-DUAL-MODE') || classname.includes('IS32-KU-IMUX-12CH-ODD')||classname.includes('EPIC-8X8-OUTPUT-MUX')||classname.includes('BOEING-UHF-DRU-IMUX')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
     else if (classname.includes('HOT-ARROW')) {
@@ -684,7 +687,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         left_multi = true;
         extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>';
     }
-    else if (classname.includes('OMUX') || classname.includes('LORAL')||classname.includes('CMUX') ) {
+    else if (classname.includes('OMUX') || classname.includes('LORAL')||classname.includes('CMUX')||classname.includes('EPIC-8X8-OUTPUT-MUX')) {
         left_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
     }
@@ -722,7 +725,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname.includes('SPLITTER') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
+    else if (classname.includes('SPLITTER') ||classname.includes('EPIC-MPA') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         if (classname.includes('COUPLER')) {
             channels = 2;
@@ -910,7 +913,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     }
     else if (classname.includes('BOEING-EPIC-FWD-FIL') || classname.includes ('BOEING-EPIC-DL-FIL')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
-        extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="mediumslateblue"/>`;
+        extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="none"/>`;
     }
     else if (classname.includes('BOEING-EPIC-FWD-FILTER-125MHZ') || classname.includes ('BOEING-EPIC-DL-FILTER-36MHZ-ULPC1')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
@@ -1031,7 +1034,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     let bottom_axis = parseInt(y_loc + height);
     let left_axis = parseInt(x_loc);
     let right_axis = parseInt(x_loc + width);
-    if ((classname.includes('OMUX')|| classname.includes('CMUX')|| classname.includes('BOEING-UHF-DRU') || classname.includes('IMUX') ||classname.includes('LORAL')) &&!classname.includes('SWITCH')){
+    if ((classname.includes('OMUX')|| classname.includes('CMUX') ||classname.includes('EPIC-8X8-OUTPUT-MUX') || classname.includes('BOEING-UHF-DRU') || classname.includes('IMUX') ||classname.includes('LORAL')) &&!classname.includes('SWITCH')){
         let index = 0;
         ct=1;
         for (let n = all_port.length - 1; n >= 0; n--) {
