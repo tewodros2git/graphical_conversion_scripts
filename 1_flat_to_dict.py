@@ -2,10 +2,13 @@ import datetime
 import json
 import sys
 
+with open("filePathConfig.json", "r") as fconfig_file:
+    fconfig = json.load(fconfig_file)
+
 #take command line argument of flat file name
 if len(sys.argv) > 1:
     file_path = sys.argv[1]
-    path_parts = file_path.split('\\')
+    path_parts = file_path.split(fconfig["pathSplitChar"])
 
     #if len(path_parts) > 3:
         #file_name = path_parts[3]

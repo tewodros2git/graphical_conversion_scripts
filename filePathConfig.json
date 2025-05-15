@@ -1,0 +1,5 @@
+{
+  "jsonFile": "./output/{scid}_{display_type}_obj.json",
+  "pathSplitChar": "\\",
+  "fileNameIndex": 3
+}

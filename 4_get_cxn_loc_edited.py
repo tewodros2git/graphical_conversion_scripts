@@ -4,14 +4,17 @@ import os
 import sys
 write_outputs_to_file = True
 
+with open("filePathConfig.json", "r") as fconfig_file:
+    fconfig = json.load(fconfig_file)
+
 if len(sys.argv) > 1:
     file_path = sys.argv[1]
-    path_parts = file_path.split('\\')
+    path_parts = file_path.split(fconfig["pathSplitChar"])
 
 file_name = path_parts[3]
 scid = file_name.split(".")[1]
 display_type = file_name.split(".")[0]
-json_file = f"./output/{scid}_{display_type}_obj.json"
+json_file = fconfig["jsonFile"].format(scid=scid, display_type=display_type)
 
 with open(json_file, "r") as f:
     j_file = f.read()

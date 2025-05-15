@@ -1,17 +1,19 @@
 import json
 import sys
 
+with open("filePathConfig.json", "r") as fconfig_file:
+    fconfig = json.load(fconfig_file)
 #take command line argument of flat file name
 if len(sys.argv) > 1:
     file_path = sys.argv[1]
-    path_parts = file_path.split('\\')
+    path_parts = file_path.split(fconfig["pathSplitChar"])
 
     #if len(path_parts) > 3:
         #file_name = path_parts[3]
 file_name = path_parts[3] #sys.argv[1].split('\\')[3]#"cboddtx.5130"
 scid = file_name.split(".")[1]
 display_type = file_name.split(".")[0]
-json_file = f"./output/{scid}_{display_type}_obj.json"
+json_file = fconfig["jsonFile"].format(scid=scid, display_type=display_type)
 
 with open(json_file, "r") as f:
     j_file = json.loads(f.read())

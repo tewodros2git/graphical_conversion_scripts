@@ -7,9 +7,12 @@ import sys
 with open('config.json', 'r') as file:
     config = json.load(file)
 
+with open("filePathConfig.json", "r") as fconfig_file:
+    fconfig = json.load(fconfig_file)
+
 if len(sys.argv) > 1:
     file_path = sys.argv[1]
-    path_parts = file_path.split('\\')
+    path_parts = file_path.split(fconfig["pathSplitChar"])
 
     #if len(path_parts) > 3:
     # file_name = path_parts[3]
