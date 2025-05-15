@@ -181,7 +181,7 @@ Sub AddConnectionPoints()
                      
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
-         ElseIf (strName Like "*epic_omt_quad_plexer*") Then
+         ElseIf (strName Like "*epic_omt_quad_plexe*") Then
              ' Get dimensions of where the points should go.
              nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
              nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -917,7 +917,7 @@ Sub AddConnectionPoints()
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
-            ElseIf (strName Like "*epic_omt_quad_plexer*") Then
+            ElseIf (strName Like "*epic_omt_quad_plexe*") Then
             
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
                 nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -997,7 +997,15 @@ Sub AddConnectionPoints()
         Else
         'skip if background, readout or label is in shape name
         If InStr(strName, "background") = 0 And InStr(strName, "readout") = 0 And InStr(strName, "label") = 0 Then
+         If Not (strName Like "*channel_stub*" Or _
+                    strName Like "*channel-stub*" Or _
+                    strName Like "*border_line*" Or _
+                    strName Like "*border-line*" Or _
+                    strName Like "*color_block*" Or _
+                    strName Like "*dynamic connector*" Or _
+                    strName Like "*color-block*") Then
             missingObjs = missingObjs + strName + vbCrLf
+            End If
         End If
         
         
@@ -1153,7 +1161,7 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "V-TX", "LHCP": cnvPrt = "2"
             End Select
 
-        Case shpType Like "*EPIC_OMT_QUAD_PLEXER*"
+        Case shpType Like "*EPIC_OMT_QUAD_PLEXE*"
             Select Case prt
                 Case "TX-RHCP", "V-TX": cnvPrt = "1"
                 Case "TX-LHCP", "V-RX": cnvPrt = "3"
@@ -1168,7 +1176,7 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "H-TX": cnvPrt = "4"
                 Case "H-RX": cnvPrt = "2"
             End Select
-         Case shpType Like "*EPIC_OMT_QUAD_PLEXER*"
+         Case shpType Like "*EPIC_OMT_QUAD_PLEXE*"
             Select Case prt
                 Case "RHCP", "V-TX": cnvPrt = "1"
                 Case "LHCP", "V-RX": cnvPrt = "3"
@@ -1561,7 +1569,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             End Select
 
         ' EPIC_OMT_QUAD_PLEXER
-        Case shpType Like "*EPIC_OMT_QUAD_PLEXER*"
+        Case shpType Like "*EPIC_OMT_QUAD_PLEXE*"
             Select Case prt
                 Case "TX-RHCP", "V-TX": row = 0
                 Case "TX-LHCP", "H-TX": row = 3
