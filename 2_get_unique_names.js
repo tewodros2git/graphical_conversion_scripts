@@ -605,6 +605,24 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     else if (classname === 'COLOR-BLOCK-CYAN') {
         style = 'fill="CYAN" stroke="black"';
     }
+    else if (classname === 'COLOR-BLOCK-STEEL-BLUE') {
+        style = 'fill="CYAN" stroke="steel-blue"';
+    }
+    else if (classname === 'COLOR-BLOCK-YELLOW') {
+        style = 'fill="CYAN" stroke="yellow"';
+    }
+    else if (classname === 'COLOR-BLOCK-PLUM') {
+        style = 'fill="CYAN" stroke="plum"';
+    }
+    else if (classname === 'COLOR-BLOCK-GRAY') {
+        style = 'fill="CYAN" stroke="gray"';
+    }
+    else if (classname === 'COLOR-BLOCK-CADET-BLUE') {
+        style = 'fill="CYAN" stroke="cadet-blue"';
+    }
+    else if (classname === 'COLOR-BLOCK-THISTLE') {
+        style = 'fill="CYAN" stroke="thistle"';
+    }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
         (line_arr, "LCAMP",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
@@ -641,7 +659,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + group_name + '</title>';
     }
-        else if(classname.includes('BOEING-EPIC-RTN')) {
+        else if(classname.includes('BOEING-EPIC-RTN')||classname.includes('BOEING-EPIC-RTN-FILTER')) {
             populateProps(line_arr,"TWTA",group_name);
             style = 'fill="none" stroke="black" stroke-width="2"';
             right_multi = true;

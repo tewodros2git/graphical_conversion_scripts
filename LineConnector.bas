@@ -315,7 +315,7 @@ Sub AddConnectionPoints()
         ' Add connection points to the four sides of all switches, circulators, loads and satpad shapes.
        ElseIf (strName Like "*circulator*") Or (strName Like "*load*") Or (strName Like "*switch*") Or (strName Like "*iot_coupler*") _
        Or (strName Like "*ats*") Or (strName Like "*satpad*") Or (strName Like "*hot-arrow*") Or (strName Like "*hot_arrow*") _
-       Or (strName Like "*CHANNEL_POST*") Or (strName Like "*channel_post*") Or (strName Like "*diplexer_combiner*") Or (strName Like "*epic_junction_block*") Or (strName Like "*junction_block_spli*") Or (strName Like "*gnd_*") Or (strName Like "*hi_power_mode_splitter*") _
+       Or (strName Like "*CHANNEL_POST*") Or (strName Like "*channel_post*") Or (strName Like "*diplexer*") Or (strName Like "*epic_junction_block*") Or (strName Like "*junction_block_spli*") Or (strName Like "*gnd_*") Or (strName Like "*hi_power_mode_splitter*") _
        And Not (strName Like "*tcr_toggle_switch*") Or (strName Like "*hi_power_mode_splitter*") Or (strName Like "*junction_block_coup*") Or (strName Like "*channel_post*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
@@ -763,7 +763,7 @@ Sub AddConnectionPoints()
                         
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
-            ElseIf (strName Like "*hybrid*") Or (strName Like "*epic_mpa_2x2*") Then
+            ElseIf (strName Like "*hybrid*") Or (strName Like "*epic_mpa_2x2*") Or (strName Like "*epic_omt*") Then
             'Debug.Print "HYBRID"
                 '2 left, 2 right
                 ' Get dimensions of where the points should go.
@@ -1244,15 +1244,15 @@ Function ConvertPort(prt As String, shpType As String) As String
         Case shpType Like "*ARROW*", shpType Like "*CHANNEL_POST*", shpType Like "*GND*", shpType Like "*LOAD_PASS_THRU*"
             If prt = "NONE" Then cnvPrt = "1"
 
-        Case shpType Like "*HYBRID*", shpType Like "*HYBRID_MUX*", shpType Like "*EPIC_MPA_2x2*"
+        Case shpType Like "*HYBRID*", shpType Like "*HYBRID_MUX*", shpType Like "*EPIC_MPA_2x2*", shpType Like "*EPIC_OMT_H_V*"
             Select Case prt
-                Case "P1": cnvPrt = "1"
-                Case "P2": cnvPrt = "2"
+                Case "P1", "H-POL": cnvPrt = "1"
+                Case "P2", "V-POL": cnvPrt = "2"
                 Case "P3": cnvPrt = "3"
                 Case "P4": cnvPrt = "4"
             End Select
 
-        Case shpType Like "*diplexer_combiner*"
+        Case shpType Like "*diplexer*"
             Select Case prt
                 Case "IN-P1": cnvPrt = "2"
                 Case "IN-P3": cnvPrt = "3"
@@ -1465,7 +1465,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
         ' General SWITCH, CAMP, etc.
         Case shpType Like "*SWITCH*" Or shpType Like "*CAMP*" Or shpType Like "*CHAMP*" _
             Or shpType Like "*DUAL_IN*" Or shpType Like "*GND_*" Or shpType Like "*LOAD_PASS_THRU*" Or shpType Like "*CHANNEL_POST*" _
-            Or shpType Like "*diplexer_combiner*" Or shpType Like "*tcr_toggle_inp*"
+            Or shpType Like "*diplexer*" Or shpType Like "*tcr_toggle_inp*"
             Select Case True
                 Case InStr(1, dir1, "BOTTOM") > 0: row = 2
                 Case InStr(1, dir1, "TOP") > 0: row = 3
@@ -1644,10 +1644,10 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
             End Select
 
         ' HYBRID types
-        Case shpType Like "*HYBRID*" Or shpType Like "*HYBRID_MUX*" Or shpType Like "*EPIC_MPA_2x2*"
+        Case shpType Like "*HYBRID*" Or shpType Like "*HYBRID_MUX*" Or shpType Like "*EPIC_OMT_H_V*" Or shpType Like "*EPIC_MPA_2x2*"
             Select Case prt
-                Case "P1": row = 0
-                Case "P4": row = 1
+                Case "P1", "H-POL": row = 0
+                Case "P4", "V-POL": row = 1
                 Case "P2": row = 2
                 Case "P3": row = 3
             End Select

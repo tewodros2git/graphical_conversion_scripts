@@ -424,8 +424,8 @@ function process_label(label_arr, offset) { //console.log(label_arr.split(','));
         h_height = height / 2;
         x_loc -= h_width;
         y_loc -= h_height;
-        let text;
-        text = line[5].replace(';', '').replace('"', '').replace('"', ''); //console.log(text+'_'+label_id)
+        let text;  //console.log(line[5])
+        text = line[5].replace(';', '').replace('"', '').replace('"', ''); console.log(text+'_'+label_id)
         // Calculate the width of the text based on the length of the text string
         var textLength = text.replace(":", "").replace("&","").length;
         var textWidth = textLength * 6; // Estimate width based on character count, adjust multiplier as needed
@@ -595,16 +595,34 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         style = 'fill="none" stroke="Black"';
     }
     else if (classname.includes ('HORIZONTAL-BORDER-LINE')) {
-        style = 'fill="none" stroke="Black"';
+        style = 'fill="none" stroke="none"';
     }
     else if (classname === 'COLOR-BLOCK-GREEN-YELLOW') {
-        style = 'fill="yellow" stroke="black"';
+        style = 'fill="#BAEC35" stroke="none"';
     }
     else if (classname === 'COLOR-BLOCK-ORANGE') {
-        style = 'fill="ORANGE" stroke="black"';
+        style = 'fill="ORANGE" stroke="none"';
     }
     else if (classname === 'COLOR-BLOCK-CYAN') {
-        style = 'fill="CYAN" stroke="black"';
+        style = 'fill="CYAN" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-STEEL-BLUE') {
+        style = 'fill="#66CCFF" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-YELLOW') {
+        style = 'fill="yellow" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-PLUM') {
+        style = 'fill="plum" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-GRAY') {
+        style = 'fill="grey" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-CADET-BLUE') {
+        style = 'fill="#009999" stroke="none"';
+    }
+    else if (classname === 'COLOR-BLOCK-THISTLE') {
+        style = 'fill="THISTLE" stroke="none"';
     }
     else if (classname.includes('OPA-CAMP')||classname.includes('LCAMP-TWTA')||classname.includes('LCHAMP')||classname.includes('CHAMP')||classname.includes('CAMP')) {
         populateProps(line_arr, "LCAMP",group_name);
@@ -642,7 +660,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         //extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
         extra += '<title>' + group_name + '</title>';
     }
-        else if(classname.includes('BOEING-EPIC-RTN')) {
+        else if(classname.includes('BOEING-EPIC-RTN')||classname.includes('BOEING-EPIC-RTN-FILTER')) {
             populateProps(line_arr,"TWTA",group_name);
             style = 'fill="none" stroke="black" stroke-width="2"';
             right_multi = true;
