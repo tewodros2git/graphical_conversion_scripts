@@ -481,10 +481,16 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
         }
         else if(classname.includes("EPIC-UL-FILTER-TRIPLE-COUPLER")){
-            classname = classname.slice(0, 15)+"_COUPLER"; //console.log(classname)
+            classname = "EPIC_FIL_TRIPLE_COUPLER"; //console.log(classname)
         }
-        else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
-            classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
+        else if(classname.includes("EPIC-FILTER-TRIPLE-SPLITTER")|| classname.includes("EPIC-FILTER-SPLITTER")){
+            classname = "EPIC_FIL_TRIPLE_SPLITTER"; //console.log(classname)
+        }
+        else if(classname.includes('BOEING-EPIC-RTN') && (classname.includes('DUAL')||classname.includes('HIDDEN')||classname.includes('BLANK'))){
+            classname = classname.replace("BOEING-","DUAL-").slice(0, 17); //console.log(classname)
+        }
+        else if(classname.includes('4R-SWITCH-EPIC-BOEING')){
+            classname = classname.replace("EPIC-BOEING-","");
         }
         else{
             classname = classname.slice(0, 19);

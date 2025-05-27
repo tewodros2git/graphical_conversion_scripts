@@ -425,7 +425,7 @@ function process_label(label_arr, offset) { //console.log(label_arr.split(','));
         x_loc -= h_width;
         y_loc -= h_height;
         let text;  //console.log(line[5])
-        text = line[5].replace(';', '').replace('"', '').replace('"', ''); console.log(text+'_'+label_id)
+        text = line[5].replace(';', '').replace('"', '').replace('"', ''); //console.log(text+'_'+label_id)
         // Calculate the width of the text based on the length of the text string
         var textLength = text.replace(":", "").replace("&","").length;
         var textWidth = textLength * 6; // Estimate width based on character count, adjust multiplier as needed
@@ -483,10 +483,16 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             classname = classname.slice(0, 15)+"_IMUX"; //console.log(classname)
         }
         else if(classname.includes("EPIC-UL-FILTER-TRIPLE-COUPLER")){
-            classname = classname.slice(0, 15)+"_COUPLER"; //console.log(classname)
+            classname = "EPIC_FIL_TRIPLE_COUPLER"; //console.log(classname)
         }
-        else if(classname.includes('BOEING-EPIC-RTN') && classname.includes('DUAL')){
-            classname = classname.replace("BOEING-","DUAL-").slice(0, 17);
+        else if(classname.includes("EPIC-FILTER-TRIPLE-SPLITTER")|| classname.includes("EPIC-FILTER-SPLITTER")){
+            classname = "EPIC_FIL_TRIPLE_SPLITTER"; //console.log(classname)
+        }
+        else if(classname.includes('BOEING-EPIC-RTN') && (classname.includes('DUAL')||classname.includes('HIDDEN')||classname.includes('BLANK'))){
+            classname = classname.replace("BOEING-","DUAL-").slice(0, 17);  console.log(classname)
+        }
+        else if(classname.includes('4R-SWITCH-EPIC-BOEING')){
+            classname = classname.replace("EPIC-BOEING-","");
         }
         else{
             classname = classname.slice(0, 19);
@@ -1665,8 +1671,8 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = pn[pn.length -1]; //console.log('pn: '+pin)
             tId = pn[pn.length -2];//line_arr[6].split('-')[3]
         }
-        else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH"))){
-            let parts= line_arr[6].split('-');
+        else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH")||(line_arr[6].includes("KU-TWTA") && /\d+L-\d+/.test(line_arr[6])))){
+            let parts= line_arr[6].split('-'); //console.log(line_arr[6])
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
                 tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log("tid: "+tId)
@@ -1678,9 +1684,16 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             tId=  line_arr[6].split('-')[line_arr[6].split('-').length-2]+'_EPC'; //console.log(tId)
             pin = line_arr[6];
         }
-        else if ((line_arr[6].includes("SSPA"))||(line_arr[6].includes("LCTWTA"))|| (line_arr[6].includes("TWT")) || (line_arr[6].includes("TWTA")) || (line_arr[6].includes("LCAMP-TWTA")) || ((line_arr[6].includes("KU-TWTA")) && (!line_arr[6].includes("EPC")))) {
-            let g,p=line_arr[6];
-            if(line_arr[6].includes("3136")){g="LCAMP"}else {g="TWTA"}
+        else if (
+            line_arr[6].includes("SSPA") ||
+            line_arr[6].includes("LCTWTA") ||
+            line_arr[6].includes("TWT") ||
+            line_arr[6].includes("TWTA") ||
+            line_arr[6].includes("LCAMP-TWTA") ||
+            (line_arr[6].includes("KU-TWTA") && /\d+T-\d+/.test(line_arr[6])&& !line_arr[6].includes("EPC") && !/\d+L-\d+/.test(line_arr[6])))
+        {
+            let g="TWTA",p=line_arr[6]; //console.log(line_arr[6])
+            //if(line_arr[6].includes("3136")){g="LCAMP"}else {g="TWTA"}
             if(line_arr[6].includes("3134")){
                 const value = parseInt(line_arr[6].split('-')[3].match(/\d+$/)?.[0] || "", 10);
                 if (value === 2 || value === 5) {
@@ -1717,7 +1730,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
           // if(group ==="RCVR"){
         //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
-        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
+        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
             else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log("M: "+Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){

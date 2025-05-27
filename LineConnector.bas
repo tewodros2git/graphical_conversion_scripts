@@ -8,7 +8,7 @@ Public Sub RunLines()
     
 End Sub
  Sub AdjustSwitchShapes()
-    Dim shp As Visio.Shape
+    Dim shp As Visio.shape
     For Each shp In Visio.ActivePage.Shapes
         ' Check if the shape's name contains "switch" (case-insensitive)
         If InStr(1, LCase(shp.name), "switch") <> 0 Then
@@ -26,7 +26,7 @@ Sub AddConnectionPoints()
     Dim x As Integer
     Dim y As Integer
     Dim vPage As Visio.Page
-    Dim shp As Visio.Shape
+    Dim shp As Visio.shape
     Dim missingObjs As String
     Dim shpsAddded As String
     Dim npts As Integer
@@ -44,21 +44,21 @@ Sub AddConnectionPoints()
 
             ' Add 2 top connection points.
            NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - 5) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - 5) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
 
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + 5) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + 5) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
             ' Add 2 bottom connection points.
             ' Add connections to bottom.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - 5) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - 5) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
 
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + 5) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + 5) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
 
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -71,18 +71,18 @@ Sub AddConnectionPoints()
 
             ' Add 1 connection to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
 
             ' Add 1 connection to the top.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
 
             ' Add 1 connection to the bottom.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
 
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -95,8 +95,8 @@ Sub AddConnectionPoints()
         
             ' Add 1 connection to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
    
@@ -109,21 +109,21 @@ Sub AddConnectionPoints()
         
             ' Add 1 connection to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
             ' Add 2 connections to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
         
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
-        ElseIf (strName Like "*triple_bfn_splitter*") Then
+        ElseIf (strName Like "*triple_bfn_splitter*") Or (strName Like "*triple_splitter*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -132,25 +132,25 @@ Sub AddConnectionPoints()
             
             ' Add 1 connection to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             ' Add 3 connections to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
             
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
-        ElseIf (strName Like "*quad_bfn_splitter*") Or (strName Like "*quad_bfn_coupler*") Then
+        ElseIf (strName Like "*quad_bfn_splitter*") Or (strName Like "*quad_bfn_coupler*") Or (strName Like "*quad_splitter*") Or (strName Like "*quad_coupler*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -159,25 +159,25 @@ Sub AddConnectionPoints()
             
             ' Add 1 connection to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             ' Add 4 connections to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
             
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                      
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
@@ -191,22 +191,22 @@ Sub AddConnectionPoints()
              
              ' Add 2 equidistant connections to the right (1/3 and 2/3 height).
              NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight / 3)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight / 3)) + " pt."
              
              NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight / 3)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight / 3)) + " pt."
              
              ' Add 1 connection at the top-center.
              NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
              
              ' Add 1 connection at the bottom-center.
              NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+             shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
              
              shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
@@ -220,15 +220,15 @@ Sub AddConnectionPoints()
             
             ' Add 1 connection to the middle left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             ' Add 5 equidistant connections to the right.
             Dim i As Integer
             For i = 1 To 5
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * ((i - 3) / 4))) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * ((i - 3) / 4))) + " pt."
             Next i
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
@@ -242,20 +242,20 @@ Sub AddConnectionPoints()
             
             ' Add 1 connection to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
             ' Add 8 connections to the right.
             For i = 1 To 4
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.375) + (i - 1) * (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.375) + (i - 1) * (nheight * 0.25)) + " pt."
             Next i
             
             For i = 5 To 8
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.125) + (i - 5) * (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.125) + (i - 5) * (nheight * 0.25)) + " pt."
             Next i
             
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
@@ -270,21 +270,21 @@ Sub AddConnectionPoints()
         
             ' Add 2 connections to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
         
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
         
             ' Add 1 connection to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
             
-            ElseIf (strName Like "*triple_bfn_coupler*") Then
+            ElseIf (strName Like "*triple_bfn_coupler*") Or (strName Like "*triple_coupler*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -293,21 +293,21 @@ Sub AddConnectionPoints()
         
             ' Add 3 connections to the left.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.3)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.3)) + " pt."
         
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.3)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.3)) + " pt."
         
             ' Add 1 connection to the right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
             shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -325,29 +325,29 @@ Sub AddConnectionPoints()
 
             ' Add the new points to left and right.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
 
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
 
             ' Add connections to top and bottom.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
 
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
             
             shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
         ElseIf (strName Like "*dc_converter*") Or strName Like "*DC_CONVERTER*" Then
         
                ' Add connection to top middle.
             NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+            shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
                         
             shpsAddded = shpsAddded + vbCrLf + strName + vbCrLf
 
@@ -360,16 +360,16 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
                 
                  NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
         ElseIf (strName Like "*epc*") Then
@@ -381,20 +381,20 @@ Sub AddConnectionPoints()
         
                 'INA, top left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 15) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 15) + " pt."
                 'INB bottom left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 15) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 15) + " pt."
                 'OUTA top right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 15) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 15) + " pt."
                 'OUTB bottom right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 15) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 15) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
             ElseIf (strName Like "*camp*") Or (strName Like "*epic_dl_filter*") Or (strName Like "*uhf_mlo*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*ka_downconverter*") Or (strName Like "*down_converter*") Or (strName Like "*lna*") Then
                 ' Get dimensions of where the points should go.
@@ -405,12 +405,12 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
            ElseIf (strName Like "*camp*") Or (strName Like "*champ*") Or (strName Like "*twta*") Or (strName Like "*boeing_epic_rtn_fil*") Then
                 ' Get dimensions of where the points should go.
                 nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
@@ -420,12 +420,12 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
           
                 ElseIf (strName Like "*imux*") Then
@@ -451,8 +451,8 @@ Sub AddConnectionPoints()
             
                 ' Add the new point to the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 offsets = Round(nheight / (npts + 1), 0)
                 stPt = offsets
@@ -460,8 +460,8 @@ Sub AddConnectionPoints()
                 Dim jj As Long
                 For jj = 1 To npts
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(stPt) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(stPt) + " pt."
                     stPt = stPt + offsets
                 Next jj
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
@@ -484,8 +484,8 @@ Sub AddConnectionPoints()
                     
                     ' Add the new point to the right (1 point)
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
                     
                     ' Add points to the top (6 points)
                     offsets = Round(nwidth / 7, 0) ' Dividing by 7 to space 6 points evenly
@@ -493,8 +493,8 @@ Sub AddConnectionPoints()
                     
                     For jj = 1 To 6
                         NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(stPt + 6) + " pt."
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(stPt + 6) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
                         stPt = stPt + offsets
                     Next jj
                     
@@ -503,8 +503,8 @@ Sub AddConnectionPoints()
                     
                     For jj = 1 To 6
                         NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(stPt + 6) + " pt."
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(stPt + 6) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                         stPt = stPt + offsets
                     Next jj
                     
@@ -529,8 +529,8 @@ Sub AddConnectionPoints()
                 
                     ' Add the new point to the right
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
                 
                     ' Add to the left
                     offsets = Round(nheight / (npts + 1), 0)
@@ -538,8 +538,8 @@ Sub AddConnectionPoints()
                     
                     For jj = 1 To npts
                         NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(stPt) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                        shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(stPt) + " pt."
                         stPt = stPt + offsets
                     Next jj
                 
@@ -556,8 +556,8 @@ Sub AddConnectionPoints()
             
                 ' Add the new point to the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Add the new points to the right
                 stPt = y + (Round(nheight / 2, 0))
@@ -566,8 +566,8 @@ Sub AddConnectionPoints()
                 Dim k As Long
                 For k = 1 To 6
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(stPt) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(stPt) + " pt."
                     stPt = stPt - offsets
                 Next k
                 
@@ -582,12 +582,12 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
             ElseIf (strName Like "*comm_quad*") Then
                 ' Get dimensions of where the points should go.
@@ -598,20 +598,20 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                  NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + 10) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + 10) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
             ElseIf (strName Like "*omni_antenna*") Then
                 ' Get dimensions of where the points should go.
@@ -622,13 +622,13 @@ Sub AddConnectionPoints()
                 
                 ' Add the first connection point to the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
             
                 ' Add the second connection point to the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -641,12 +641,12 @@ Sub AddConnectionPoints()
         
                 ' Add the new points to left and right.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
             
@@ -659,33 +659,33 @@ Sub AddConnectionPoints()
             
                 ' === Add 2 connections to the left ===
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
             
                 ' === Add 5 connections to the right ===
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.4)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.4)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.2)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.2)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.2)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.2)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.4)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.4)) + " pt."
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
@@ -698,25 +698,25 @@ Sub AddConnectionPoints()
             
                 ' === Add 1 connection to the left ===
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' === Add 4 connections to the right ===
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.3)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.3)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.1)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.1)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.1)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.1)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.3)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.3)) + " pt."
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -730,35 +730,35 @@ Sub AddConnectionPoints()
                 ' Add connection points at the top
                 ' Top Middle
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
             
                 ' Midpoint between top middle and right end
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.25)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
             
                 ' Add connection points to the left side
                 ' Midpoint on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint on the left in the lower half
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                 ' Add connection points to the right side
                 ' Midpoint on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint on the right in the lower half
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                         
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
@@ -773,21 +773,21 @@ Sub AddConnectionPoints()
                 y = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormLocPinY).Result(visPoints)
                 ' Add the new points to Right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
                 
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
 
                 'left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
         
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
         
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
                 
@@ -802,17 +802,17 @@ Sub AddConnectionPoints()
                 ' Calculate spacing for 8 points
                 Spacing = nheight / 9 ' 8 spaces => 9 gaps
                 For i = 1 To 8
-                    OffsetY = y + (nheight / 2) - (i * Spacing)
+                    offsetY = y + (nheight / 2) - (i * Spacing)
             
                     ' Right side
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth / 2)) & " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(OffsetY) & " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth / 2)) & " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(offsetY) & " pt."
             
                     ' Left side
                     NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth / 2)) & " pt."
-                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(OffsetY) & " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth / 2)) & " pt."
+                    shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(offsetY) & " pt."
                 Next i
             
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
@@ -828,26 +828,26 @@ Sub AddConnectionPoints()
             
                 ' Add mid-right connection point
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Add two equidistant points to the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.33)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.33)) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.33)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.33)) + " pt."
             
                 ' Add left connection points (unchanged)
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
             
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
             
                 shpsAddded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -863,30 +863,30 @@ Sub AddConnectionPoints()
                 ' Add connection points to the left side
                 ' Midpoint on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Add connection points to the right side
                 ' Midpoint on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint of the lower half on the right side
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                 ' Add connection points to the bottom
                 ' Bottom middle
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
             
                 ' Bottom between middle and start on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.25)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
                         
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -901,19 +901,19 @@ Sub AddConnectionPoints()
                 ' Add connection points to the left side
                 ' Midpoint on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Add connection points to the right side
                 ' Midpoint on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint of the lower half on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
@@ -926,21 +926,21 @@ Sub AddConnectionPoints()
             
                 ' Add the new points to Right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
                 
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
 
                 ' Add connections to top and bottom.
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.5)) + " pt."
     
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.5)) + " pt."
                 
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
@@ -953,12 +953,12 @@ Sub AddConnectionPoints()
             
                 ' Add the new points to Right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + 10) + " pt."
                 
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - 10) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - 10) + " pt."
 
                  shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
                 
@@ -973,24 +973,24 @@ Sub AddConnectionPoints()
                 ' Add connection points to the left side
                 ' Midpoint on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint of the upper half on the left
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x - (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y + (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x - (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y + (nheight * 0.25)) + " pt."
             
                 ' Add connection points to the right side
                 ' Midpoint on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y) + " pt."
             
                 ' Midpoint of the lower half on the right
                 NewRow = shp.AddRow(visSectionConnectionPts, visRowLast, visTagDefault)
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).Formula = CStr(x + (nwidth * 0.5)) + " pt."
-                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).Formula = CStr(y - (nheight * 0.25)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visX).formula = CStr(x + (nwidth * 0.5)) + " pt."
+                shp.CellsSRC(visSectionConnectionPts, NewRow, visY).formula = CStr(y - (nheight * 0.25)) + " pt."
             
                 shpsAdded = shpsAdded + vbCrLf + strName + vbCrLf
 
@@ -1017,7 +1017,7 @@ End Sub
 
 
 Sub GetConnectionsFromBackground()
-        Dim shp As Visio.Shape
+        Dim shp As Visio.shape
         
         For Each shp In Visio.ActivePage.Shapes
 
@@ -1067,7 +1067,7 @@ End Sub
 
 
 Public Sub AddTextField()
-        Dim shp As Visio.Shape
+        Dim shp As Visio.shape
         For Each shp In Visio.ActivePage.Shapes
 
         
@@ -1305,17 +1305,17 @@ Function ConvertPort(prt As String, shpType As String) As String
 End Function
 
 Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, dir2 As String, rawStr As String, prt1 As String, prt2 As String)
-    Dim myConnector As Visio.Shape
+    Dim myConnector As Visio.shape
 
     ' drop it somewhere
     Set myConnector = ActiveWindow.Page.Drop(Application.ConnectorToolDataObject, 1, 10)
 
-    Dim shp As Visio.Shape
-    Dim subShp As Visio.Shape
+    Dim shp As Visio.shape
+    Dim subShp As Visio.shape
 
     
-    Dim shp1 As Visio.Shape
-    Dim shp2 As Visio.Shape
+    Dim shp1 As Visio.shape
+    Dim shp2 As Visio.shape
     Dim row1 As Integer
     Dim row2 As Integer
     Dim shpsFound As Boolean
@@ -1372,43 +1372,43 @@ Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, di
             'x-rd
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-rd"""
+            vsoCell.formula = """x-rd"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
-            vsoCell.Formula = Chr$(34) & myConnector.name & Chr$(34)
+            vsoCell.formula = Chr$(34) & myConnector.name & Chr$(34)
             'x-edge-type
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-edge-type"""
+            vsoCell.formula = """x-edge-type"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
-            vsoCell.Formula = """Dynamic connector"""
+            vsoCell.formula = """Dynamic connector"""
             'x-parent
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-source-parent-rd"""
+            vsoCell.formula = """x-source-parent-rd"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
-            vsoCell.Formula = Chr$(34) & shp1.name & Chr$(34)
+            vsoCell.formula = Chr$(34) & shp1.name & Chr$(34)
             'x-source-value
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-source-value"""
+            vsoCell.formula = """x-source-value"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
             Dim sPrt As String
             sPrt = ConvertPort(prt1, shp1.name)
-            vsoCell.Formula = Chr$(34) & sPrt & Chr$(34)
+            vsoCell.formula = Chr$(34) & sPrt & Chr$(34)
             'x-target
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-target-parent-rd"""
+            vsoCell.formula = """x-target-parent-rd"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
-            vsoCell.Formula = Chr$(34) & shp2.name & Chr$(34)
+            vsoCell.formula = Chr$(34) & shp2.name & Chr$(34)
             'x-target-value
             irow = myConnector.AddNamedRow(visSectionProp, rowName(rowCount), 0)
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsLabel)
-            vsoCell.Formula = """x-target-value"""
+            vsoCell.formula = """x-target-value"""
             Set vsoCell = myConnector.CellsSRC(visSectionProp, irow, visCustPropsValue)
             Dim tPrt As String
             tPrt = ConvertPort(prt2, shp2.name)
-            vsoCell.Formula = Chr$(34) & tPrt & Chr$(34)
+            vsoCell.formula = Chr$(34) & tPrt & Chr$(34)
             
                   If shpStr1 Like "*HOT_ARROW*" Then
             ' Check if "Trace" row exists before adding it
@@ -1417,7 +1417,7 @@ Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, di
                 Dim ro1cell As Visio.Cell
                 ro1 = shp1.AddNamedRow(visSectionProp, "Trace", visTagDefault)
                 Set ro1cell = shp1.CellsSRC(visSectionProp, ro1, visCustPropsValue)
-                ro1cell.Formula = Chr$(34) & myConnector.name & Chr$(34)
+                ro1cell.formula = Chr$(34) & myConnector.name & Chr$(34)
             End If
              End If
         
@@ -1428,7 +1428,7 @@ Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, di
                 Dim ro2cell As Visio.Cell
                 ro2 = shp2.AddNamedRow(visSectionProp, "Trace", visTagDefault)
                 Set ro2cell = shp2.CellsSRC(visSectionProp, ro2, visCustPropsValue)
-                ro2cell.Formula = Chr$(34) & myConnector.name & Chr$(34)
+                ro2cell.formula = Chr$(34) & myConnector.name & Chr$(34)
             End If
         End If
 
@@ -1443,7 +1443,7 @@ Public Sub GlueToShapes(shpStr1 As String, shpStr2 As String, dir1 As String, di
     End If
 
 End Sub
-Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, shp As Shape) As Integer
+Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, shp As shape) As Integer
     Dim row As Integer
     Dim portNumber As String
     Dim parsePrt As String
@@ -1603,7 +1603,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
                 Case "OUT1": row = 1
                 Case "IN-P1", "P1", "IN1": row = 0
                 Case "IN-P3", "P2", "IN2": row = 2
-                Case "P3": row = 3
+                Case "P3", "IN3": row = 3
                 Case "P4": row = 4
             End Select
 
