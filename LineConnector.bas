@@ -315,7 +315,7 @@ Sub AddConnectionPoints()
         ' Add connection points to the four sides of all switches, circulators, loads and satpad shapes.
        ElseIf (strName Like "*circulator*") Or (strName Like "*load*") Or (strName Like "*switch*") Or (strName Like "*iot_coupler*") _
        Or (strName Like "*ats*") Or (strName Like "*satpad*") Or (strName Like "*hot-arrow*") Or (strName Like "*hot_arrow*") _
-       Or (strName Like "*CHANNEL_POST*") Or (strName Like "*channel_post*") Or (strName Like "*diplexer*") Or (strName Like "*epic_junction_block*") Or (strName Like "*junction_block_spli*") Or (strName Like "*gnd_*") Or (strName Like "*hi_power_mode_splitter*") _
+       Or (strName Like "*CHANNEL_POST*") Or (strName Like "*channel_post*") Or (strName Like "*diplexer*") Or (strName Like "*epic_junction_block*") Or (strName Like "*junction_block_spli*") Or (strName Like "*load_*") Or (strName Like "*gnd_*") Or (strName Like "*hi_power_mode_splitter*") _
        And Not (strName Like "*tcr_toggle_switch*") Or (strName Like "*hi_power_mode_splitter*") Or (strName Like "*junction_block_coup*") Or (strName Like "*channel_post*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
@@ -1249,7 +1249,7 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "IN2": cnvPrt = "2"
             End Select
 
-        Case shpType Like "*ARROW*", shpType Like "*CHANNEL_POST*", shpType Like "*GND*", shpType Like "*LOAD_PASS_THRU*"
+        Case shpType Like "*ARROW*", shpType Like "*CHANNEL_POST*", shpType Like "*LOAD*", shpType Like "*GND*", shpType Like "*LOAD_PASS_THRU*"
             If prt = "NONE" Then cnvPrt = "1"
 
         Case shpType Like "*HYBRID*", shpType Like "*HYBRID_MUX*", shpType Like "*EPIC_MPA_2x2*", shpType Like "*EPIC_OMT_H_V*"
@@ -1472,7 +1472,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
 
         ' General SWITCH, CAMP, etc.
         Case shpType Like "*SWITCH*" Or shpType Like "*CAMP*" Or shpType Like "*CHAMP*" _
-            Or shpType Like "*DUAL_IN*" Or shpType Like "*GND_*" Or shpType Like "*LOAD_PASS_THRU*" Or shpType Like "*CHANNEL_POST*" _
+            Or shpType Like "*DUAL_IN*" Or shpType Like "*LOAD*" Or shpType Like "*GND_*" Or shpType Like "*LOAD_PASS_THRU*" Or shpType Like "*CHANNEL_POST*" _
             Or shpType Like "*diplexer*" Or shpType Like "*tcr_toggle_inp*"
             Select Case True
                 Case InStr(1, dir1, "BOTTOM") > 0: row = 2

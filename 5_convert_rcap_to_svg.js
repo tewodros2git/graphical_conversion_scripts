@@ -491,7 +491,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if(classname.includes('BOEING-EPIC-RTN') && (classname.includes('DUAL')||classname.includes('HIDDEN')||classname.includes('BLANK'))){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17);  console.log(classname)
         }
-        else if(classname.includes('4R-SWITCH-EPIC-BOEING')){
+        else if(classname.includes('4R-SWITCH-EPIC-BOEING')||classname.includes('4R-R-SWITCH-EPIC-BOEING')){
             classname = classname.replace("EPIC-BOEING-","");
         }
         else{
@@ -510,19 +510,19 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     if (classname.includes('IS') && classname.match(/IS\d+-TWTA(?!-EPC)/)){ //console.log(line[1].split('-'))
         let name = line[1].split('-')
         if (name.some(part => part.includes('IS'))) {
-            group_name = name[name.length - 2] + "_TWTA_" +name[name.length - 2]; //console.log(group_name)
+            group_name = "TWTA_" +name[name.length - 2]; //console.log(group_name)
         }
         else{
-            group_name = name[name.length - 2].slice(-2) + "_TWTA_" + name[name.length - 2]; //console.log(group_name)
+            group_name = "TWTA_" + name[name.length - 2]; //console.log(group_name)
         }
     }
     else if(classname.includes('IS') && classname.match(/IS\d+.*EPC/)||classname.includes ("T8-EPC-DUAL")){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]//.replace(/^\d+/, '')
-        group_name = "E1_EPC"+ '_' + name; //console.log(group_name)
+        group_name = "EPC"+ '_' + name; //console.log(group_name)
     }
     else if(classname.includes('IS') && (classname.match(/IS\d+-OPA-CAMP/)||classname.match(/IS\d+-CAMP/))){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         let name = line[1].split('-')[line[1].split('-').length -2]; //console.log(line[1])
-        group_name = name.slice(-2)+"_LCAMP_"+ name; //console.log(group_name)
+        group_name = "LCAMP_"+ name; //console.log(group_name)
     }
     else if(classname.includes('SELECT')){ //console.log("class = "+classname);//console.log(line[1].split('-')[4])
         group_name = classname.replace("SELECT", "V")+ '_' + label_id; //console.log(group_name)
@@ -531,7 +531,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         //     group_name = classname+ '_' + label_id; //console.log(group_name)
     // }
     else {
-            group_name = classname + '_' + label_id; //console.log(group_name)
+            group_name = classname + '_' + label_id; console.log(group_name)
         }
 
     if (classname === 'WIN-GROW-BTN' || classname === 'WIN-DISPLAY-HIDE-BTN'||   classname ==='WIN-SHRINK-BTN') {
@@ -1730,7 +1730,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
           // if(group ==="RCVR"){
         //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
-        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
+        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
             else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log("M: "+Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){

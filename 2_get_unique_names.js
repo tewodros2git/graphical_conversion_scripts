@@ -489,7 +489,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if(classname.includes('BOEING-EPIC-RTN') && (classname.includes('DUAL')||classname.includes('HIDDEN')||classname.includes('BLANK'))){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17); //console.log(classname)
         }
-        else if(classname.includes('4R-SWITCH-EPIC-BOEING')){
+        else if(classname.includes('4R-SWITCH-EPIC-BOEING')||classname.includes('4R-R-SWITCH-EPIC-BOEING')){
             classname = classname.replace("EPIC-BOEING-","");
         }
         else{
