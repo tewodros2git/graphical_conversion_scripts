@@ -259,6 +259,23 @@ const populateProps = (collection,groupsec,group_name) =>{ //console.log(line_ar
                 })
             }
         }
+        else if(groupsec === "TPAM"){
+            let parent = group_name
+            twtaNum = el[0].split(",")[1].trim().replace("\\",""); //console.log("TP: "+twtaNum)
+            for (let k = 1; k < el.length; k++) { //console.log(el[k])
+                readout = el[k].split(",")[0]; //console.log("read : " +readout)
+                Mnemonic = el[k].split(",")[1].trim(); //console.log(Mnemonic)//
+                formula = el[k].split(",")[1].trim().replace("\\","");//console.log(formula)
+                readOutLcamp.push( {
+                    "group": groupsec,
+                    "twtaNum": twtaNum,
+                    "readout": readout,
+                    "Mnemonic": Mnemonic,
+                    "formula": formula,
+                    "parent":parent
+                })
+            }
+        }
         else   if(groupsec === "BEACONS"){
             let parent = group_name
             let twta =  el[0].split(",")[1].split("-")
@@ -531,7 +548,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         //     group_name = classname+ '_' + label_id; //console.log(group_name)
     // }
     else {
-            group_name = classname + '_' + label_id; console.log(group_name)
+            group_name = classname + '_' + label_id; //console.log(group_name)
         }
 
     if (classname === 'WIN-GROW-BTN' || classname === 'WIN-DISPLAY-HIDE-BTN'||   classname ==='WIN-SHRINK-BTN') {
@@ -650,8 +667,16 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra += '\n\n\n\n\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" stroke="black" stroke-width="0.75"/>';
         extra += '<title>'  + group_name+ '</title>\n';
     }
-    else if ((classname.includes('TWTA')||classname.includes('EPIC-TPAM')||classname.includes('UHF-MLO'))&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
+    else if ((classname.includes('TWTA')||classname.includes('UHF-MLO'))&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
         populateProps(line_arr,"TWTA",group_name);
+        style = 'fill="none" stroke="green" stroke-width="2"';
+        right_multi = true;
+        left_multi = true; //console.log(twtaName);
+        extra = '\n<line x1="' + (x_loc - h_width) + '" y1 ="' + y_loc +'" x2="' + (x_loc + h_width) + '" y2="' + y_loc +'" stroke="black" stroke-width="0.75"/>\n';
+        extra += '<title>' +group_name+ '</title>';
+    }
+    else if (classname.includes('TPAM')) {
+        populateProps(line_arr,"TPAM",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
         left_multi = true; //console.log(twtaName);
@@ -863,17 +888,24 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         style = 'fill="none" stroke="green" stroke-width="2"';
     }
     else if (classname.includes('T-SWITCH')) { //console.log(classname)
+        if (width < 20) {
+            width = 21
+        }
+        const shape_x = x_loc;
+        const shape_y = y_loc;
+        const shape_h_width = width / 2;
+        const shape_h_height = height / 2;
         style = 'fill="wheat" stroke="black"';
         extra += `\n<g id="object${label_id}" v:mID="${id}" v:groupContext="shape">`;
-        if (width > 20) {
-            extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 1}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-            extra += `\n<text x="${x_loc - h_width + 2}" y="${y_loc + 1}" font-size="${text_size}">T</text>`;
-        }
-        else {
-            extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 4}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
-        }
-        extra += `\n<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
-        extra += `\n<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
+        extra += `\n<rect x="${shape_x - shape_h_width + 2}" y="${shape_y + 1}" height="${height - 15}" width="${width / 2}" fill="none"/>`;
+        extra += `\n<text x="${shape_x - shape_h_width + 2}" y="${shape_y + 1}" font-size="${text_size}">T</text>`;
+       // }
+       //  else {
+       //      extra += `\n<rect x="${x_loc - h_width + 2}" y="${y_loc + 1}" height="${height - 13}" width="${width / 2}" fill="none"/>`;
+       //      extra += `\n<text x="${x_loc - h_width + 2}" y="${y_loc + 1}" font-size="${text_size}">T</text>`;
+       //  }
+        extra += `\n<line x1="${shape_x - shape_h_width}" y1="${shape_y}" x2="${shape_x + shape_h_width}" y2="${shape_y}" stroke="black" stroke-width="0.75"/>`;
+        extra += `\n<line x1="${shape_x}" y1="${shape_y + shape_h_height}" x2="${shape_x}" y2="${shape_y - shape_h_height}" stroke="black" stroke-width="0.75"/>`;
         extra += "\n" + "</g>";
     }
     else if (classname.includes('S-SWITCH')) {
@@ -1671,18 +1703,24 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = pn[pn.length -1]; //console.log('pn: '+pin)
             tId = pn[pn.length -2];//line_arr[6].split('-')[3]
         }
-        else if(!line_arr[6].includes("LCAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH")||(line_arr[6].includes("KU-TWTA") && /\d+L-\d+/.test(line_arr[6])))){
+        else if(!line_arr[6].includes("LCAMP-TWTA")&&!line_arr[6].includes("CAMP-TWTA")&& (line_arr[6].includes("LCAMP") || line_arr[6].includes("CAMP")|| line_arr[6].includes("CHAMP")|| line_arr[6].includes("LCH")||(line_arr[6].includes("KU-TWTA") && /\d+L-\d+/.test(line_arr[6])))){
             let parts= line_arr[6].split('-'); //console.log(line_arr[6])
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
                 tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log("tid: "+tId)
-                pin = line_arr[6].replace('TWTA','LCAMP'); //console.log("Pin: "+pin)
+                pin = line_arr[6].replace('TWTA'||'CAMP','LCAMP'); //console.log("Pin: "+pin)
         }
         else if (line_arr[6].includes("EPC")) {
             readOut = line_arr[7].trim();
             group = line_arr[6].split('-')[2].trim(); //console.log(group)
             tId=  line_arr[6].split('-')[line_arr[6].split('-').length-2]+'_EPC'; //console.log(tId)
             pin = line_arr[6];
+        }
+        else if (line_arr[6].includes("TPAM")) {
+            readOut = line_arr[7].trim();
+            group = "TPAM"; //console.log(group)
+            tId=  line_arr[6].split('-')[line_arr[6].split('-').length-2]+'_TPAM'; //console.log(tId)
+            pin = line_arr[6]; //console.log(pin)
         }
         else if (
             line_arr[6].includes("SSPA") ||
@@ -1697,7 +1735,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             if(line_arr[6].includes("3134")){
                 const value = parseInt(line_arr[6].split('-')[3].match(/\d+$/)?.[0] || "", 10);
                 if (value === 2 || value === 5) {
-                    p=line_arr[6].replace('TWTA',"LCAMP");g="LCAMP"}
+                    p=line_arr[6].replace('TWTA'||'CAMP',"LCAMP");g="LCAMP"}
                 else {
                     p=line_arr[6];
                     g="TWTA"
@@ -1730,7 +1768,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
           // if(group ==="RCVR"){
         //console.log('G: '+group+ ' '+'elg:'+el.group)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
-        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
+        if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
             else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log("M: "+Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
@@ -1808,29 +1846,56 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
     return  svg_elm;
 }
 
-function calcOffset(lines)
-{
-    var ret = [0, 0]
+// function calcOffset(lines){
+//     var ret = [0, 0]
+//     var height = 0;
+//     for (var i = 0; i < lines.length; i++)
+//     {
+//         if (lines[i].includes("DispHeight:"))
+//             height = parseInt(lines[i].split(":")[2].split(",")[0])
+//         if (lines[i].match(/att:/g))
+//         {
+//             //console.log(lines[i])
+//             var l = lines[i].split(",")
+//             var x = parseFloat(l[3]) - (parseFloat(l[5]) / 2)
+//             if (x < ret[0])
+//                 ret[0] = parseInt(x)
+//             var y = parseFloat(l[4]) - (parseFloat(l[6]) / 2)
+//             if (y < ret[1])
+//                 ret[1] = parseInt(y)
+//         }
+//     }
+//     ret[1] = -ret[1] - height
+//     return ret
+// }
+
+function calcOffset(lines) {
+    var ret = [Infinity, Infinity];
     var height = 0;
-    for (var i = 0; i < lines.length; i++)
-    {
+
+    for (var i = 0; i < lines.length; i++) {
         if (lines[i].includes("DispHeight:"))
-            height = parseInt(lines[i].split(":")[2].split(",")[0])
-        if (lines[i].match(/att:/g))
-        {
-            //console.log(lines[i])
-            var l = lines[i].split(",")
-            var x = parseInt(l[3]) - (parseFloat(l[5]) / 2)
-            if (x < ret[0])
-                ret[0] = parseInt(x)
-            var y = parseInt(l[4]) - (parseFloat(l[6]) / 2)
-            if (y < ret[1])
-                ret[1] = parseInt(y)
+            height = parseInt(lines[i].split(":")[2].split(",")[0]);
+
+        if (lines[i].match(/att:/g)) {
+            var l = lines[i].split(",");
+            var centerX = parseFloat(l[3]);
+            var centerY = parseFloat(l[4]);
+            var width = parseFloat(l[5]);
+            var h = parseFloat(l[6]);
+
+            var left = centerX - width / 2;
+            var top = centerY - h / 2;
+
+            if (!isNaN(left) && left < ret[0]) ret[0] = left;
+            if (!isNaN(top) && top < ret[1]) ret[1] = top;
         }
     }
-    ret[1] = -ret[1] - height
-    return ret
+
+    ret[1] = -ret[1] - height;
+    return ret;
 }
+
 
 const runApp =(filename, inputP)=>{
 let storage_dir = "./"//'C:\\Users\\scotch\\rcap\\rcap\\ascii_convert\\automation'; //\\rcap_34_realtime\\static\\etc\\rcap_34_realtime';
