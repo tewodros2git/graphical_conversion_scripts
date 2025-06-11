@@ -503,6 +503,12 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else if(classname.includes("EPIC-FILTER-TRIPLE-SPLITTER")|| classname.includes("EPIC-FILTER-SPLITTER")){
             classname = "EPIC_FIL_TRIPLE_SPLITTER"; //console.log(classname)
         }
+        else if(classname.includes("EPIC-JUNCTION-BLOCK-SPLITTER")){
+            classname = "EPIC-BLOCK-SPLITTER"; //console.log(classname)
+        }
+        else if(classname.includes("EPIC-JUNCTION-BLOCK-COUPLER")){
+            classname = "EPIC-BLOCK-COUPLER"; //console.log(classname)
+        }
         else if(classname.includes('BOEING-EPIC-RTN') && (classname.includes('DUAL')||classname.includes('HIDDEN')||classname.includes('BLANK'))){
             classname = classname.replace("BOEING-","DUAL-").slice(0, 17); //console.log(classname)
         }
