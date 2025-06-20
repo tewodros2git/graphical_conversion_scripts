@@ -316,7 +316,7 @@ Sub AddConnectionPoints()
        ElseIf (strName Like "*circulator*") Or (strName Like "*load*") Or (strName Like "*switch*") Or (strName Like "*iot_coupler*") _
        Or (strName Like "*ats*") Or (strName Like "*satpad*") Or (strName Like "*hot-arrow*") Or (strName Like "*hot_arrow*") _
        Or (strName Like "*CHANNEL_POST*") Or (strName Like "*channel_post*") Or (strName Like "*diplexer*") Or (strName Like "*epic_block*") Or (strName Like "*epic_junction_block*") Or (strName Like "*junction_block_spli*") Or (strName Like "*load_*") Or (strName Like "*gnd_*") Or (strName Like "*hi_power_mode_splitter*") _
-       And Not (strName Like "*tcr_toggle_switch*") Or (strName Like "*hi_power_mode_splitter*") Or (strName Like "*junction_block_coup*") Or (strName Like "*channel_post*") Then
+       And Not (strName Like "*tcr_toggle_switch*") Or (strName Like "*hi_power_mode_splitter*") Or (strName Like "*junction_block_for*") Or (strName Like "*junction_block_coup*") Or (strName Like "*channel_post*") Then
             ' Get dimensions of where the points should go.
             nwidth = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormWidth).Result(visPoints)
             nheight = shp.CellsSRC(visSectionObject, visRowXFormOut, visXFormHeight).Result(visPoints)
@@ -1237,7 +1237,7 @@ Function ConvertPort(prt As String, shpType As String) As String
                 Case "LHCP", "H-TX": cnvPrt = 2
             End Select
 
-        Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*EPIC_JUNCTION_BLOCK*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUP*"
+        Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*JUNCTION_BLOCK_FOR*" Or shpType Like "*EPIC_JUNCTION_BLOCK*" Or shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUP*"
             Select Case prt
                 Case "OUT1": cnvPrt = "1"
                 Case "IN-P1", "P1", "IN1": cnvPrt = "2"
@@ -1665,7 +1665,7 @@ Function GetConnectionRowNum(dir1 As String, prt As String, shpType As String, s
 
         ' COUPLERs
         Case shpType Like "*COUPLER*" Or shpType Like "*COUP*" Or shpType Like "*EPIC_JUNCTION_BLOCK*" Or _
-             shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*"
+             shpType Like "*JUNCTION_BLOCK_COUP*" Or shpType Like "*EPIC_UL_FILTER_COUPLER*" Or shpType Like "*JUNCTION_BLOCK_FOR*"
         
             Select Case prt
                 Case "OUT1": row = 1

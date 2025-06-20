@@ -672,7 +672,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra += '\n\n\n\n\n<line x1="' + (x_loc - h_width) + '" y1 ="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" x2="' + (x_loc + h_width) + '" y2="' + ((y_loc - h_height) + ((height / 3) * 2)) +'" stroke="black" stroke-width="0.75"/>';
         extra += '<title>'  + group_name+ '</title>\n';
     }
-    else if ((classname.includes('TWTA')||classname.includes('UHF-MLO'))&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
+    else if ((classname.includes('TWTA')||classname.includes('SSPA')||classname.includes('UHF-MLO'))&& !classname.includes('EPC')&&!classname.includes('BOEING-KU-TWTA')) {
         populateProps(line_arr,"TWTA",group_name);
         style = 'fill="none" stroke="green" stroke-width="2"';
         right_multi = true;
@@ -779,7 +779,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         else
             extra = `\n<path d="M ${x_loc - h_width} ${y_loc + h_height} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - (height / 4)} L ${x_loc + h_width} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width + (width / 4)} ${y_loc + h_height - ((height / 4) * 3)} L ${x_loc - h_width} ${y_loc - h_height} L ${x_loc - h_width} ${y_loc + h_height}" fill="none" stroke="black"/>`;
     }
-    else if (classname.includes('SPLITTER') ||classname.includes('EPIC-MPA') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
+    else if (classname.includes('SPLITTER')||classname.includes('TCR-RX')||classname.includes('TCR-TX') ||classname.includes('EPIC-MPA') || classname.includes('COUPLER')||classname.includes('EPIC-OMT')||classname.includes('EPIC-DIPLEXER')|| classname.includes('HYBRID-COMBINER')|| classname.includes('DIPLEXER-COMBINER')|| classname.includes('EPIC-FILTER-SPLITTER') ||classname.includes('BOEING-HYBRID-MUX')|| classname.includes('IS9-TRIPLE-BFN-COUPLER')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         if (classname.includes('COUPLER')) {
             channels = 2;
@@ -847,8 +847,13 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
             channels = 2;
             left_multi = true;
         }
-        else if (classname.includes('HYBRID-MUX')||classname.includes('EPIC-MPA') || classname.includes('HYBRID-TYPE-2')) {
+        else if ((classname.includes('HYBRID-MUX')||classname.includes('EPIC-MPA')||classname.includes('HYBRID-COMBINER') || classname.includes('HYBRID-TYPE-2'))&&!classname.includes('EPIC-MPA-8X8')) {
             channels = 2;
+            left_multi = true;
+            right_multi = true;
+        }
+        else if (classname.includes('EPIC-MPA-8X8')) {
+            channels = 8;
             left_multi = true;
             right_multi = true;
         }
@@ -885,7 +890,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         extra += `<line x1="${x_loc - h_width}" y1="${y_loc}" x2="${x_loc + h_width}" y2="${y_loc}" stroke="black" stroke-width="0.75"/>`;
         extra += `\n<line x1="${x_loc}" y1="${y_loc + h_height}" x2="${x_loc}" y2="${y_loc - h_height}" stroke="black" stroke-width="0.75"/>`;
     }
-    else if (classname.includes('IS32-TCR-TOGGLE') || classname.includes('IS32-TCR-SELECT-SWITCH')|| classname.includes('IS32-TCR-V-SWITCH')) {
+    else if (classname.includes('IS32-TCR-TOGGLE')|| classname.includes('TCR-2-1-SWITCH')||classname.includes('TCR-1-2-SWITCH') || classname.includes('TCR-1-1-SWITCH') || classname.includes('IS32-TCR-SELECT-SWITCH')|| classname.includes('IS32-TCR-V-SWITCH')) {
         style = 'fill="wheat" stroke="Black"';
         }
     else if (classname.includes('DOWN-CONVERTER')||classname.includes('UHF-MLO')||classname.includes('UHF-POWER-MONITOR')||classname.includes('UHF-BPS')|| classname.includes('LNA')|| classname.includes('T8-KA-DC-CONVERTER')||classname.includes('DOWNCONVERTER')) {
@@ -895,7 +900,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
     else if (classname.includes('T-SWITCH')) { //console.log(classname)
         if (width < 20) {
             width = 21
-        }
+        }else{width = width}
         const shape_x = x_loc;
         const shape_y = y_loc;
         const shape_h_width = width / 2;
@@ -959,11 +964,16 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         populateProps(line_arr,"BEACONS")
         style = 'fill="none" stroke="green" stroke-width="0.75"';
     }
-    else if (classname.includes("BEACONS-HYBRID-MUX") ||classname.includes('EPIC-MPA')||classname.includes('HYBRID-TYPE-2')) {
+    else if ((classname.includes("BEACONS-HYBRID-MUX")||classname.includes('HYBRID-COMBINER') ||classname.includes('EPIC-MPA')||classname.includes('HYBRID-TYPE-2'))&&!classname.includes('EPIC-MPA-8X8')) {
         channels = 2;
         left_multi = true;
         right_multi = true;
         style = 'fill="none" stroke="black" stroke-width="0.75"';
+    }
+    else if (classname.includes('EPIC-MPA-8X8')) {
+        channels = 8;
+        left_multi = true;
+        right_multi = true;
     }
     else if (classname.includes ("BOEING-EPIC-FWD-FILTER-HIDDEN") || classname.includes ("SHOW-ADCS-INFO-BUTTON")) {
         style = 'fill="none"';
@@ -984,7 +994,7 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="darkred"/>`;
     }
-    else if (classname.includes('IS32-TCR-TX-HYBRID')||classname.includes('EPIC-MPA')||classname.includes('IS32-TCR-RX-HYBRID')) {
+    else if (classname.includes('IS32-TCR-TX-HYBRID')||classname.includes('HYBRID-COMBINER')||classname.includes('EPIC-MPA')||classname.includes('IS10-TCR-HYBRID')||classname.includes('IS32-TCR-RX-HYBRID')) {
         style = 'fill="none" stroke="black" stroke-width="0.75"';
         //extra = `<rect x="${x_loc - h_width}" y="${y_loc - h_height}" width="${width / 6}" height="${height}" fill="wheat"/>`;
     }
@@ -1546,10 +1556,10 @@ function process_object(line_arr, offset, win_width, win_height) { //console.log
         props += ('\n<v:cp v:nameU="Mux_Type" v:lbl="Mux_Type" v:type="0" v:langID="1033" v:val="VT4('+line_arr[0].split(',')[0].match(/\b(\w*MUX\w*)\b/)[1]+')" />');
         props += ('\n<v:cp v:nameU="Channel_Name" v:lbl="Channel_Name" v:type="0" v:langID="1033" v:val="VT4('+"1;"+chn+')" />');
            }
-    else if (classname.includes('SPLITTER')||classname.includes('COUPLER') && !classname.includes('SWITCH')) { //console.log(classname)
+    else if (classname.includes('SPLITTER')||classname.includes('TCR-RX')||classname.includes('TCR-TX')||classname.includes('COUPLER') && !classname.includes('SWITCH')) { //console.log(classname)
         let ch = ''; // Initialize chn to avoid undefined values
 
-        if (classname.includes("DUAL")||classname.includes('EPIC')) {
+        if (classname.includes("DUAL")||classname.includes('TCR-RX')||classname.includes('TCR-TX')||classname.includes('EPIC')) {
             ch = '1;2;3;';
         } else if (classname.includes("TRIPLE")) {
             ch = '1;2;3;4;';
@@ -1691,16 +1701,16 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
             tId = "RCVR-"+parts.at(-3)+"_"+parts.at(-2); //console.log(tId)
         }
-        else if (line_arr[6].includes("DC")) {
-            let parts= line_arr[6].split('-');
+        else if (line_arr[6].includes("DC")||line_arr[6].includes('UC')) {
+            let parts= line_arr[6].split('-'); //console.log(parts)
             pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "DC-"+parts.at(-3)+parts.at(-2); //console.log("id: "+tId)
+            tId =parts.at(-4)+parts.at(-3)+parts.at(-2); //console.log("id: "+tId)
         }
-        else if (line_arr[6].includes('UC')) {
-            //group ="RCVR";
-            pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
-            tId = "DC-"+line_arr[6].split('-')[3]; //console.log(group)
-        }
+        // else if (line_arr[6].includes('UC')) {
+        //     //group ="RCVR";
+        //     pin = line_arr[6].split("-")[2]; //console.log("rpin:"+pin)
+        //     tId = "DC-"+line_arr[6].split('-')[3]; //console.log(group)
+        // }
         else if (line_arr[6].includes("ULPC")||line_arr[6].includes("BEACON")) {
             let pn = line_arr[6].split("-");
             pin = pn[pn.length -1]; //console.log('pn: '+pin)
@@ -1711,7 +1721,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
                 readOut = line_arr[7].trim(); //console.log(readOut)
                 group = "LCAMP";//line_arr[6].split('-')[2];
                 tId = line_arr[6].split('-')+parts.at(-3)+parts.at(-2); //console.log("tid: "+tId)
-                pin = line_arr[6].replace('TWTA'||'CAMP','LCAMP'); //console.log("Pin: "+pin)
+                pin = line_arr[6].replace('TWTA','LCAMP'); //console.log("Pin: "+pin)
         }
         else if (line_arr[6].includes("EPC")) {
             readOut = line_arr[7].trim();
@@ -1721,8 +1731,9 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
         }
         else if (line_arr[6].includes("TPAM")) {
             readOut = line_arr[7].trim();
+            let str= line_arr[6].split('-')
             group = "TPAM"; //console.log(group)
-            tId=  line_arr[6].split('-')[line_arr[6].split('-').length-2]+'_TPAM'; //console.log(tId)
+            tId= str [str.length-4]+'_'+str [str.length-3]+'_'+str [str.length-2]+'_TPAM'; //console.log(tId)
             pin = line_arr[6]; //console.log(pin)
         }
         else if (
@@ -1773,7 +1784,7 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
            //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+'elg:'+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//}
         if (pin === twta && readOut === el.readout.replaceAll('"', '')&& group.includes(el.group.trim())) { //console.log('pin: '+ pin+" "+'twta: '+twta+ ' '+'G: '+group+ ' '+el.group+" "+'R: '+readOut+ ' '+  el.readout.replaceAll('"', ''));//console.log(true) //('pin: '+ pin+" "+'twta: '+twta);
             if(el.group.trim().includes("tcr-mode")){ Mnemonic= "["+el.Mnemonic+"]";} //console.log(Mnemonic);}
-            else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log(Mnemonic)
+            else {Mnemonic= el.Mnemonic.replaceAll(/[^\w\s.-]/g,"").toString().trim();} //console.log("M: "+Mnemonic)
             if(Mnemonic.startsWith("safe-symbol")||Mnemonic.startsWith("the")){
                 mnemonic =Mnemonic.split(scid.toString())[1].replace("-","").replace("edge","").replace("the symbol","").trim(); //console.log(readOut +" : " +mnemonic)
             }
@@ -1849,29 +1860,6 @@ function process_readout(line_arr, offset) { //console.log(line_arr)
     return  svg_elm;
 }
 
-// function calcOffset(lines){
-//     var ret = [0, 0]
-//     var height = 0;
-//     for (var i = 0; i < lines.length; i++)
-//     {
-//         if (lines[i].includes("DispHeight:"))
-//             height = parseInt(lines[i].split(":")[2].split(",")[0])
-//         if (lines[i].match(/att:/g))
-//         {
-//             //console.log(lines[i])
-//             var l = lines[i].split(",")
-//             var x = parseFloat(l[3]) - (parseFloat(l[5]) / 2)
-//             if (x < ret[0])
-//                 ret[0] = parseInt(x)
-//             var y = parseFloat(l[4]) - (parseFloat(l[6]) / 2)
-//             if (y < ret[1])
-//                 ret[1] = parseInt(y)
-//         }
-//     }
-//     ret[1] = -ret[1] - height
-//     return ret
-// }
-
 function calcOffset(lines) {
     var ret = [Infinity, Infinity];
     var height = 0;
@@ -1937,8 +1925,8 @@ const runApp =(fileName)=>{
                         continue;
                     }
                     else if (lines[i].includes('Map')) {
-                        displayName = lines[i].split(', ')[0].split(':')[1].trim().replace(/"/g, '').replace(' ', '_').replaceAll('-', '_').replace(/\([^)]*\)/g, ''); //console.log("Dispaly: " +displayName)
-                        scid = lines[i].split(', ')[0].split(': ')[1].split(" ")[0].replace('"',''); //console.log("scid: " +scid)
+                        displayName = lines[i].split(', ')[0].split(':')[1].trim().replace(/"/g, '').replace(' ', '_').replaceAll('-', '_').replace(/\([^)]*\)/g, ''); console.log("Dispaly: " +displayName)
+                        scid = lines[i].split(', ')[0].split(': ')[1].split(" ")[0].replace('"',''); console.log("scid: " +scid)
                         i++;
                         continue;
                     }
