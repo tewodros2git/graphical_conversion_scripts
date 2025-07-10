@@ -26,7 +26,7 @@ Sub RearrangeShapes()
 
     ' Define patterns for each group
     patterns1 = Array() '"_TWTA_", "_EPC_", "_LCAMP_", "_CAMP_")
-    patterns2 = Array("_CMD_", "_XMTR_", "_TPAM_", "_BPS_", "_POWER_", "_MLO_", "_LNA_", "_DOWNCONVERTER_", "_DOWN_CONVERTER_", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
+    patterns2 = Array("SSPA", "LCAMP", "_CMD_", "_XMTR_", "_TPAM_", "_BPS_", "_POWER_", "_MLO_", "_LNA_", "_DOWNCONVERTER_", "DOWN_CONVERTER", "RECEIVER", "_CMDRX_", "_BBE_", "_XMTR_", "BEACONS", "_CHAMP_", "TWTA_", "TCR_UNIT_", "_TWTA_", "_EPC_", "_LCAMP_", "_LCHAMP_", "_CAMP_")
 
     ' Loop through each shape to identify parents for both pattern groups
     For Each shape In ActivePage.Shapes
@@ -135,9 +135,9 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                 Case InStr(1, title, "LIN-STEP", vbTextCompare) > 0 Or _
                      InStr(1, title, "OPA", vbTextCompare) > 0
                     newName = "Readout.OPA"
-                Case InStr(1, title, "LCHAMP-GAIN", vbTextCompare) > 0
+                Case InStr(1, title, "LCHAMP-GAIN", vbTextCompare) > 0 Or InStr(1, title, "GAIN", vbTextCompare) > 0
                     newName = "Readout.Gain"
-                Case InStr(1, title, "ON-OFF-STATUS", vbTextCompare) > 0 And Not InStr(1, title, "POWER-ON-OFF-STATUS", vbTextCompare) > 0
+                Case (InStr(1, title, "ON-OFF-STATUS", vbTextCompare) > 0 Or InStr(1, title, "STATUS", vbTextCompare) > 0) And Not InStr(1, title, "POWER-ON-OFF-STATUS", vbTextCompare) > 0
                     newName = "Readout.Status"
                 Case InStr(1, title, "LOAD-CURRENT", vbTextCompare) > 0 Or _
                      InStr(1, title, "BUS-CURRENT", vbTextCompare) > 0 Or InStr(1, title, "LDI", vbTextCompare) > 0
@@ -153,7 +153,8 @@ Sub GroupAndRenameShapes(parentShape As shape, childShapes As Collection, groupS
                 Case InStr(1, title, "LCHAMP-RFBLANK", vbTextCompare) > 0 Or _
                      InStr(1, title, "Mute", vbTextCompare) > 0
                     newName = "Readout.Mute"
-                Case InStr(1, title, "HELIX-CURRENT", vbTextCompare) > 0
+                Case InStr(1, title, "HELIX-CURRENT", vbTextCompare) > 0 Or _
+                     InStr(1, title, "HELIX", vbTextCompare) > 0
                     newName = "Readout.Helix"
                 Case InStr(1, title, "POWER", vbTextCompare) > 0
                     newName = "Readout.High-Voltage"
